@@ -1,0 +1,36 @@
+<ion-view view-title="Buyer Registration">
+  <ion-content>
+    <div class="card">
+    <form ng-submit="register.doSellerRegistration()" name="buyer" novalidate>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" ng-model="register.userData.first_name" placeholder="First Name" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="register.userData.last_name" placeholder="Last Name" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="register.userData.mobile" placeholder="Mobile" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="register.userData.email" placeholder="Email" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="register.userData.password" placeholder="Set a Password" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="register.userData.pincode" placeholder="pincode" required>
+        </label>
+        <label class="item item-input">
+          <textarea ng-model="register.userData.address" placeholder="Address" required></textarea>
+        </label>
+      </div>
+      <button type="submit" class="button button-block button-positive">
+        Register
+      </button>
+
+    </form>
+    </div>
+
+  </ion-content>
+</ion-view>

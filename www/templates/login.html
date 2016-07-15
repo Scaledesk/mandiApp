@@ -1,0 +1,51 @@
+<ion-view view-title="Login / Register">
+  <ion-content>
+
+<div class="card">
+    <div class="list">
+      <div class="row">
+        <div class="col-50">
+          <a href="#/app/seller" class="button button-block button-stable">
+            Are You seller?
+          </a>
+        </div>
+        <div class="col-50">
+          <a href="#/app/buyer" class="button button-block button-stable">
+            Are You Buyer?
+          </a>
+        </div>
+      </div>
+
+      <div class="row">
+        <button ng-click="login.alreadyMember=!login.alreadyMember" class="button button-block button-stable">
+          If registered? Login here
+        </button>
+      </div>
+
+    </div>
+</div>
+
+
+
+  <div ng-show="login.alreadyMember" class="card">
+    <form ng-submit="login.doLogin(loginData)">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="loginData.username">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="loginData.password">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Log in</button>
+        </label>
+      </div>
+    </form>
+  </div>
+
+
+
+  </ion-content>
+</ion-view>

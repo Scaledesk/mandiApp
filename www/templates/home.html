@@ -1,0 +1,45 @@
+<ion-view view-title="Home">
+  <ion-content>
+    <div class="row">
+      <ion-slide-box does-continue="true" auto-play="true" slide-interval="1000" style="width: 100%">
+        <ion-slide>
+          <img src="img/banner1.jpg" class="product-img slider-img" alt="">
+        </ion-slide>
+        <ion-slide>
+          <img src="img/banner2.jpg" class="product-img slider-img" alt="">
+        </ion-slide>
+        <ion-slide>
+          <img src="img/banner3.jpg" class="product-img slider-img" alt="">
+        </ion-slide>
+        <ion-slide>
+          <img src="img/banner4.jpg" class="product-img slider-img" alt="">
+        </ion-slide>
+      </ion-slide-box>
+    </div>
+    <div class="row">
+      <div class="col col-50">
+        <a href="#/app/category/{{1}}">
+        <img src="img/offer-banner1.jpg" class="product-img"  alt="">
+        </a>
+      </div>
+      <div class="col col-50">
+        <a href="#/app/category/{{2}}">
+        <img src="img/offer-banner2.jpg" class="product-img" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <a href="#/app/category/{{3}}">
+      <img src="img/offer-banner3.jpg" style="width: 100%; height: auto;" alt="">
+      </a>
+    </div>
+    <!--<div class="row">
+      <ion-list>
+          <ion-item ng-repeat="product in home.products" href="#/app/product/{{product[0]}}" class="padding">
+            {{product[0]}}
+            {{product[1]}}
+          </ion-item>
+        </ion-list>
+    </div>-->
+  </ion-content>
+</ion-view>
