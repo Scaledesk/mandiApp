@@ -1,6 +1,6 @@
-
-angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
-.run(function($ionicPlatform) {
+(function(){
+ var app = angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment']);
+ app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -13,17 +13,17 @@ angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
       StatusBar.styleDefault();
     }
   });
-})
+});
 
-.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
-  })
-    .state('app.login', {
+  });
+  $stateProvider.state('app.login', {
     url: '/login',
     views:{
       'menuContent': {
@@ -32,8 +32,8 @@ angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
         controllerAs:'login'
       }
     }
-  })
-    .state('app.seller', {
+  });
+  $stateProvider.state('app.seller', {
       url: '/seller',
       views: {
         'menuContent': {
@@ -42,8 +42,8 @@ angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
           controllerAs:'register'
         }
       }
-    })
-    .state('app.buyer', {
+    });
+  $stateProvider.state('app.buyer', {
       url: '/buyer',
       views: {
         'menuContent': {
@@ -51,24 +51,25 @@ angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
           controllerAs:'register'
         }
       }
-    })
-    .state('app.search', {
+    });
+  $stateProvider.state('app.search', {
     url: '/search',
     views: {
       'menuContent': {
         templateUrl: 'templates/search.html'
       }
     }
-  })
-  .state('app.browse', {
+  });
+  $stateProvider.state('app.browse', {
       url: '/browse',
       views: {
         'menuContent': {
           templateUrl: 'templates/browse.html'
         }
       }
-    })
-    .state('app.home', {
+    });
+
+  $stateProvider.state('app.home', {
       url: '/home',
       views: {
         'menuContent': {
@@ -77,9 +78,9 @@ angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
           controllerAs:'home'
         }
       }
-    })
+    });
 
-  .state('app.category', {
+  $stateProvider.state('app.category', {
     url: '/category/:categoryId',
     views: {
       'menuContent': {
@@ -89,5 +90,65 @@ angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment'])
       }
     }
   });
+  $stateProvider.state('app.signup', {
+    url: '/signup',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/signupseller.html'
+      }
+    }
+  });
+  $stateProvider.state('app.forget', {
+    url: '/forget',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/forgetPassword.html'
+      }
+    }
+  });
+  $stateProvider.state('app.reset', {
+    url: '/reset',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/resetPassword.html'
+      }
+    }
+  });
+  $stateProvider.state('app.pdp', {
+    url: '/pdp',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pdp.html'
+      }
+    }
+  });
+  $stateProvider.state('app.aboutus', {
+    url: '/aboutus',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/aboutus.html'
+      }
+    }
+  });
+  $stateProvider.state('app.product', {
+    url: '/product',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/product-list.html'
+      }
+    }
+  });
+
+  $stateProvider.state('app.example', {
+      url: '/example',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/example.html'
+        }
+      }
+    });
+
   $urlRouterProvider.otherwise('/app/home');
 });
+
+}());

@@ -1,7 +1,8 @@
-<ion-view view-title="Buyer Registration">
+<ion-view view-title="Seller Registration">
   <ion-content>
-    <div class="card">
+
     <form ng-submit="register.doSellerRegistration()" name="buyer" novalidate>
+      <div class="card">
       <div class="list">
         <label class="item item-input">
           <input type="text" ng-model="register.userData.first_name" placeholder="First Name" required>
@@ -19,18 +20,20 @@
           <input type="text" ng-model="register.userData.password" placeholder="Set a Password" required>
         </label>
         <label class="item item-input">
-          <input type="text" ng-model="register.userData.pincode" placeholder="pincode" required>
+          <input type="text" ng-model="register.userData.pincode" placeholder="Pincode" required>
         </label>
         <label class="item item-input">
           <textarea ng-model="register.userData.address" placeholder="Address" required></textarea>
         </label>
       </div>
+    </div>
+      <div class="row">
       <button type="submit" class="button button-block button-positive">
         Register
       </button>
-
+      </div>
     </form>
-    </div>
+
 
   </ion-content>
 </ion-view>

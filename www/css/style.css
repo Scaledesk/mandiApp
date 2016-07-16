@@ -5,3 +5,40 @@
 .slider-img{
   height: 200px;
 }
+.mandi-header{
+  font-weight: 600;
+  color: #a9c056;
+  font-size: 28px;
+}
+.mandi-button{
+  width: 100%;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.mandi-text{
+  -webkit-align-self: center;
+  text-align: center;
+}
+
+.mandi-input{
+  width: 100%;
+}
+
+.mandi-top{
+  min-height: 100px;
+  background-color: #a9c056;
+  position: relative;
+  display: table;
+  width: 100%;
+}
+
+.m-about {
+  color: white;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.p-mandi{
+padding: 10px;
+}

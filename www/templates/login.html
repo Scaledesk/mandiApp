@@ -2,23 +2,30 @@
   <ion-content>
 
 <div class="card">
+  <div class="row responsive-lg responsive-md responsive-sm text-center">
+      <img src="img/logo.jpg" height="150px" width="100%">
+      <p class="mandi-header">MANDIGATE</p>
+  </div>
     <div class="list">
       <div class="row">
-        <div class="col-50">
-          <a href="#/app/seller" class="button button-block button-stable">
-            Are You seller?
-          </a>
-        </div>
-        <div class="col-50">
-          <a href="#/app/buyer" class="button button-block button-stable">
-            Are You Buyer?
+        <a href="#/app/signup" class="button button-block button-balanced mandi-button">
+          SIGNUP AS SELLER</a>
+
+      </div>
+        <div class="row">
+          <a href="#/app/buyer" class="button button-block button-balanced mandi-button">
+            SIGNUP AS BUYER
           </a>
         </div>
       </div>
-
+      <div class="">
+        <div class="col-center">
+        <p class="text-center mandi-text">OR</p>
+          </div>
+      </div>
       <div class="row">
-        <button ng-click="login.alreadyMember=!login.alreadyMember" class="button button-block button-stable">
-          If registered? Login here
+        <button ng-click="login.alreadyMember=!login.alreadyMember" class="button button-block button-balanced">
+          <i class="ion-locked"></i>&nbsp;LOGIN
         </button>
       </div>
 
@@ -41,6 +48,9 @@
         <label class="item">
           <button class="button button-block button-positive" type="submit">Log in</button>
         </label>
+      </div>
+      <div class="row">
+        <a href="#/app/forget">Forget Password?</a>
       </div>
     </form>
   </div>
