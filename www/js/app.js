@@ -131,7 +131,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   });
   $stateProvider.state('app.product', {
-    url: '/product',
+    url: '/product/:productId',
     views: {
       'menuContent': {
         templateUrl: 'templates/product-list.html'
@@ -139,14 +139,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   });
 
-  $stateProvider.state('app.example', {
-      url: '/example',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/example.html'
-        }
-      }
-    });
 
   $urlRouterProvider.otherwise('/app/home');
 });

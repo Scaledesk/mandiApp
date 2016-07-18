@@ -1,16 +1,25 @@
-<ion-view>
+
+<ion-view view-title="Products" ng-controller="ProductCtrl as c">
   <ion-content>
-<div>
-  <img src="img/banner3.jpg" height="250" width="100%">
-</div>
-    <div>
-      <ul class="list">
-        <a href="#/app/"><li class="item">Potato</li></a>
-        <li class="item">Tomato</li>
-        <li class="item">Onion</li>
-        <li class="item">Garlic</li>
-        <li class="item">Cabbage</li>
-      </ul>
+    <div class="list">
+
+      <div class="item item-thumbnail-left" ng-repeat="pr in c.p">
+        <a href="#/app/pdp">
+          <img ng-src="{{pr.thumbnail}}" ng-if="pr.thumbnail.startsWith('http')">
+          <h2 class="story-title">{{pr[1]}}</h2>
+        </a>
+      </div>
+
+      <a class="item item-thumbnail-left" href="" ng-click="c.openLink(prod.url)" ng-repeat="prod in c.products track by prod.id">
+        <img ng-src="{{prod.thumbnail}}" ng-if="prod.thumbnail.startsWith('http')">
+        <h2 class="story-title">{{prod.title}}</h2>
+        <p>
+          <span am-time-ago="story.created_utc" am-preprocess="unix"></span>
+          -{{prod.domain}}
+        </p>
+      </a>
     </div>
+    <ion-infinite-scroll on-infinite="c.loadOlderStories()" distance="1%">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>
