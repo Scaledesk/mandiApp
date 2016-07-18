@@ -1,0 +1,53 @@
+<ion-modal-view>
+<ion-header-bar>
+  Filters
+</ion-header-bar>
+  <ion-content>
+    <div class="row">
+      <div class="col col-33">
+       <ul class="list">
+         <li class="item" data-ng-cloak="#price">Price</li>
+         <li class="item" id="#grade">Grade</li>
+         <li class="item" id="avail">Availability</li>
+         <li class="item" id="sort">Sort By</li>
+       </ul>
+      </div>
+      <div class="col col-66">
+        <div id="price">
+        <ion-list>
+          <ion-checkbox >Rs.200-400</ion-checkbox>
+          <ion-checkbox>Rs.200-400</ion-checkbox>
+          <ion-checkbox>Rs.200-400</ion-checkbox>
+        </ion-list>
+          </div>
+        <div>
+          <ion-list>
+            <ion-checkbox>Premium</ion-checkbox>
+            <ion-checkbox>Regular</ion-checkbox>
+          </ion-list>
+        </div>
+        <div id="avail">
+          <ion-list>
+            <ion-checkbox>By Date</ion-checkbox>
+            <ion-checkbox>By Location</ion-checkbox>
+            <ion-checkbox>By Pincode</ion-checkbox>
+          </ion-list>
+        </div>
+        <div id="sort">
+          <ion-list>
+            <ion-checkbox>Price: Low to High</ion-checkbox>
+            <ion-checkbox>Price: High to Low</ion-checkbox>
+            <ion-checkbox>Newest</ion-checkbox>
+          </ion-list>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="button-bar">
+      <a class="button">Clear Filters</a>
+      <a class="button">Apply</a>
+      </div>
+
+  </ion-content>
+</ion-modal-view>

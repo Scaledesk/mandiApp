@@ -19,17 +19,27 @@
 
   app.controller('HomeCtrl', function ($scope, Authentication, $state,Product) {
     var vm = this;
-    Product.get().then(function(res){
-      vm.products = res.data.product_list;
-    });
   });
 
   app.controller('CategoryCtrl', function ($scope,$http, $stateParams,Product) {
     var vm = this;
     var id  = $stateParams.categoryId;
-
     vm.products = [];
+    Product.get().then(function(res){
+      vm.products = res.data.product_list;
+    });
+  });
 
+
+  app.controller('ProductCtrl', function ($scope,$http, $stateParams,Product) {
+    var vm = this;
+    var id  = $stateParams.productId;
+    vm.products = [];
+    Product.getChildProduct(id).then(function(res){
+     vm.p = res.data.data_list;
+     console.log(res);
+     console.log(vm.p);
+     });
 
     vm.loadOlderStories = function(){
       console.log('vhhgcvsghcvsdhchsdvchgvcghsd');
@@ -48,12 +58,9 @@
     };
 
 
-
-    /*Product.getChildProduct(id).then(function(res){
-      vm.products = res.data.data_list;
-      console.log(vm.products);
-    });*/
   });
+
+
   app.controller('RegisterCtrl', function ($scope, Authentication) {
 
     var vm = this;
