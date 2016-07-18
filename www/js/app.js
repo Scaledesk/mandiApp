@@ -139,6 +139,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   });
 
+  $stateProvider.state('app.otp', {
+    url: '/otp',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/otp.html'
+      }
+    }
+  });
+  $stateProvider.state('app.orderhistory', {
+    url: '/orderhistory',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/orderHistory.html'
+      }
+    }
+  });
   $stateProvider.state('app.example', {
       url: '/example',
       views: {
