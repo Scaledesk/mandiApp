@@ -13,8 +13,6 @@
   </ion-side-menu-content>
 
 
-
-
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
       <h1 ng-if="!isAuthenticate()" class="title">Menu List</h1>
@@ -31,12 +29,21 @@
         <ion-item menu-close href="#/app/search">
           Search
         </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
+        <ion-item menu-close href="#/app/orderHistory">
+          My Order
         </ion-item>
 
         <ion-item menu-close href="#/app/example">
-          Example
+          My Account
+        </ion-item>
+        <ion-item menu-close href="#/app/example">
+          Notifications
+        </ion-item>
+        <ion-item menu-close href="#/app/example">
+          Settings
+        </ion-item>
+        <ion-item menu-close href="#/app/example">
+          More
         </ion-item>
 
         <ion-item menu-close ng-show="isAuthenticate()" ng-click="logout()">

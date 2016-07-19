@@ -144,6 +144,49 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
+  $stateProvider.state('app.otp', {
+    url: '/otp',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/otp.html'
+      }
+    }
+  });
+  $stateProvider.state('app.orderhistory', {
+    url: '/orderhistory',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/orderHistory.html'
+      }
+    }
+  });
+  $stateProvider.state('app.filters', {
+    url: '/filters',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/filters.html'
+      }
+    }
+  });
+  $stateProvider.state('app.login1', {
+    url: '/login1',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/login1.html'
+      }
+    }
+  });
+  $stateProvider.state('app.example', {
+      url: '/example',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/example.html'
+        }
+      }
+    });
+
+
   if(window.localStorage['SkipIntro']==='true'){
     $urlRouterProvider.otherwise('/app/home');
   }else{
