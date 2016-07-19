@@ -1,10 +1,9 @@
 (function() {
-  var app = angular.module('md_gate.controllers', []);
+  var app = angular.module('md_gate');
   app.controller('AppCtrl', function ($scope, $ionicModal, Authentication,User, $state, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
-
     $scope.logout = function () {
       if(User.logout()){
         $state.go('app.home');
@@ -14,7 +13,6 @@
         $state.go('app.home');
         });*/
     };
-
   });
 
   app.controller('mainWalkthroughCtrl', function ($scope, $state,$ionicViewSwitcher, Authentication,$ionicHistory) {
@@ -32,20 +30,10 @@
         });
       }
     }; // End of navigateTo.
-
     vm.getStarted=function(){
       vm.navigateTo('app.home',true);
       window.localStorage['SkipIntro'] = 'true';
     };
-
-
-
-
-
-
-
-
-
   });
 
   app.controller('HomeCtrl', function ($scope, Authentication, $state,Product) {

@@ -1,5 +1,5 @@
 (function(){
- var app = angular.module('md_gate', ['ionic', 'md_gate.controllers','angularMoment']);
+ var app = angular.module('md_gate', ['ionic','angularMoment']);
  app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -148,8 +148,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/app/home');
   }else{
     $urlRouterProvider.otherwise("/mainWalkthrough");
-
   }
 });
-
 }());
