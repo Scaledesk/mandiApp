@@ -128,11 +128,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
-  $stateProvider.state('app.aboutus', {
-    url: '/aboutus',
+  $stateProvider.state('app.aboutUs', {
+    url: '/aboutUs',
     views: {
       'menuContent': {
-        templateUrl: 'templates/aboutus.html'
+        templateUrl: 'templates/aboutUs.html',
+        
       }
     }
   });
@@ -174,6 +175,55 @@ app.config(function($stateProvider, $urlRouterProvider) {
     views: {
       'menuContent': {
         templateUrl: 'templates/login1.html'
+      }
+    }
+  });
+  $stateProvider.state('app.notification', {
+    url: '/notification',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/notification.html'
+      }
+    }
+  });
+  $stateProvider.state('app.faq', {
+    url: '/faq',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/faq.html',
+        controller : 'FaqCtrl'
+      }
+    }
+  });
+  $stateProvider.state('app.about1', {
+    url: '/about1',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/about1.html'
+      }
+    }
+  });
+  $stateProvider.state('app.terms', {
+    url: '/terms',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/terms.html'
+      }
+    }
+  });
+  $stateProvider.state('app.privacy', {
+    url: '/privacy',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/privacy.html'
+      }
+    }
+  });
+  $stateProvider.state('app.cancel', {
+    url: '/cancel',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/cancellation.html'
       }
     }
   });

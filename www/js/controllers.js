@@ -124,4 +124,42 @@
       });
     }
   });
+
+  app.controller('FaqCtrl', function ($scope) {
+    // var vm = this;
+      $scope.items = [{
+        title: 'What is mandigate',
+        text: 'It is a commodity marketplace for agricultural produce where farmers/bulk sellers/licensee agents can list their products and buyers (industrialists, wholesale dealers, etc.) can review and place their bulk orders through online portal or mobile app. The unique proposition of this model is direct ordering of the farm fresh items without multiple intermediaries charging their high margins. The buyers have option to order products from different locations from pan India. Also, farmers get vast market to sell their produce. In this model, buyers can expect the quality products as we individually go and verify the commodity before transshipment.We have integrated supply chain for timely delivery and reduction of wastage in transportation of goods.'
+      },{
+        title: 'How can i update my informaiton?',
+        text: 'It is easy to update your MandiGate account and view your orders any time through My Account.'
+
+      },{
+        title: 'How i know my order has been confirmed',
+        text: 'Once your order has been logged and payment authorization has been received, the seller counter confirms the receipt of the order in part/Full quantity and begins processing it. You will receive an email containing the details of your order when the seller receives it and confirms the same. In this mail you will be provided with a unique Order ID (eg. ODR01202130213), a listing of the item(s) you have ordered and the expected delivery time. You will also be notified when the seller Transships produce(s) to you. Shipping details will be provided with the respective tracking number(s).'
+      },{
+        title: 'Can I order a product that is Out of Stock',
+        text: 'Unfortunately, products listed as Out of Stock are not available for sale. Please use the Notify Me feature to be informed of the products availability with sellers on MandiGate'
+      },{
+        title: '5',
+        text: 'Lorem ipsum dolor sit'
+      }];
+
+      /*
+       * if given group is the selected group, deselect it
+       * else, select the given group
+       */
+      $scope.toggleItem= function(item) {
+        if ($scope.isItemShown(item)) {
+          $scope.shownItem = null;
+        } else {
+          $scope.shownItem = item;
+        }
+      };
+      $scope.isItemShown = function(item) {
+        return $scope.shownItem === item;
+      };
+
+    });
+
 }());
