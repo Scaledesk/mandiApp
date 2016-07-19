@@ -17,6 +17,37 @@
 
   });
 
+  app.controller('mainWalkthroughCtrl', function ($scope, $state,$ionicViewSwitcher, Authentication,$ionicHistory) {
+    var vm = this;
+    vm.navigateTo = function (stateName,objectData) {
+      if ($ionicHistory.currentStateName() != stateName) {
+        $ionicHistory.nextViewOptions({
+          disableAnimate: false,
+          disableBack: true
+        });
+        //Next view animate will display in back direction
+        $ionicViewSwitcher.nextDirection('back');
+        $state.go(stateName, {
+          isAnimated: objectData,
+        });
+      }
+    }; // End of navigateTo.
+
+    vm.getStarted=function(){
+      vm.navigateTo('app.home',true);
+      window.localStorage['SkipIntro'] = 'true';
+    };
+
+
+
+
+
+
+
+
+
+  });
+
   app.controller('HomeCtrl', function ($scope, Authentication, $state,Product) {
     var vm = this;
   });

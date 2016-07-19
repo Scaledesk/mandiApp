@@ -16,6 +16,12 @@
 });
 
 app.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('get_started',{
+    url: "/mainWalkthrough",
+    templateUrl: "templates/mainWalkthrough.html",
+    controller: 'mainWalkthroughCtrl',
+    controllerAs:'m'
+  });
   $stateProvider
     .state('app', {
     url: '/app',
@@ -138,42 +144,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+  if(window.localStorage['SkipIntro']==='true'){
+    $urlRouterProvider.otherwise('/app/home');
+  }else{
+    $urlRouterProvider.otherwise("/mainWalkthrough");
 
-  $stateProvider.state('app.otp', {
-    url: '/otp',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/otp.html'
-      }
-    }
-  });
-  $stateProvider.state('app.orderhistory', {
-    url: '/orderhistory',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/orderHistory.html'
-      }
-    }
-  });
-  $stateProvider.state('app.filters', {
-    url: '/filters',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/filters.html'
-      }
-    }
-  });
-  $stateProvider.state('app.example', {
-      url: '/example',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/example.html'
-        }
-      }
-    });
-
-  $urlRouterProvider.otherwise('/app/home');
+  }
 });
-  
 
 }());
