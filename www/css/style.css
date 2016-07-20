@@ -19,9 +19,7 @@
 .mandi-text{
   -webkit-align-self: center;
   text-align: center;
-
 }
-
 .mandi-input{
   width: 100%;
 }
@@ -62,9 +60,28 @@ padding: 10px;
   line-height: 1.2em;
   letter-spacing: .4px;
 }
-.ion-person{
-  font-size: 30px;
+.m-list{
+  vertical-align: baseline;
+  float: right;
 }
+.m-user{
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+.m-back{
+  background: #a9c056;
+  padding-left: 7%;
+}
+.m-text{
+  color:white;
+  font-weight: 600;
+}
+.m-login{
+  background: #f9f9f9;
+}
+
 
 /*for accordion*/
 #touch {

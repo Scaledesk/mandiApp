@@ -15,17 +15,17 @@
 
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
-      <h1 ng-if="!isAuthenticate()" class="title">Menu List</h1>
+      <h1 ng-if="!isAuthenticate()" class="title">MandiGate</h1>
       <h1 ng-if="isAuthenticate()" class="title">Welcome</h1>
     </ion-header-bar>
     <ion-content>
       <ion-list>
          <ion-item menu-close>
            <div class="row">
-             <div class="col col-40"><i class="ion-person"></i></div>
-             <div class="col col-60">
-               <p>John Doe</p>
-               <p>johndoe@gmail.com</p>
+             <div class="col col-40"><img src="img/user.jpg" height="80px" width="80px" style="border-radius: 50%"></div>
+             <div class="col col-60 col-center">
+               <p>Welcome..!</p>
+               <p>Priya Sharma</p>
              </div>
 
            </div>
@@ -36,22 +36,18 @@
         <ion-item menu-close ng-hide="isAuthenticate()" href="#/app/login">
           Login/Register
         </ion-item>
-        <ion-item menu-close href="#/app/search">
-          Search
-        </ion-item>
+
         <ion-item menu-close href="#/app/orderhistory">
           My Order
         </ion-item>
 
-        <ion-item menu-close href="#/app/example">
+        <ion-item menu-close href="#/app/account">
           My Account
         </ion-item>
         <ion-item menu-close href="#/app/notification">
           Notifications
         </ion-item>
-        <ion-item menu-close href="#/app/example">
-          Settings
-        </ion-item>
+
         <ion-item menu-close href="#/app/aboutUs">
           More
         </ion-item>

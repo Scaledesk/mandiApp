@@ -133,7 +133,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     views: {
       'menuContent': {
         templateUrl: 'templates/aboutUs.html',
-        
+
       }
     }
   });
@@ -224,6 +224,38 @@ app.config(function($stateProvider, $urlRouterProvider) {
     views: {
       'menuContent': {
         templateUrl: 'templates/cancellation.html'
+      }
+    }
+  });
+  $stateProvider.state('app.account', {
+    url: '/account',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/account.html'
+      }
+    }
+  });
+  $stateProvider.state('app.change', {
+    url: '/change',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/changePassword.html'
+      }
+    }
+  });
+  $stateProvider.state('app.edit', {
+    url: '/edit',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/edit.html'
+      }
+    }
+  });
+  $stateProvider.state('app.orp', {
+    url: '/orp',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/orp.html'
       }
     }
   });
