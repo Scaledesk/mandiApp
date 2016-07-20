@@ -3,14 +3,12 @@
   <ion-content>
     <div class="list">
 
-      <div class="item item-thumbnail-left" ng-repeat="pr in c.p">
-        <a href="#/app/pdp">
-          <img ng-src="{{pr.thumbnail}}" ng-if="pr.thumbnail.startsWith('http')">
-          <h2 class="story-title">{{pr[1]}}</h2>
-        </a>
-      </div>
+      <a class="item item-thumbnail-left" ng-repeat="pr in c.p" href="#/app/pdp">
+        <img ng-src="img/apple.png">
+        <h2 class="story-title">{{pr[1]}}</h2>
+      </a>
 
-      <a class="item item-thumbnail-left" href="" ng-click="c.openLink(prod.url)" ng-repeat="prod in c.products track by prod.id">
+      <a class="item item-thumbnail-left" href="#/app/pdp" ng-repeat="prod in c.products track by prod.id">
         <img ng-src="{{prod.thumbnail}}" ng-if="prod.thumbnail.startsWith('http')">
         <h2 class="story-title">{{prod.title}}</h2>
         <p>

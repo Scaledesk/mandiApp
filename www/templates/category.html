@@ -2,17 +2,10 @@
   <ion-content>
 
     <div class="list">
-      <a class="item item-thumbnail-left" href="" ng-click="c.openLink(prod.url)" ng-repeat="prod in c.products track by prod.id">
-        <img ng-src="{{prod.thumbnail}}" ng-if="prod.thumbnail.startsWith('http')">
-        <h2 class="story-title">{{prod.title}}</h2>
-        <p>
-          <span am-time-ago="story.created_utc" am-preprocess="unix"></span>
-          -{{prod.domain}}
-        </p>
+      <a class="item item-thumbnail-left" ng-repeat="prod in c.products" href="#/app/product/{{prod[0]}}">
+        <img ng-src="img/apple.png">
+        <h2 class="story-title">{{prod[1]}}</h2>
       </a>
     </div>
-    
-    <ion-infinite-scroll on-infinite="c.loadOlderStories()" distance="1%">
-    </ion-infinite-scroll>
   </ion-content>
 </ion-view>
