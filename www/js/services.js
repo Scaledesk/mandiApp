@@ -1,4 +1,5 @@
 angular.module('md_gate').factory('Authentication', function($http,$q){
+  var baseUrl = 'http://127.0.0.1:8000/';
   var service = {
     login: login,
     registration: registration,
@@ -10,14 +11,14 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
   function login(data){
     return $http({
       method:"POST",
-      url:"http://localhost:8000/api/login/user/",
+      url:baseUrl+"api/login/user/",
       data:data
     });
   }
   function registration(data){
     return $http({
       method:"POST",
-      url:"http://localhost:8000/api/register/user/",
+      url:baseUrl+"api/register/user/",
       data:data
     });
   }
@@ -31,7 +32,7 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
   function logout(){
     return $http({
       method:"POST",
-      url:"http://localhost:8000/api/logout/user/",
+      url:baseUrl+"api/logout/user/",
       headers:{
         'Authorization':"Token "+window.localStorage['token']
       }
@@ -41,6 +42,7 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
 
 
 angular.module('md_gate').factory('Product', function($http,$q){
+  var baseUrl = 'http://127.0.0.1:8000/';
   var service = {
     get: get,
     getChildProduct:getChildProduct,
@@ -64,13 +66,13 @@ angular.module('md_gate').factory('Product', function($http,$q){
   function get(){
     return $http({
       method:"GET",
-      url:"http://localhost:8000/api/list/products/"
+      url:baseUrl+"api/list/products/"
     });
   }
   function getChildProduct(id){
     return $http({
       method:"GET",
-      url:"http://localhost:8000/api/list/child/products/"+id
+      url:baseUrl+"api/list/child/products/"+id
     });
   }
 });
@@ -78,6 +80,7 @@ angular.module('md_gate').factory('Product', function($http,$q){
 angular.module('md_gate').factory('User', function($http){
   //$http.defaults.headers.common.Authorization = 'Token ' + window.localStorage['token'];
  var token = window.localStorage['token'];
+  var baseUrl = 'http://192.168.1.12:8000/';
   var userServices = {
     logout:logout
   };
