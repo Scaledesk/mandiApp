@@ -58,14 +58,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     });
-  $stateProvider.state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  });
+  
   $stateProvider.state('app.browse', {
       url: '/browse',
       views: {
