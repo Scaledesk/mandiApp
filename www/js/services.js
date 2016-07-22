@@ -4,7 +4,7 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
     login: login,
     registration: registration,
     isLoggedIn:isLoggedIn,
-    logout:logout
+    logoutUser:logoutUser
   };
   return service;
 
@@ -29,14 +29,16 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
       return true;
     }
   }
-  function logout(){
-    return $http({
+  function logoutUser(){
+      window.localStorage['token'] = '';
+      return true;
+    /*return $http({
       method:"POST",
       url:baseUrl+"api/logout/user/",
       headers:{
         'Authorization':"Token "+window.localStorage['token']
       }
-    });
+    });*/
   }
 });
 
@@ -75,26 +77,4 @@ angular.module('md_gate').factory('Product', function($http,$q){
       url:baseUrl+"api/list/child/products/"+id
     });
   }
-});
-
-angular.module('md_gate').factory('User', function($http){
-  //$http.defaults.headers.common.Authorization = 'Token ' + window.localStorage['token'];
- var token = window.localStorage['token'];
-  var baseUrl = 'http://192.168.1.12:8000/';
-  var userServices = {
-    logout:logout
-  };
-  return userServices;
-  function logout(){
-    window.localStorage['token'] = '';
-    return true;
-    /*return $http({
-      method:"POST",
-      url:"http://localhost:8000/api/logout/user/",
-      headers: {
-        "Authorization": 'Token '+token
-      }
-    });*/
-  }
-
 });

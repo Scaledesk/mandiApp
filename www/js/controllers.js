@@ -1,17 +1,23 @@
 (function() {
   var app = angular.module('md_gate');
-  app.controller('AppCtrl', function ($scope, $ionicModal, Authentication,User, $state, $timeout) {
+  app.controller('AppCtrl', function ($scope, $ionicModal, Authentication, $state,$cordovaToast, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
     $scope.logout = function () {
-      if(User.logout()){
+      if(Authentication.logoutUser()){
+        $cordovaToast.showShortTop('Here is a message').then(function(success) {
+          // success
+        }, function (error) {
+          // error
+        });
         $state.go('app.home');
       }
-      /*User.logout().then(function(){
+      /*Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
         $state.go('app.home');
-        });*/
+      },function(error){
+      });*/
     };
   });
 
@@ -105,20 +111,27 @@
   });
 
 
-  app.controller('LoginCtrl', function ($scope, $state, Authentication,$ionicHistory) {
+  app.controller('LoginCtrl', function ($scope, $state, Authentication,$cordovaToast,$ionicHistory) {
     var vm = this;
     if (Authentication.isLoggedIn()) {
-      console.log('dsbcgsvdcscd');
       $state.go('app.home');
     }
-    vm.alreadyMember = false;
     vm.doLogin = function (data) {
+     /*if($scope.loginForm.$invalid){
+       return false;
+     }*/
+      $cordovaToast.showShortTop('Here is a message').then(function(success) {
+        // success
+      }, function (error) {
+        // error
+      });
+      $state.go('app.home');
+
       $ionicHistory.nextViewOptions({historyRoot:true});
       Authentication.login(data).then(function (response) {
         console.log(response);
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
-          vm.alreadyMember = false;
           $state.go('app.home');
         }
       });

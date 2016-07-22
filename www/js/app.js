@@ -1,5 +1,5 @@
 (function(){
- var app = angular.module('md_gate', ['ionic','angularMoment']);
+ var app = angular.module('md_gate', ['ionic','angularMoment','ngCordova']);
  app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -33,9 +33,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/login',
     views:{
       'menuContent': {
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl',
-        controllerAs:'login'
+        templateUrl: 'templates/login.html'
       }
     }
   });
@@ -167,7 +165,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/login1',
     views: {
       'menuContent': {
-        templateUrl: 'templates/login1.html'
+        templateUrl: 'templates/login1.html',
+        controller: 'LoginCtrl',
+        controllerAs:'login'
       }
     }
   });

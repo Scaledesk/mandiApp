@@ -20,7 +20,7 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-         <ion-item menu-close>
+         <ion-item menu-close ng-if="isAuthenticate()">
            <div class="row">
              <div class="col col-40"><img src="img/user.jpg" height="80px" width="80px" style="border-radius: 50%"></div>
              <div class="col col-60 col-center">
@@ -37,14 +37,14 @@
           Login/Register
         </ion-item>
 
-        <ion-item menu-close href="#/app/orderhistory">
+        <ion-item menu-close ng-if="isAuthenticate()" href="#/app/orderhistory">
           My Order
         </ion-item>
 
-        <ion-item menu-close href="#/app/account">
+        <ion-item menu-close ng-if="isAuthenticate()" href="#/app/account">
           My Account
         </ion-item>
-        <ion-item menu-close href="#/app/notification">
+        <ion-item menu-close ng-if="isAuthenticate()" href="#/app/notification">
           Notifications
         </ion-item>
 
