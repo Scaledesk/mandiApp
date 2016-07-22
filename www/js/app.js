@@ -58,7 +58,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     });
-  
+
   $stateProvider.state('app.browse', {
       url: '/browse',
       views: {
@@ -249,6 +249,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
     views: {
       'menuContent': {
         templateUrl: 'templates/orp.html'
+      }
+    }
+  });
+  $stateProvider.state('app.orderDetail', {
+    url: '/orderDetail',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/orderDetail.html'
       }
     }
   });
