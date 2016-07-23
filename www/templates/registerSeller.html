@@ -5,6 +5,17 @@
       <div class="card">
       <div class="list">
         <label class="item item-input">
+          <!--<ion-checkbox ng-model="register.isChecked">Organization</ion-checkbox>-->
+          <div class="row">
+            <div class="col-50">
+              <ion-radio ng-model="register.userData.user_type" ng-value="'Individual'" checked>Individual</ion-radio>
+            </div>
+            <div class="col-50">
+              <ion-radio ng-model="register.userData.user_type" ng-value="'Organization'">Organization</ion-radio>
+            </div>
+          </div>
+        </label>
+        <label class="item item-input">
           <input type="text" ng-model="register.userData.first_name" placeholder="First Name" required>
         </label>
         <label class="item item-input">
@@ -28,9 +39,9 @@
       </div>
     </div>
       <div class="row">
-      <a href="#/app/otp" class="button button-block button-positive mandi-button">
+      <button type="submit" class="button button-block button-positive mandi-button">
         REGISTER
-      </a>
+      </button>
       </div>
     </form>
 

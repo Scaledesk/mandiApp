@@ -8,11 +8,11 @@
     </div>
     <div class="list list-inset">
       <label class="item item-input">
-        <input type="text" placeholder="Please Enter the OTP">
+        <input type="text" placeholder="Please Enter the OTP" ng-model="otp.num">
       </label>
     </div>
     <div class="row">
-      <a href="#/app/home" class="button button-block button-positive mandi-button">LOGIN</a>
+      <button class="button button-block button-positive mandi-button" ng-click="otp.checkOtp(otp.num)">Verify</button>
     </div>
   </ion-content>
 </ion-view>

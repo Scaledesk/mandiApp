@@ -6,11 +6,10 @@
     };
     $scope.logout = function () {
       if(Authentication.logoutUser()){
-        $cordovaToast.showShortTop('Here is a message').then(function(success) {
-          // success
+        alert('Logout successfully');
+        /*$cordovaToast.showShortTop('Here is a message').then(function(success) {
         }, function (error) {
-          // error
-        });
+        });*/
         $state.go('app.home');
       }
       /*Authentication.logoutUser().then(function(data){
@@ -77,45 +76,74 @@
         $scope.$broadcast('scroll.infiniteScrollComplete');
       });
     };
-
     vm.openLink = function (url) {
       window.open(url,'_blank');
     };
-
-
   });
 
 
-  app.controller('RegisterCtrl', function ($scope, Authentication) {
-
+  app.controller('RegisterCtrl', function ($scope,$state,$ionicHistory,$cordovaToast, Authentication) {
+    if (Authentication.isLoggedIn()) {
+      $state.go('app.home');
+    }
     var vm = this;
     vm.userData = {};
-
+    vm.userData.user_type = 'Individual';
+    function registration(){
+      $ionicHistory.nextViewOptions({historyRoot:true});
+      Authentication.registration(vm.userData).then(function (response) {
+        console.log(response);
+        if (response.data.status) {
+          window.localStorage['token'] = response.data.token;
+          alert('Register successfully');
+          $state.go('app.otp');
+        }
+      },function(error){
+        alert('Something Wrong!');
+      });
+    }
     vm.doSellerRegistration = function () {
       vm.userData.is_seller = true;
       vm.userData.is_buyer = false;
-      Authentication.registration(vm.userData).then(function (data) {
-        vm.userData = {};
-        console.log(data);
-      });
+      vm.userData.username = vm.userData.email;
+      registration();
     };
     vm.doBuyerRegistration = function () {
       vm.userData.is_buyer = true;
       vm.userData.is_seller = false;
-      Authentication.registration(vm.userData).then(function (data) {
-        vm.userData = {};
-        console.log(data);
-      });
+      vm.userData.user_type = '';
+      vm.userData.username = vm.userData.email;
+      registration();
     };
-
   });
 
+  app.controller('OtpCtrl', function ($scope,$state,$ionicHistory,$cordovaToast, Authentication) {
+    var vm = this;
+    vm.checkOtp = function(num){
+      if(num==12345){
+        $ionicHistory.nextViewOptions({historyRoot:true});
+        /*$cordovaToast.showShortTop('Verified Successfully !').then(function(success) {
+          $state.go('app.home');
+        }, function (error) {
+          console.log(error);
+        });*/
+        alert('Verified successfully');
+        $state.go('app.home');
+      }else {
+        alert('Otp does not match');
+        /*$cordovaToast.showShortTop('Otp does not match !').then(function(success) {
+        }, function (error) {
+          console.log(error);
+        });*/
+      }
+    };
+  });
 
   app.controller('LoginCtrl', function ($scope, $state, Authentication,$cordovaToast,$ionicHistory) {
-    var vm = this;
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
+    var vm = this;
     vm.doLogin = function (data) {
      /*if($scope.loginForm.$invalid){
        return false;
@@ -125,8 +153,6 @@
       }, function (error) {
         // error
       });
-      $state.go('app.home');
-
       $ionicHistory.nextViewOptions({historyRoot:true});
       Authentication.login(data).then(function (response) {
         console.log(response);

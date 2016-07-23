@@ -52,6 +52,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         'menuContent': {
           templateUrl: 'templates/registerBuyer.html',
+          controller: 'RegisterCtrl',
           controllerAs:'register'
         }
       }
@@ -141,7 +142,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/otp',
     views: {
       'menuContent': {
-        templateUrl: 'templates/otp.html'
+        templateUrl: 'templates/otp.html',
+        controller: 'OtpCtrl',
+        controllerAs:'otp'
       }
     }
   });
