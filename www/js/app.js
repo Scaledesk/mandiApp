@@ -113,10 +113,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   });
   $stateProvider.state('app.pdp', {
-    url: '/pdp',
+    url: '/pdp/:id',
     views: {
       'menuContent': {
-        templateUrl: 'templates/pdp.html'
+        templateUrl: 'templates/pdp.html',
+        controller: 'ProductCtrl',
+        controllerAs:'p'
       }
     }
   });
@@ -152,7 +154,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/orderhistory',
     views: {
       'menuContent': {
-        templateUrl: 'templates/orderHistory.html'
+        templateUrl: 'templates/orderHistory.html',
+        controller: 'OrderHistoryCtrl',
+        controllerAs:'o'
       }
     }
   });
@@ -248,18 +252,23 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   });
   $stateProvider.state('app.orp', {
-    url: '/orp',
+    url: '/orp/:id',
     views: {
       'menuContent': {
-        templateUrl: 'templates/orp.html'
+        templateUrl: 'templates/orp.html',
+        controller: 'BookingCtrl',
+        controllerAs:'B'
       }
     }
   });
   $stateProvider.state('app.orderDetail', {
-    url: '/orderDetail',
+    url: '/orderDetail/:orderId',
     views: {
       'menuContent': {
-        templateUrl: 'templates/orderDetail.html'
+        templateUrl: 'templates/orderDetail.html',
+        controller: 'OrderDetail',
+        controllerAs:'OD'
+
       }
     }
   });

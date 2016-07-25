@@ -5,18 +5,15 @@
       return Authentication.isLoggedIn();
     };
     $scope.logout = function () {
-      if(Authentication.logoutUser()){
-        alert('Logout successfully');
-        /*$cordovaToast.showShortTop('Here is a message').then(function(success) {
-        }, function (error) {
-        });*/
-        $state.go('app.home');
-      }
-      /*Authentication.logoutUser().then(function(data){
+      Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
+            //$cordovaToast.showShortTop('Here is a message').then(function(success) {
+          //  }, function (error) {
+          //  });
+        alert('Logout successfully');
         $state.go('app.home');
       },function(error){
-      });*/
+      });
     };
   });
 
@@ -45,28 +42,47 @@
     var vm = this;
   });
 
-  app.controller('CategoryCtrl', function ($scope,$http, $stateParams,Product) {
+  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product) {
     var vm = this;
+    if(!Authentication.isLoggedIn()){
+      $state.go('app.login1');
+    }
     var id  = $stateParams.categoryId;
     vm.products = [];
-    Product.get().then(function(res){
-      vm.products = res.data.product_list;
-    });
+    vm.dt = {
+      "c_type":"category",
+      "entity_name":id,
+      "page_number":0
+    };
+
+    vm.loadProduct = function(){
+      if(vm.products.length>0){
+        vm.dt.page_number = vm.dt.page_number+1;
+      }
+      Product.getProduct(vm.dt).then(function(res){
+        console.log(res);
+        if(res.data.status&&res.data.data.total_records>0){
+          vm.products = vm.products.concat(res.data.data.all_stocks);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          console.log(vm.products);
+        }
+      },function(error){
+        console.log(error);
+      });
+    };
   });
 
 
   app.controller('ProductCtrl', function ($scope,$http, $stateParams,Product) {
     var vm = this;
-    var id  = $stateParams.productId;
-    vm.products = [];
-    Product.getChildProduct(id).then(function(res){
-     vm.p = res.data.data_list;
+    var id  = $stateParams.id;
+    vm.product = {};
+    Product.getProductDetails(id).then(function(res){
      console.log(res);
-     console.log(vm.p);
+      vm.product = res.data;
      });
 
-    vm.loadOlderStories = function(){
-      console.log('vhhgcvsghcvsdhchsdvchgvcghsd');
+    /*vm.loadOlderStories = function(){
       var params = {};
       if(vm.products.length>0){
         params['after'] = vm.products[vm.products.length-1].name;
@@ -75,12 +91,88 @@
         vm.products = vm.products.concat(olderProducts);
         $scope.$broadcast('scroll.infiniteScrollComplete');
       });
-    };
-    vm.openLink = function (url) {
-      window.open(url,'_blank');
-    };
+    };*/
   });
+  app.controller('BookingCtrl', function ($scope,$http,$state, $stateParams,$window,Product,Booking) {
+    var vm = this;
+    var id  = $stateParams.id;
+    vm.product = {};
+    vm.order_id = undefined;
+    vm.verified = undefined;
+    vm.quantity = 1;
+    Booking.verifyOrder(id).then(function(res){
+          console.log('verify');
+          console.log(res);
+      if(res.data.bank_verified && res.data.success){
+        vm.order_id = res.data.order_id;
+        vm.verified = true;
+        console.log(vm.verified);
+        console.log(vm.order_id);
+      } else {
+        vm.verified = false;
+      }
+    },function(){
+      console.log('verify error');
+      console.log(res);
+    });
+    Product.getProductDetails(id).then(function(res){
+      console.log(res);
+      vm.product = res.data;
+      console.log(JSON.stringify(vm.product));
+    });
+    vm.placeOrder = function(qn){
+      if(qn==undefined||qn==''||qn==0){
+        $window.document.getElementById('quantity').focus();
+        return false;
+      }
+      var dd ={
+        "stock_id":id,
+        "order_id":vm.order_id,
+        "quantity":qn
+      };
+      Booking.createOrder(dd).then(function(res){
+        alert('success '+ JSON.stringify(res));
+        $state.go('app.orderhistory');
+      },function(err){
+        alert('error '+JSON.stringify(err));
+      });
+    }
+  });
+  app.controller('OrderHistoryCtrl', function ($scope,$state,Booking,Authentication) {
+    var vm = this;
+    if(!Authentication.isLoggedIn()){
+      $state.go('app.login1');
+    }
+    vm.ordersDetail = {};
+    function getOrderHistory(){
+      Booking.getOrderHistory().then(function(res){
+        console.log('order history success');
+        console.log(res);
+        vm.ordersDetail = res.data.all_orders_listing;
+      },function(err){
 
+      });
+    }
+    getOrderHistory();
+  });
+  app.controller('OrderDetail', function ($scope,$state,$stateParams,Booking,Authentication) {
+    var vm = this;
+    var id  = $stateParams.orderId;
+    if(!Authentication.isLoggedIn()){
+      $state.go('app.login1');
+    }
+    vm.ordersDetail = {};
+    function getOrderDetails(){
+      Booking.getOrderDetail(id).then(function(res){
+        console.log('order details success');
+        console.log(res);
+        vm.ordersDetail = res.data.all_orders_listing;
+      },function(err){
+          alert('error '+id);
+      });
+    }
+    getOrderDetails();
+  });
 
   app.controller('RegisterCtrl', function ($scope,$state,$ionicHistory,$cordovaToast, Authentication) {
     if (Authentication.isLoggedIn()) {
@@ -148,16 +240,12 @@
      /*if($scope.loginForm.$invalid){
        return false;
      }*/
-      $cordovaToast.showShortTop('Here is a message').then(function(success) {
-        // success
-      }, function (error) {
-        // error
-      });
       $ionicHistory.nextViewOptions({historyRoot:true});
       Authentication.login(data).then(function (response) {
         console.log(response);
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
+        alert('login successfully');
           $state.go('app.home');
         }
       });
@@ -166,7 +254,8 @@
 
   app.controller('FaqCtrl', function ($scope) {
     // var vm = this;
-      $scope.items = [{
+      $scope.items = [
+        {
         title: 'What is mandigate',
         text: 'It is a commodity marketplace for agricultural produce where farmers/bulk sellers/licensee agents can list their products and buyers (industrialists, wholesale dealers, etc.) can review and place their bulk orders through online portal or mobile app. The unique proposition of this model is direct ordering of the farm fresh items without multiple intermediaries charging their high margins. The buyers have option to order products from different locations from pan India. Also, farmers get vast market to sell their produce. In this model, buyers can expect the quality products as we individually go and verify the commodity before transshipment.We have integrated supply chain for timely delivery and reduction of wastage in transportation of goods.'
       },{

@@ -1,6 +1,28 @@
 <ion-view>
   <ion-content>
-    <div class="card">
+    <div ng-if="B.verified" class="card">
+      <div class="item item-divider">
+        Order Summary
+      </div>
+      <div class="item item-text-wrap">
+        <div class="row">
+          <div class=" col col-50">
+            <!--<p>Order Total :</p>-->
+            <p>Quantity:</p>
+            <p>Delivery By:</p>
+            <p>Total Payable</p>
+          </div>
+          <div class="col col-50">
+            <!--<p>Rs. 56000</p>-->
+            <p><input type="number" ng-model="B.quantity" id="quantity" name="quantity" placeholder="enter quantity" /></p>
+            <p>24 Jul 2016</p>
+            <p>&#8377; {{B.product.price*B.quantity}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div ng-if="B.verified" class="card">
       <div class="item item-divider">
       Delivery Address
     </div>
@@ -25,48 +47,37 @@
         <div class="col col-10"><i class="ion-edit"></i></div>
       </div>
     </div>
-    <div class="card">
+    <div ng-if="B.verified" class="card">
       <div class="item item-divider">
         Order Details
       </div>
       <div class="item item-text-wrap">
         <div class="item item-thumbnail-left">
-          <img src="img/potato.png">
-          <h3>Potato</h3>
+          <img ng-src="http://127.0.0.1:8000{{B.product.image_url}}">
+          <h3>{{B.product.post_title}}</h3>
           <p>Cash On Delivery</p>
-          <p>Payment : &#8377; 56800</p>
+          <p>Payment : &#8377; {{B.product.price*B.quantity}}</p>
           <p>Estimated Delivery : 15 Jun,2015</p>
         </div>
       </div>
 
     </div>
-    <div class="card">
+    <div ng-if="!B.verified" class="card">
       <div class="item item-divider">
-        Order Summary
+        Verification Failed
       </div>
       <div class="item item-text-wrap">
         <div class="row">
-          <div class=" col col-50">
-            <p>Order Total :</p>
-            <p>Quantity:</p>
-            <p>Delivery By:</p>
-            <p>Total Payable</p>
-          </div>
-          <div class="col col-50">
-            <p>Rs. 56000</p>
-            <p>300 Kg<p>
-            <p>24 Jul 2016</p>
-            <p>&#8377; 60,000</p>
-          </div>
+          <p>Your Account Details Not Verified yet!</p>
         </div>
-
       </div>
 
     </div>
-    <div class="row">
-      <a href="#" class="button button-block button-positive mandi-button">
+
+    <div ng-if="B.verified" class="row">
+      <button ng-click="B.placeOrder(B.quantity)" class="button button-block button-positive mandi-button">
         Place Order
-      </a>
+      </button>
     </div>
   </ion-content>
 </ion-view>

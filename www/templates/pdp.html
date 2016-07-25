@@ -4,14 +4,12 @@
      <div>
        <div class="item item-image">
          <div class="">
-         <img src="img/apple.png" height="390px" width="100%" class="pdp-img">
+         <img ng-src="http://127.0.0.1:8000{{p.product.image_url}}" style="height: 300px;width: auto;" class="pdp-img">
          </div>
        </div>
          <div class="item item-body">
          <div class="row">
-           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolor sit
-             totam? Accusantium architecto assumenda culpa debitis ducimus eos eveniet excepturi exercitationem
-             expedita harum, minus nihil nisi placeat similique tenetur?</p>
+           <p>{{p.product.post_title}}</p>
          </div>
          <div class="row">
            <div class=" col col-50">
@@ -22,22 +20,19 @@
              <p>Delivery:</p>
            </div>
            <div class="col col-50">
-             <p>Rs. 56000</p>
-             <p>300 Kg<p>
-             <p>201301</p>
-             <p>3 July,2016</p>
-             <p>15 July,2016</p>
-
-
+             <p>Rs. {{p.product.price}}</p>
+             <p>{{p.product.quantity}} Kg<p>
+             <p>{{p.product.pincode}}</p>
+             <p>{{p.product.available_till|date:short}}</p>
+             <p>{{p.product.available_till|date:short}}</p>
            </div>
          </div>
          </div>
        <div class="row">
-         <a href="#/app/orp" class="button button-block button-positive mandi-button">
+         <a href="#/app/orp/{{p.product.pk}}" class="button button-block button-positive mandi-button">
            BUY
          </a>
        </div>
-
      </div>
     </div>
 

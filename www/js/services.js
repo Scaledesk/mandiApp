@@ -30,15 +30,11 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
     }
   }
   function logoutUser(){
-      window.localStorage['token'] = '';
-      return true;
-    /*return $http({
+    return $http({
       method:"POST",
       url:baseUrl+"api/logout/user/",
-      headers:{
-        'Authorization':"Token "+window.localStorage['token']
-      }
-    });*/
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
   }
 });
 
@@ -46,8 +42,8 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
 angular.module('md_gate').factory('Product', function($http,$q){
   var baseUrl = 'http://127.0.0.1:8000/';
   var service = {
-    get: get,
-    getChildProduct:getChildProduct,
+    getProduct: getProduct,
+    getProductDetails:getProductDetails,
     loadStories:loadStories
   };
   return service;
@@ -65,16 +61,60 @@ angular.module('md_gate').factory('Product', function($http,$q){
   }
 
 
-  function get(){
+  function getProduct(data){
     return $http({
-      method:"GET",
-      url:baseUrl+"api/list/products/"
+      method:"POST",
+      url:baseUrl+"api/mob/product/listing",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }
-  function getChildProduct(id){
+  function getProductDetails(id){
     return $http({
       method:"GET",
-      url:baseUrl+"api/list/child/products/"+id
+      url:baseUrl+"api/mob/product/details/"+id,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+});
+
+
+angular.module('md_gate').factory('Booking', function($http,$q){
+  var baseUrl = 'http://127.0.0.1:8000/';
+  var service = {
+    verifyOrder: verifyOrder,
+    createOrder:createOrder,
+    getOrderHistory:getOrderHistory,
+    getOrderDetail:getOrderDetail
+  };
+  return service;
+  function verifyOrder(id){
+    return $http({
+      method:"GET",
+      url:baseUrl+"api/mob/product/create/verify/"+id,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+  function createOrder(data){
+    return $http({
+      method:"POST",
+      url:baseUrl+"api/mob/product/create/request",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+  function getOrderHistory(){
+    return $http({
+      method:"GET",
+      url:baseUrl+"api/mob/product/get/orders",
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+  function getOrderDetail(id){
+    return $http({
+      method:"GET",
+      url:baseUrl+"api/mob/product/get/orders/"+id,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }
 });

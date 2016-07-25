@@ -2,19 +2,16 @@
   <ion-content>
 
     <div class="list">
-      <a class="item item-thumbnail-left" ng-repeat="prod in c.products" href="#/app/product/{{prod[0]}}">
-        <img ng-src="img/apple.png">
-        <h2 class="story-title">{{prod[1]}}</h2>
+      <a class="item item-thumbnail-left" ng-repeat="prod in c.products" href="#/app/pdp/{{prod.pk}}">
+        <img ng-src="http://127.0.0.1:8000{{prod.image_url}}">
+        <h2 class="story-title">{{prod.post_title}}</h2>
+        <p> &#8377; <span>{{prod.price}}</span></p>
+        <p>Available till: {{prod.available_till | date:short}}</p>
       </a>
     </div>
-   <!--fab button -->
-    <!--<div>-->
-      <!--<button class="float-btn">-->
-        <!--<i class="ion-plus "></i>-->
-      <!--</button>-->
-    <!--</div>-->
 
-
+    <ion-infinite-scroll on-infinite="c.loadProduct()" distance="1%">
+    </ion-infinite-scroll>
   </ion-content>
   <!--fab button opening modal-->
   <div class="fixed-outside">
