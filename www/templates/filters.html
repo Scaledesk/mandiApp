@@ -1,39 +1,48 @@
 <ion-modal-view>
-<ion-header-bar>
-  Filters
-</ion-header-bar>
   <ion-content>
+    <div class="row">
+      <div class="col-50">
+        <span style="float: left;">
+          <button class="button button-small button-assertive icon-left ion-close"
+                  ng-click="c.closeModal()">Close</button>
+        </span>
+        <span style="float: right;">Filter By</span>
+      </div>
+      <div class="col-50">
+
+      </div>
+    </div>
     <div class="row">
       <div class="col col-33">
        <ul class="list">
-         <li class="item" data-ng-cloak="#price">Price</li>
-         <li class="item" id="#grade">Grade</li>
-         <li class="item" id="#avail">Availability</li>
-         <li class="item" id="#sort">Sort By</li>
+         <li class="item" ng-click="c.sortBy='price'">Price</li>
+         <li class="item" ng-click="c.sortBy='grade'">Grade</li>
+         <!--<li class="item" ng-click="c.sortBy='availability'">Availability</li>-->
+         <li class="item" ng-click="c.sortBy='sort'">Sort By</li>
        </ul>
       </div>
       <div class="col col-66">
-        <div id="price">
+        <div ng-if="c.sortBy=='price'" id="price">
         <ion-list>
           <ion-checkbox >Rs.200-400</ion-checkbox>
           <ion-checkbox>Rs.500-800</ion-checkbox>
           <ion-checkbox>Rs.1000-above</ion-checkbox>
         </ion-list>
           </div>
-        <div>
+        <div ng-if="c.sortBy=='grade'" id="grade">
           <ion-list>
             <ion-checkbox>Premium</ion-checkbox>
             <ion-checkbox>Regular</ion-checkbox>
           </ion-list>
         </div>
-        <div id="avail">
+        <!--<div ng-if="c.sortBy=='availability'" id="avail">
           <ion-list>
             <ion-checkbox>By Date</ion-checkbox>
             <ion-checkbox>By Location</ion-checkbox>
             <ion-checkbox>By Pincode</ion-checkbox>
           </ion-list>
-        </div>
-        <div id="sort">
+        </div>-->
+        <div ng-if="c.sortBy=='sort'" id="sort">
           <ion-list>
             <ion-checkbox>Price: Low to High</ion-checkbox>
             <ion-checkbox>Price: High to Low</ion-checkbox>
@@ -46,9 +55,13 @@
     <div class="row">
 
     <div class="col col-bottom">
-    <div class="button-bar">
-      <a class="button">Clear Filters</a>
-      <a class="button">Apply</a>
+      <div class="row">
+        <div class="col-50 text-left">
+          <a class="button button-small button-balanced" ng-click="c.clearFilter()">Clear Filters</a>
+        </div>
+        <div class="col-50 text-right">
+          <a class="button button-small button-balanced" ng-click="c.applyFilter()">Apply</a>
+        </div>
       </div>
     </div>
     </div>

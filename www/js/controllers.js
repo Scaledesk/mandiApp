@@ -42,13 +42,15 @@
     var vm = this;
   });
 
-  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product) {
+  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal) {
     var vm = this;
+    vm.sortBy= 'price';
     if(!Authentication.isLoggedIn()){
       $state.go('app.login1');
     }
     var id  = $stateParams.categoryId;
     vm.products = [];
+    vm.no_stocks = false;
     vm.dt = {
       "c_type":"category",
       "entity_name":id,
@@ -56,20 +58,47 @@
     };
 
     vm.loadProduct = function(){
+      if(vm.no_stocks){
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        return;
+      }
       if(vm.products.length>0){
         vm.dt.page_number = vm.dt.page_number+1;
       }
       Product.getProduct(vm.dt).then(function(res){
-        console.log(res);
         if(res.data.status&&res.data.data.total_records>0){
           vm.products = vm.products.concat(res.data.data.all_stocks);
           $scope.$broadcast('scroll.infiniteScrollComplete');
-          console.log(vm.products);
+          if(vm.products.length==res.data.data.total_records){
+            vm.no_stocks = true;
+          }
         }
       },function(error){
         console.log(error);
       });
     };
+
+    $ionicModal.fromTemplateUrl('templates/filters.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    vm.openModal = function() {
+      $scope.modal.show();
+    };
+    vm.closeModal = function() {
+      $scope.modal.hide();
+    };
+    vm.applyFilter = function(){
+      vm.closeModal();
+    };
+    vm.clearFilter = function(){
+      vm.closeModal();
+    };
+
+
   });
 
 

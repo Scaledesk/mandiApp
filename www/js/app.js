@@ -288,4 +288,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/mainWalkthrough");
   }
 });
+
+app.run(function($rootScope, $ionicLoading) {
+  $rootScope.$on('loading:show', function() {
+    $ionicLoading.show({template: '<div class="ui-progress-circular"><ion-spinner class="progress-circular"></ion-spinner></div>'})
+  });
+  $rootScope.$on('loading:hide', function() {
+    $ionicLoading.hide()
+  })
+});
+
 }());
