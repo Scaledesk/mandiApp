@@ -1,5 +1,5 @@
-angular.module('md_gate').factory('Authentication', function($http,$q){
-  var baseUrl = 'http://127.0.0.1:8000/';
+angular.module('md_gate').factory('Authentication', function($http,$q,serverConfig){
+  var baseUrl = serverConfig.baseUrl;
   var service = {
     login: login,
     registration: registration,
@@ -39,8 +39,8 @@ angular.module('md_gate').factory('Authentication', function($http,$q){
 });
 
 
-angular.module('md_gate').factory('Product', function($http,$q){
-  var baseUrl = 'http://127.0.0.1:8000/';
+angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
+  var baseUrl = serverConfig.baseUrl;
   var service = {
     getProduct: getProduct,
     getProductDetails:getProductDetails,
@@ -79,8 +79,8 @@ angular.module('md_gate').factory('Product', function($http,$q){
 });
 
 
-angular.module('md_gate').factory('Booking', function($http,$q){
-  var baseUrl = 'http://127.0.0.1:8000/';
+angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
+  var baseUrl = serverConfig.baseUrl;
   var service = {
     verifyOrder: verifyOrder,
     createOrder:createOrder,
