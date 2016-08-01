@@ -7,9 +7,9 @@
     $scope.logout = function () {
       Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
-            //$cordovaToast.showShortTop('Here is a message').then(function(success) {
-          //  }, function (error) {
-          //  });
+            /*$cordovaToast.showShortTop('Logout successfully').then(function(success) {
+            }, function (error) {
+            });*/
         alert('Logout successfully');
         $state.go('app.home');
       },function(error){
@@ -42,8 +42,9 @@
     var vm = this;
   });
 
-  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal) {
+  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal,serverConfig) {
     var vm = this;
+     vm.baseUrl = serverConfig.baseUrl;
     vm.sortBy= 'price';
     if(!Authentication.isLoggedIn()){
       $state.go('app.login1');
@@ -68,6 +69,7 @@
       Product.getProduct(vm.dt).then(function(res){
         if(res.data.status&&res.data.data.total_records>0){
           vm.products = vm.products.concat(res.data.data.all_stocks);
+          console.log(JSON.stringify(vm.products));
           $scope.$broadcast('scroll.infiniteScrollComplete');
           if(vm.products.length==res.data.data.total_records){
             vm.no_stocks = true;
@@ -101,7 +103,6 @@
 
   });
 
-
   app.controller('ProductCtrl', function ($scope,$http, $stateParams,Product) {
     var vm = this;
     var id  = $stateParams.id;
@@ -122,6 +123,7 @@
       });
     };*/
   });
+
   app.controller('BookingCtrl', function ($scope,$http,$state, $stateParams,$window,Product,Booking) {
     var vm = this;
     var id  = $stateParams.id;
@@ -167,6 +169,7 @@
       });
     }
   });
+
   app.controller('OrderHistoryCtrl', function ($scope,$state,Booking,Authentication) {
     var vm = this;
     if(!Authentication.isLoggedIn()){
@@ -176,7 +179,7 @@
     function getOrderHistory(){
       Booking.getOrderHistory().then(function(res){
         console.log('order history success');
-        console.log(res);
+        console.log(JSON.stringify(res));
         vm.ordersDetail = res.data.all_orders_listing;
       },function(err){
 
@@ -184,6 +187,7 @@
     }
     getOrderHistory();
   });
+
   app.controller('OrderDetail', function ($scope,$state,$stateParams,Booking,Authentication) {
     var vm = this;
     var id  = $stateParams.orderId;
@@ -194,7 +198,7 @@
     function getOrderDetails(){
       Booking.getOrderDetail(id).then(function(res){
         console.log('order details success');
-        console.log(res);
+        console.log(JSON.stringify(res));
         vm.ordersDetail = res.data.all_orders_listing;
       },function(err){
           alert('error '+id);
@@ -217,10 +221,18 @@
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
           alert('Register successfully');
+          /*$cordovaToast.showShortTop('Register successfully!').then(function(success) {
+          }, function (error) {
+            console.log(error);
+          });*/
           $state.go('app.otp');
         }
       },function(error){
         alert('Something Wrong!');
+        /*$cordovaToast.showShortTop('Something Wrong!').then(function(success) {
+        }, function (error) {
+          console.log(error);
+        });*/
       });
     }
     vm.doSellerRegistration = function () {
@@ -260,23 +272,35 @@
     };
   });
 
-  app.controller('LoginCtrl', function ($scope, $state, Authentication,$cordovaToast,$ionicHistory) {
+  app.controller('LoginCtrl', function ($scope,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
     var vm = this;
     vm.doLogin = function (data) {
-     /*if($scope.loginForm.$invalid){
+     if(vm.loginForm.$invalid){
+       alert('invalid username or password');
+       /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
+        });*/
        return false;
-     }*/
+     }
       $ionicHistory.nextViewOptions({historyRoot:true});
+      $rootScope.$broadcast('loading:show');
       Authentication.login(data).then(function (response) {
         console.log(response);
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
         alert('login successfully');
+          $rootScope.$broadcast('loading:hide');
+          /*$cordovaToast.showShortTop('login successfully!').then(function(success) {
+            $state.go('app.home');
+          });*/
           $state.go('app.home');
         }
+      },function(){
+        alert('login successfully');
+        /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
+        });*/
       });
     }
   });
@@ -349,4 +373,37 @@
 
     });
 
+  app.controller('ProfileCtrl', function ($scope, Authentication, $state,Profile) {
+    var vm = this;
+    if(!Authentication.isLoggedIn()){
+      $state.go('app.login1');
+    }
+    Profile.getProfile().then(function(res){
+      console.log('msvhv hjs dvchgsvdch c sch sch s');
+      if(res.data.status){
+        vm.profileData = res.data.profile_data
+      }
+    },function(){
+    });
+
+    vm.updateProfile = function(){
+      if(vm.myForm.$invalid){
+        alert('Some thing wrong');
+        /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
+         });*/
+        return false;
+      }
+
+      Profile.updateProfile(vm.profileData).then(function(res){
+        console.log(res.data.status);
+        if(res.data.status){
+          alert('updated successfully');
+          $state.go('app.account');
+        }
+
+      });
+    };
+
+
+  });
 }());
