@@ -42,11 +42,12 @@
     var vm = this;
   });
 
-  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal,serverConfig) {
+  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
     var vm = this;
      vm.baseUrl = serverConfig.baseUrl;
     vm.sortBy= 'price';
     if(!Authentication.isLoggedIn()){
+      $ionicHistory.nextViewOptions({historyRoot:true});
       $state.go('app.login1');
     }
     var id  = $stateParams.categoryId;
@@ -103,8 +104,9 @@
 
   });
 
-  app.controller('ProductCtrl', function ($scope,$http, $stateParams,Product) {
+  app.controller('ProductCtrl', function ($scope,$http, $stateParams,Product,serverConfig) {
     var vm = this;
+    vm.baseUrl = serverConfig.baseUrl;
     var id  = $stateParams.id;
     vm.product = {};
     Product.getProductDetails(id).then(function(res){
@@ -188,18 +190,57 @@
     getOrderHistory();
   });
 
-  app.controller('OrderDetail', function ($scope,$state,$stateParams,Booking,Authentication) {
+  app.controller('OrderDetail', function ($scope,$state,$stateParams,Booking,Authentication,serverConfig) {
     var vm = this;
     var id  = $stateParams.orderId;
     if(!Authentication.isLoggedIn()){
       $state.go('app.login1');
     }
+    vm.baseUrl = serverConfig.baseUrl;
+    var dd = {
+      "data": {
+        "status": true,
+        "stock_data": {
+          "status": "on_display",
+          "image_url": "/media/uploads/banana1.png",
+          "post_title": "demo apple",
+          "pk": 8,
+          "price": 99,
+          "quantity": 88888,
+          "pincode": "989898",
+          "available_till": "2016-07-23"
+        },
+        "order_data": {
+          "order_date": "2016-07-25",
+          "order_uid": "07a097c83eed435f8cc5d6e7c07f344d",
+          "proposed_price": "495.000",
+          "order_status": "awaiting_confirmation",
+          "pk": 18,
+          "quantity": "5"
+        }
+      },
+      "status": 200,
+      "config": {
+        "method": "GET",
+        "transformRequest": [null],
+        "transformResponse": [null],
+        "url": "http://127.0.0.1:8000/api/get/order/18",
+        "headers": {
+          "Authorization": "Token 842b43aecbd9bb6f07df3fb978a754bef750fa0c",
+          "Accept": "application/json, text/plain, */*"
+        }
+      },
+      "statusText": "OK"
+    };
+
+
+
     vm.ordersDetail = {};
     function getOrderDetails(){
       Booking.getOrderDetail(id).then(function(res){
         console.log('order details success');
         console.log(JSON.stringify(res));
-        vm.ordersDetail = res.data.all_orders_listing;
+        vm.ordersDetail = res.data;
       },function(err){
           alert('error '+id);
       });

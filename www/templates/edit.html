@@ -4,12 +4,21 @@
     <div class="list">
       <label class="item item-input item-floating-label">
         <span class="input-label">Name</span>
-        <input type="text" name="name" ng-model="profile.profileData.name" placeholder="Name" required>
+        <input type="text" name="name" ng-model="profile.profileData.name" placeholder="Name" maxlength="50" required>
+        <div ng-messages="profile.myForm.name.$error" style="color: maroon;">
+          <div ng-message="required">Name is required.</div>
+          <div ng-message="maxlength">Max 50 characters long.</div>
+        </div>
       </label>
+
 
       <label class="item item-input item-floating-label">
         <span class="input-label">Email</span>
-        <input type="email" ng-model="profile.profileData.email" placeholder="Email" required>
+        <input type="email" name="email" ng-model="profile.profileData.email" placeholder="Email" required>
+        <div ng-messages="profile.myForm.email.$error" style="color: maroon;">
+          <div ng-message="required">Email is required.</div>
+          <div ng-message="email">Enter valid email.</div>
+        </div>
       </label>
 
       <label class="item item-input item-floating-label">

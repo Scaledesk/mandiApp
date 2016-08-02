@@ -8,15 +8,15 @@
        <p>Status:</p>
      </div>
      <div class="col col-50">
-       <p>24 Jul,2016</p>
-       <p>3211116789</p>
-       <p>Delivered</p>
+       <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
+       <p>{{OD.ordersDetail.order_data.order_uid}}</p>
+       <p>{{OD.ordersDetail.order_data.order_status.replace('_',' ')}}</p>
      </div>
    </div>
     </div>
     <div class=" list card ">
       <div class="item">
-      <img src="img/lime.png" width="100%" height="auto"></div>
+      <img ng-src="{{OD.baseUrl}}{{OD.ordersDetail.stock_data.image_url}}" width="100%" height="auto"></div>
 
     <div class="item item-body">
       <div class="row">
@@ -27,10 +27,10 @@
         <p>Grand Total</p>
       </div>
       <div class="col col-50">
-        <p>29 Jul,2016</p>
-        <p>200 Kg</p>
-        <p>34/Kg</p>
-        <p>&#8377; 700000</p>
+        <p>NA</p>
+        <p>{{OD.ordersDetail.order_data.quantity}}</p>
+        <p>{{OD.ordersDetail.stock_data.price}}</p>
+        <p>&#8377; {{OD.ordersDetail.order_data.quantity*OD.ordersDetail.stock_data.price}}</p>
       </div>
       </div>
     </div></div>

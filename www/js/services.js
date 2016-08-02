@@ -111,7 +111,7 @@ angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
   function getOrderDetail(id){
     return $http({
       method:"GET",
-      url:baseUrl+"/api/mob/product/get/orders/"+id,
+      url:baseUrl+"/api/get/order/"+id,
       headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }

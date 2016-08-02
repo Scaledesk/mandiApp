@@ -1,5 +1,5 @@
 (function(){
- var app = angular.module('md_gate', ['ionic','angularMoment','ngCordova']);
+ var app = angular.module('md_gate', ['ionic','angularMoment','ngCordova','ngMessages']);
  app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
