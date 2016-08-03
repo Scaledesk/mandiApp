@@ -15,8 +15,8 @@
   });
 });
 app.constant("serverConfig", {
-  //"baseUrl": "http://mandigate.com"
-  "baseUrl": "http://127.0.0.1:8000"
+  "baseUrl": "http://mandigate.com"
+  //"baseUrl": "http://127.0.0.1:8000"
 });
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('get_started',{
