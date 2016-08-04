@@ -1,9 +1,16 @@
 (function() {
   var app = angular.module('md_gate');
-  app.controller('AppCtrl', function ($scope, $ionicModal, Authentication, $state,$cordovaToast, $timeout) {
+  app.controller('AppCtrl', function ($scope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
+    if(Authentication.isLoggedIn()){
+      Profile.getProfile().then(function(res){
+        $scope.profile = res.data.profile_data;
+        console.log(JSON.stringify(res.data.profile_data));
+      });
+    }
+
     $scope.logout = function () {
       Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
