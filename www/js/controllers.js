@@ -1,22 +1,28 @@
 (function() {
   var app = angular.module('md_gate');
-  app.controller('AppCtrl', function ($scope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
+  app.controller('AppCtrl', function ($scope,$ionicHistory, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
     if(Authentication.isLoggedIn()){
       Profile.getProfile().then(function(res){
         $scope.profile = res.data.profile_data;
-        console.log(JSON.stringify(res.data.profile_data));
+        /*if($scope.profile.is_seller==true){
+          $ionicHistory.nextViewOptions({historyRoot:true});
+          $state.go('app.dashboard');
+        }*/
+        console.log(JSON.stringify($scope.profile));
       });
     }
 
     $scope.logout = function () {
       Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
+        window.localStorage['is_seller'] = undefined;
             /*$cordovaToast.showShortTop('Logout successfully').then(function(success) {
             }, function (error) {
             });*/
+        $scope.profile = undefined;
         alert('Logout successfully');
         $state.go('app.home');
       },function(error){
@@ -250,14 +256,14 @@
     vm.doSellerRegistration = function () {
       vm.userData.is_seller = true;
       vm.userData.is_buyer = false;
-      vm.userData.username = vm.userData.email;
+      vm.userData.username = vm.userData.mobile;
       registration();
     };
     vm.doBuyerRegistration = function () {
       vm.userData.is_buyer = true;
       vm.userData.is_seller = false;
       vm.userData.user_type = '';
-      vm.userData.username = vm.userData.email;
+      vm.userData.username = vm.userData.mobile;
       registration();
     };
   });
@@ -284,7 +290,7 @@
     };
   });
 
-  app.controller('LoginCtrl', function ($scope,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
+  app.controller('LoginCtrl', function ($scope,Profile,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
@@ -307,7 +313,15 @@
           /*$cordovaToast.showShortTop('login successfully!').then(function(success) {
             $state.go('app.home');
           });*/
-          $state.go('app.home');
+          Profile.getProfile().then(function(res){
+            if(res.data.profile_data.is_seller==true){
+              $ionicHistory.nextViewOptions({historyRoot:true});
+              window.localStorage['is_seller'] = 'true';
+              $state.go('app.dashboard');
+            } else {
+              $state.go('app.home');
+            }
+          });
         }
       },function(){
         alert('login successfully');
@@ -414,6 +428,45 @@
         }
 
       });
+    };
+
+
+  });
+
+  app.controller('DashboardCtrl', function ($scope,$stateParams,Product,serverConfig) {
+    var vm = this;
+    vm.baseUrl = serverConfig.baseUrl;
+  });
+
+  app.controller('ListSellerItemsCtrl', function ($scope,$stateParams,Product,serverConfig) {
+    var vm = this;
+    vm.products = [];
+    vm.baseUrl = serverConfig.baseUrl;
+    vm.dt = {
+      "c_type":"category",
+      "entity_name":"fruits",
+      "page_number":0
+    };
+    Product.getProduct(vm.dt).then(function(res){
+        vm.products = vm.products.concat(res.data.data.all_stocks);
+    },function(error){
+    });
+  });
+
+  app.controller('AddStockCtrl', function ($scope,$stateParams,Product,serverConfig) {
+    var vm = this;
+    vm.stockData = {};
+    vm.products = [];
+    vm.baseUrl = serverConfig.baseUrl;
+
+
+    vm.addStock = function(){
+      if(vm.myForm.$invalid){
+        /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
+         });*/
+        return false;
+      }
+      alert('success')
     };
 
 

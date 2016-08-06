@@ -40,6 +40,39 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+  $stateProvider.state('app.dashboard', {
+    url: '/dashboard',
+    views:{
+      'menuContent': {
+        templateUrl: 'templates/dashboard.html',
+        controller: 'DashboardCtrl',
+        controllerAs: 'seller'
+      }
+    }
+  });
+
+  $stateProvider.state('app.listSellerItems', {
+    url: '/listSellerItems',
+    views:{
+      'menuContent': {
+        templateUrl: 'templates/listSellerItems.html',
+        controller: 'ListSellerItemsCtrl',
+        controllerAs: 'item'
+      }
+    }
+  });
+
+  $stateProvider.state('app.addStock', {
+    url: '/addStock',
+    views:{
+      'menuContent': {
+        templateUrl: 'templates/AddStock.html',
+        controller: 'AddStockCtrl',
+        controllerAs: 'stock'
+      }
+    }
+  });
+
   $stateProvider.state('app.seller', {
       url: '/seller',
       views: {
@@ -288,7 +321,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 
   if(window.localStorage['SkipIntro']==='true'){
-    $urlRouterProvider.otherwise('/app/home');
+    if(window.localStorage['is_seller']=='true'){
+      $urlRouterProvider.otherwise('/app/dashboard');
+      console.log('sdvscdvgsc hcs gcvgs dg hcsd');
+    } else {
+      $urlRouterProvider.otherwise('/app/home');
+    }
   }else{
     $urlRouterProvider.otherwise("/mainWalkthrough");
   }

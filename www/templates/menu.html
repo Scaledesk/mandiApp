@@ -30,8 +30,11 @@
 
            </div>
          </ion-item>
-        <ion-item menu-close href="#/app/home">
+        <ion-item menu-close ng-if="!profile.is_seller" href="#/app/home">
           Home
+        </ion-item>
+        <ion-item menu-close ng-if="profile.is_seller" href="#/app/dashboard">
+          Dashboard
         </ion-item>
         <ion-item menu-close ng-hide="isAuthenticate()" href="#/app/login">
           Login/Register

@@ -1,0 +1,28 @@
+<ion-view view-title="Add Stock">
+  <ion-content>
+    <form name="stock.myForm" ng-submit="stock.addStock()" novalidate>
+      <div class="list">
+
+
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Name</span>
+          <input type="text" name="name" ng-model="stock.stockData.name" placeholder="Name" minlength="20" maxlength="100" required>
+          <div ng-messages="stock.myForm.name.$error" style="color: maroon;">
+            <div ng-message="required">Name is required.</div>
+            <div ng-message="minlength">Min 20 characters long.</div>
+            <div ng-message="maxlength">Max 100 characters long.</div>
+          </div>
+        </label>
+
+
+
+
+
+      </div>
+      <div class="row">
+        <button type="submit" class="button button-block button-balanced mandi-button" >Add Stock</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>
