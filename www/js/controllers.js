@@ -16,17 +16,25 @@
     }
 
     $scope.logout = function () {
-      Authentication.logoutUser().then(function(data){
+      if(Authentication.logoutUser()){
+        window.localStorage['is_seller'] = undefined;
+        $scope.profile = undefined;
+        alert('Logout successfully');
+        $ionicHistory.nextViewOptions({historyRoot:true});
+        $state.go('app.home');
+      }
+
+      /*Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
         window.localStorage['is_seller'] = undefined;
-            /*$cordovaToast.showShortTop('Logout successfully').then(function(success) {
+            /!*$cordovaToast.showShortTop('Logout successfully').then(function(success) {
             }, function (error) {
-            });*/
+            });*!/
         $scope.profile = undefined;
         alert('Logout successfully');
         $state.go('app.home');
       },function(error){
-      });
+      });*/
     };
   });
 

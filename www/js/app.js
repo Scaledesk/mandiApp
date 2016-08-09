@@ -323,7 +323,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
   if(window.localStorage['SkipIntro']==='true'){
     if(window.localStorage['is_seller']=='true'){
       $urlRouterProvider.otherwise('/app/dashboard');
-      console.log('sdvscdvgsc hcs gcvgs dg hcsd');
     } else {
       $urlRouterProvider.otherwise('/app/home');
     }

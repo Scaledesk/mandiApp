@@ -30,11 +30,13 @@ angular.module('md_gate').factory('Authentication', function($http,$q,serverConf
     }
   }
   function logoutUser(){
-    return $http({
+    /*return $http({
       method:"POST",
       url:baseUrl+"/api/logout/user/",
       headers:{'Authorization':"Token "+window.localStorage['token']}
-    });
+    });*/
+    window.localStorage['token'] = '';
+    return true;
   }
 });
 
