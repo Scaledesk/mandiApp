@@ -4,11 +4,21 @@
       <div class="card">
         <div class="list">
 
-          <label class="item item-input">
-            <input type="text" ng-model="userData.username" placeholder="user name" required>
+          <label class="item item-input item-floating-label">
+            <!--<span class="input-label">Mobile Number</span>-->
+            <input type="number" name="mobile" ng-model="userData.username" placeholder="Mobile Number" required>
+
+            <div ng-if="login.submited" ng-messages="login.loginForm.mobile.$error" style="color: maroon;">
+              <div ng-message="required">Mobile number is required.</div>
+            </div>
+
           </label>
-          <label class="item item-input">
-            <input type="password" ng-model="userData.password"  placeholder="Password" required>
+          <label class="item item-input item-floating-label">
+            <!--<span class="input-label">Password</span>-->
+            <input type="password" name="password" ng-model="userData.password"  placeholder="Password" required>
+            <div ng-if="login.submited" ng-messages="login.loginForm.password.$error" style="color: maroon;">
+              <div ng-message="required">Password is required.</div>
+            </div>
           </label>
 
         </div>

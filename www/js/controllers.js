@@ -1,6 +1,6 @@
 (function() {
   var app = angular.module('md_gate');
-  app.controller('AppCtrl', function ($scope,$ionicHistory, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
+  app.controller('AppCtrl', function ($scope,$ionicHistory,$rootScope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
@@ -11,18 +11,33 @@
           $ionicHistory.nextViewOptions({historyRoot:true});
           $state.go('app.dashboard');
         }*/
-        console.log(JSON.stringify($scope.profile));
       });
     }
 
+    $rootScope.$on('logged_in', function (event, args) {
+      Profile.getProfile().then(function(res){
+        $scope.profile = res.data.profile_data;
+        if(res.data.profile_data.is_seller==true){
+          $ionicHistory.nextViewOptions({historyRoot:true});
+          window.localStorage['is_seller'] = 'true';
+          $state.go('app.dashboard');
+        } else {
+          $state.go('app.home');
+        }
+      });
+    });
+
     $scope.logout = function () {
-      if(Authentication.logoutUser()){
-        window.localStorage['is_seller'] = undefined;
-        $scope.profile = undefined;
-        alert('Logout successfully');
-        $ionicHistory.nextViewOptions({historyRoot:true});
-        $state.go('app.home');
-      }
+      $rootScope.$broadcast('loading:show');
+      $timeout(function(){
+        if(Authentication.logoutUser()){
+          window.localStorage['is_seller'] = undefined;
+          $scope.profile = undefined;
+          $ionicHistory.nextViewOptions({historyRoot:true});
+          $state.go('app.home');
+          $rootScope.$broadcast('loading:hide');
+        }
+      },3000);
 
       /*Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
@@ -303,11 +318,10 @@
       $state.go('app.home');
     }
     var vm = this;
+    vm.submited = false;
     vm.doLogin = function (data) {
+      vm.submited = true;
      if(vm.loginForm.$invalid){
-       alert('invalid username or password');
-       /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
-        });*/
        return false;
      }
       $ionicHistory.nextViewOptions({historyRoot:true});
@@ -316,23 +330,14 @@
         console.log(response);
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
-        alert('login successfully');
-          $rootScope.$broadcast('loading:hide');
           /*$cordovaToast.showShortTop('login successfully!').then(function(success) {
             $state.go('app.home');
           });*/
-          Profile.getProfile().then(function(res){
-            if(res.data.profile_data.is_seller==true){
-              $ionicHistory.nextViewOptions({historyRoot:true});
-              window.localStorage['is_seller'] = 'true';
-              $state.go('app.dashboard');
-            } else {
-              $state.go('app.home');
-            }
-          });
+          $rootScope.$broadcast('logged_in', { message: 'login successfully' });
+          $rootScope.$broadcast('loading:hide');
         }
       },function(){
-        alert('login successfully');
+        alert('invalid mobile number and password');
         /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
         });*/
       });
