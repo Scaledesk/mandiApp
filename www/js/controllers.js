@@ -248,7 +248,7 @@
     getOrderDetails();
   });
 
-  app.controller('RegisterCtrl', function ($scope,$state,$ionicHistory,$cordovaToast, Authentication) {
+  app.controller('RegisterCtrl', function ($scope,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
@@ -262,6 +262,9 @@
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
           alert('Register successfully');
+          vm.submitted = false;
+          vm.userData={};
+          $rootScope.$broadcast('logged_in', { message: 'login successfully' });
           /*$cordovaToast.showShortTop('Register successfully!').then(function(success) {
           }, function (error) {
             console.log(error);
@@ -269,7 +272,7 @@
           $state.go('app.otp');
         }
       },function(error){
-        alert('Something Wrong!');
+        alert('Something Wrong!'+ JSON.stringify(error));
         /*$cordovaToast.showShortTop('Something Wrong!').then(function(success) {
         }, function (error) {
           console.log(error);
@@ -277,17 +280,27 @@
       });
     }
     vm.doSellerRegistration = function () {
-      vm.userData.is_seller = true;
-      vm.userData.is_buyer = false;
-      vm.userData.username = vm.userData.mobile;
-      registration();
+      vm.submitted = true;
+      if(vm.seller.$invalid){
+        return false;
+      } else {
+        vm.userData.is_seller = true;
+        vm.userData.is_buyer = false;
+        vm.userData.username = vm.userData.mobile;
+        registration();
+      }
     };
     vm.doBuyerRegistration = function () {
-      vm.userData.is_buyer = true;
-      vm.userData.is_seller = false;
-      vm.userData.user_type = '';
-      vm.userData.username = vm.userData.mobile;
-      registration();
+      vm.submitted = true;
+      if(vm.buyer.$invalid){
+        return false;
+      } else {
+        vm.userData.is_buyer = true;
+        vm.userData.is_seller = false;
+        vm.userData.user_type = '';
+        vm.userData.username = vm.userData.mobile;
+        registration();
+      }
     };
   });
 
@@ -333,11 +346,14 @@
           /*$cordovaToast.showShortTop('login successfully!').then(function(success) {
             $state.go('app.home');
           });*/
+          data = {};
           $rootScope.$broadcast('logged_in', { message: 'login successfully' });
           $rootScope.$broadcast('loading:hide');
         }
-      },function(){
+      },function(error){
         alert('invalid mobile number and password');
+        console.log('error: '+ JSON.stringify(error));
+        $rootScope.$broadcast('loading:hide');
         /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
         });*/
       });
