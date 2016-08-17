@@ -267,7 +267,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/account',
     views: {
       'menuContent': {
-        templateUrl: 'templates/account.html'
+        templateUrl: 'templates/account.html',
+        controller: 'ProfileCtrl',
+        controllerAs:'profile'
       }
     }
   });

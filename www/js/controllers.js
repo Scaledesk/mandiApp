@@ -438,7 +438,8 @@
       if(res.data.status){
         vm.profileData = res.data.profile_data
       }
-    },function(){
+    },function(err){
+      console.log('error'+JSON.stringify(err));
     });
 
     vm.updateProfile = function(){
