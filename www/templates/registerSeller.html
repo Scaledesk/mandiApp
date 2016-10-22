@@ -16,13 +16,20 @@
           </div>
         </label>
 
-        <label class="item item-input item-floating-label">
+        <label ng-if="register.userData.user_type=='Organization'" class="item item-input item-floating-label">
+          <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="Organization Name" required>
+          <div ng-if="register.submitted" ng-messages="register.seller.fname.$error" style="color: maroon;">
+            <div ng-message="required">Organization Name is required.</div>
+          </div>
+        </label>
+
+        <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
           <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="First Name" required>
           <div ng-if="register.submitted" ng-messages="register.seller.fname.$error" style="color: maroon;">
             <div ng-message="required">First Name is required.</div>
           </div>
         </label>
-        <label class="item item-input item-floating-label">
+        <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
           <input type="text" name="lname" ng-model="register.userData.last_name" placeholder="Last Name" required>
           <div ng-if="register.submitted" ng-messages="register.seller.lname.$error" style="color: maroon;">
             <div ng-message="required">Last Name is required.</div>

@@ -10,7 +10,7 @@
      <div class="col col-50">
        <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
        <p>{{OD.ordersDetail.order_data.order_uid}}</p>
-       <p>{{OD.ordersDetail.order_data.order_status.replace('_',' ')}}</p>
+       <p><label>{{OD.ordersDetail.order_data.order_status.replace('_',' ') | capitalizeFirst}}</label></p>
      </div>
    </div>
     </div>

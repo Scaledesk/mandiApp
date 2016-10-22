@@ -6,18 +6,43 @@
     <form ng-submit="register.doBuyerRegistration()" name="register.buyer" novalidate>
       <div class="card">
         <div class="list">
-          <label class="item item-input item-floating-label">
+
+          <label class="item item-input">
+            <!--<ion-checkbox ng-model="register.isChecked">Organization</ion-checkbox>-->
+            <div class="row">
+              <div class="col-50">
+                <ion-radio ng-model="register.userData.user_type" ng-value="'Individual'" checked>Individual</ion-radio>
+              </div>
+              <div class="col-50">
+                <ion-radio ng-model="register.userData.user_type" ng-value="'Organization'">Organization</ion-radio>
+              </div>
+            </div>
+          </label>
+
+
+
+          <label ng-if="register.userData.user_type=='Organization'" class="item item-input item-floating-label">
+            <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="Organization" required>
+            <div ng-if="register.submitted" ng-messages="register.buyer.fname.$error" style="color: maroon;">
+              <div ng-message="required">First name is required.</div>
+            </div>
+          </label>
+
+          <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
             <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="First Name" required>
             <div ng-if="register.submitted" ng-messages="register.buyer.fname.$error" style="color: maroon;">
               <div ng-message="required">First name is required.</div>
             </div>
           </label>
-          <label class="item item-input item-floating-label">
+
+
+          <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
             <input type="text" name="lname" ng-model="register.userData.last_name" placeholder="Last Name" required>
             <div ng-if="register.submitted" ng-messages="register.buyer.lname.$error" style="color: maroon;">
               <div ng-message="required">Last name is required.</div>
             </div>
           </label>
+
           <label class="item item-input item-floating-label">
             <input type="number" name="mobile" ng-model="register.userData.mobile" placeholder="Mobile" minlength="10" maxlength="10" required>
             <div ng-if="register.submitted" ng-messages="register.buyer.mobile.$error" style="color: maroon;">

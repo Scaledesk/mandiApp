@@ -1,13 +1,17 @@
 <ion-view view-title="Products">
   <ion-content>
 
-    <div class="list">
+    <div ng-show="c.products.length>0" class="list">
       <a class="item item-thumbnail-left" ng-repeat="prod in c.products" href="#/app/pdp/{{prod.pk}}">
         <img ng-src="{{c.baseUrl}}{{prod.image_url}}">
         <h2 class="story-title">{{prod.post_title}}</h2>
         <p> &#8377; <span>{{prod.price}}</span></p>
         <p>Available till: {{prod.available_till | date:short}}</p>
       </a>
+    </div>
+
+    <div ng-show="c.products.length==0" class="row">
+      No Product found
     </div>
 
     <ion-infinite-scroll on-infinite="c.loadProduct()" distance="1%">

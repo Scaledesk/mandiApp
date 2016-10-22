@@ -101,7 +101,7 @@
         return;
       }
       if(vm.products.length>0){
-        vm.dt.page_number = vm.dt.page_number+1;
+        vm.dt.page_number++;
       }
       Product.getProduct(vm.dt).then(function(res){
         if(res.data.status&&res.data.data.total_records>0){
@@ -113,7 +113,9 @@
           }
         }
       },function(error){
-        console.log(error);
+        console.log(JSON.stringify(error));
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        vm.no_stocks = true;
         console.log('this controller');
         console.log(this);
       });
@@ -202,19 +204,21 @@
         "quantity":qn
       };
       Booking.createOrder(dd).then(function(res){
-        alert('success '+ JSON.stringify(res));
+        //alert('success '+ JSON.stringify(res));
         $state.go('app.orderhistory');
       },function(err){
-        alert('error '+JSON.stringify(err));
+        //alert('error '+JSON.stringify(err));
       });
     }
   });
 
-  app.controller('OrderHistoryCtrl', function ($scope,$state,Booking,Authentication) {
+  app.controller('OrderHistoryCtrl', function ($scope,$state,Booking,Authentication,$filter) {
     var vm = this;
     if(!Authentication.isLoggedIn()){
       $state.go('app.login1');
     }
+
+    vm.selected_status = 'awaiting_confirmation';
     vm.ordersDetail = {};
     function getOrderHistory(){
       Booking.getOrderHistory().then(function(res){
@@ -222,10 +226,20 @@
         console.log(JSON.stringify(res));
         vm.ordersDetail = res.data.all_orders_listing;
       },function(err){
-
       });
     }
     getOrderHistory();
+
+
+    $scope.sorting = function(ddd){
+      if(ddd = 'order_date'){
+        vm.ordersDetail = $filter('filter')(vm.ordersDetail, {order_date:ddd}, true);
+      } else {
+        vm.ordersDetail = $filter('filter')(vm.ordersDetail, {proposed_price:ddd}, true);
+      }
+    }
+
+
   });
 
   app.controller('OrderDetail', function ($scope,$state,$stateParams,Booking,Authentication,serverConfig) {
@@ -287,6 +301,12 @@
         vm.userData.is_seller = true;
         vm.userData.is_buyer = false;
         vm.userData.username = vm.userData.mobile;
+        if(vm.userData.user_type=='Individual'){
+          vm.userData.is_organization = 0;
+        } else {
+          vm.userData.is_organization = 1;
+          vm.userData.last_name = '';
+        }
         registration();
       }
     };
@@ -297,8 +317,13 @@
       } else {
         vm.userData.is_buyer = true;
         vm.userData.is_seller = false;
-        vm.userData.user_type = '';
         vm.userData.username = vm.userData.mobile;
+        if(vm.userData.user_type=='Individual'){
+          vm.userData.is_organization = 0;
+        } else {
+          vm.userData.is_organization = 1;
+          vm.userData.last_name = '';
+        }
         registration();
       }
     };

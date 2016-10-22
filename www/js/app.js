@@ -1,5 +1,5 @@
 (function(){
- var app = angular.module('md_gate', ['ionic','angularMoment','ngCordova','ngMessages']);
+ var app = angular.module('md_gate', ['ionic','angularMoment','ngCordova','ngMessages','ionic-native-transitions']);
  app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -16,8 +16,11 @@
 });
 app.constant("serverConfig", {
   "baseUrl": "http://mandigate.com"
+  //"baseUrl": "http://10.0.2.2"
   //"baseUrl": "http://127.0.0.1:8000"
+  //"baseUrl": "http://192.168.1.20:8000"
 });
+
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('get_started',{
     url: "/mainWalkthrough",
@@ -340,6 +343,13 @@ app.run(function($rootScope, $ionicLoading) {
   $rootScope.$on('loading:hide', function() {
     $ionicLoading.hide()
   })
+});
+
+app.filter('capitalizeFirst', function() {
+  return function(input) {
+    var reg = /([^\W_]+[^\s-]*) */g;
+    return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+  }
 });
 
 }());
