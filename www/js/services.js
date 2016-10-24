@@ -85,7 +85,8 @@ angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
     verifyOrder: verifyOrder,
     createOrder:createOrder,
     getOrderHistory:getOrderHistory,
-    getOrderDetail:getOrderDetail
+    getOrderDetail:getOrderDetail,
+    getPincodeLocation:getPincodeLocation
   };
   return service;
   function verifyOrder(id){
@@ -95,6 +96,14 @@ angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
       headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }
+
+  function getPincodeLocation(pincode){
+    return $http({
+      method:"GET",
+      url:baseUrl+"/web/get/pincode/location/"+pincode
+    });
+  }
+
   function createOrder(data){
     return $http({
       method:"POST",

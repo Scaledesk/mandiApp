@@ -1,0 +1,28 @@
+<ion-modal-view>
+  <ion-content>
+
+    <div class="row text-center">
+      <div class="col col-100">
+        <h4>Quantity</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-100">
+        <div class="list list-inset">
+          <label class="item item-input">
+            <input type="number" ng-model="B.quantity" placeholder="0 kg" ng-focus="B.quantityError=false">
+          </label>
+          <p ng-if="B.quantityError" style="color: maroon">Quantity must be greater than or equal to 100 kg</p>
+          <p ng-if="B.quantityError" style="color: maroon">Available Quantity: {{B.product.quantity}}</p>
+        </div>
+      </div>
+     </div>
+    <div class="row">
+      <div class="col col-100">
+        <button class="button button-block button-positive" ng-click="getQunatity()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

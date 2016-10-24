@@ -1,0 +1,41 @@
+<ion-modal-view>
+  <ion-content>
+    <div class="row text-center">
+      <div class="col col-100">
+        <h4>Address Details</h4>
+      </div>
+    </div>
+    <form name="B.addressForm">
+    <div class="row">
+      <div class="col col-100">
+
+        <div class="list list-inset">
+
+          <label class="item item-input">
+            <!--<input type="number" name="pincode" ng-model="B.address.pincode" placeholder="pincode">-->
+            <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="B.address.pincode" item-view-value-key="pincode" item-value-key="pincode" items-method="callbackMethod(query)" max-selected-items="1" items-clicked-method="clickedMethod(callback)" placeholder="select pincode" />
+          </label>
+          <label class="item item-input">
+            <input type="text" ng-model="B.address.location" readonly placeholder="location">
+          </label>
+
+          <label class="item item-input">
+            <input type="text" name="" ng-model="B.address.address" placeholder="Address">
+          </label>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-100">
+        <button class="button button-block button-positive" ng-click="getAddress()">
+          Submit
+        </button>
+      </div>
+    </div>
+
+    </form>
+
+  </ion-content>
+</ion-modal-view>

@@ -28,23 +28,21 @@
     </div>
       <div class="row">
         <div class="col col-90">
-        <p>Priya Sharma</p>
+        <p>{{B.profile.name}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col col-90">
-          <p>214D, Sector 34<br>
-            Noida, U.P<br>
-            Pincode : 240331</p>
+          <p>{{B.address.address}}<br>
+            Pincode : {{B.address.pincode}}</p>
         </div>
-        <div class="col col-10"><i class="ion-edit"></i></div>
+        <div class="col col-10" ng-click="showpincodemodal()"><i class="ion-edit"></i></div>
         <hr>
       </div>
       <div class="row">
         <div class="col col-90">
-          <p>Mobile : 9977676765</p>
+          <p>Mobile : {{B.profile.phone_number}}</p>
         </div>
-        <div class="col col-10"><i class="ion-edit"></i></div>
       </div>
     </div>
     <div ng-if="B.verified" class="card">
@@ -53,14 +51,13 @@
       </div>
       <div class="item item-text-wrap">
         <div class="item item-thumbnail-left">
-          <img ng-src="http://127.0.0.1:8000{{B.product.image_url}}">
+          <img ng-src="{{B.baseUrl}}{{B.product.image_url}}">
           <h3>{{B.product.post_title}}</h3>
           <p>Cash On Delivery</p>
           <p>Payment : &#8377; {{B.product.price*B.quantity}}</p>
-          <p>Estimated Delivery : 15 Jun,2015</p>
+          <!--<p>Estimated Delivery : 15 Jun,2015</p>-->
         </div>
       </div>
-
     </div>
     <div ng-if="!B.verified" class="card">
       <div class="item item-divider">

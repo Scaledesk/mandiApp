@@ -1,5 +1,5 @@
 (function(){
- var app = angular.module('md_gate', ['ionic','angularMoment','ngCordova','ngMessages','ionic-native-transitions']);
+ var app = angular.module('md_gate', ['ionic','angularMoment','ion-autocomplete','ngCordova','ngMessages','ionic-native-transitions']);
  app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -15,10 +15,10 @@
   });
 });
 app.constant("serverConfig", {
-  "baseUrl": "http://mandigate.com"
+  //"baseUrl": "http://mandigate.com"
   //"baseUrl": "http://10.0.2.2"
   //"baseUrl": "http://127.0.0.1:8000"
-  //"baseUrl": "http://192.168.1.20:8000"
+  "baseUrl": "http://192.168.1.20:8000"
 });
 
 app.config(function($stateProvider, $urlRouterProvider) {

@@ -6,7 +6,8 @@
     };
     if(Authentication.isLoggedIn()){
       Profile.getProfile().then(function(res){
-        $scope.profile = res.data.profile_data;
+        //$scope.profile = res.data.profile_data;
+        $rootScope.profile = res.data.profile_data;
         /*if($scope.profile.is_seller==true){
           $ionicHistory.nextViewOptions({historyRoot:true});
           $state.go('app.dashboard');
@@ -16,7 +17,8 @@
 
     $rootScope.$on('logged_in', function (event, args) {
       Profile.getProfile().then(function(res){
-        $scope.profile = res.data.profile_data;
+        $rootScope.profile = res.data.profile_data;
+        //$scope.profile = res.data.profile_data;
         if(res.data.profile_data.is_seller==true){
           $ionicHistory.nextViewOptions({historyRoot:true});
           window.localStorage['is_seller'] = 'true';
@@ -32,7 +34,8 @@
       $timeout(function(){
         if(Authentication.logoutUser()){
           window.localStorage['is_seller'] = undefined;
-          $scope.profile = undefined;
+          //$scope.profile = undefined;
+          $rootScope.profile = undefined;
           $ionicHistory.nextViewOptions({historyRoot:true});
           $state.go('app.home');
           $rootScope.$broadcast('loading:hide');
@@ -166,48 +169,140 @@
     };*/
   });
 
-  app.controller('BookingCtrl', function ($scope,$http,$state, $stateParams,$window,Product,Booking) {
+  app.controller('BookingCtrl', function ($scope,serverConfig,$http,$state, $stateParams,$window,Product,Booking,$ionicModal,$ionicPopup,$rootScope) {
     var vm = this;
     var id  = $stateParams.id;
+    vm.baseUrl = serverConfig.baseUrl;
     vm.product = {};
     vm.order_id = undefined;
     vm.verified = undefined;
-    vm.quantity = 1;
+    vm.quantity = undefined;
+    vm.quantityError = false;
+    vm.address = {};
+    vm.profile = $rootScope.profile;
+    console.log('profile:' + JSON.stringify(vm.profile));
+    $rootScope.$broadcast('loading:show');
+    $ionicModal.fromTemplateUrl('templates/getQuantity.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.quantityModal = modal;
+    });
+
     Booking.verifyOrder(id).then(function(res){
           console.log('verify');
           console.log(res);
       if(res.data.bank_verified && res.data.success){
         vm.order_id = res.data.order_id;
         vm.verified = true;
-        console.log(vm.verified);
-        console.log(vm.order_id);
+        $rootScope.$broadcast('loading:hide');
+        $scope.quantityModal.show();
       } else {
         vm.verified = false;
       }
     },function(){
       console.log('verify error');
+      $rootScope.$broadcast('loading:hide');
       console.log(res);
     });
+
     Product.getProductDetails(id).then(function(res){
       console.log(res);
       vm.product = res.data;
       console.log(JSON.stringify(vm.product));
     });
+
+
+
+    $ionicModal.fromTemplateUrl('templates/getpincode.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.pincodeModal = modal;
+    });
+
+    $scope.showpincodemodal=function(){
+      $scope.pincodeModal.show();
+    };
+    $scope.showquantitymodal=function(){
+      $scope.quantityModal.show();
+    };
+
+
+    $scope.getQunatity = function(){
+      if(vm.quantity<100 ||vm.quantity==undefined || vm.quantity > vm.product.quantity){
+
+        vm.quantityError=true;
+
+        return false;
+      }
+      else {
+        $scope.quantityModal.hide();
+        $scope.pincodeModal.show();
+      }
+    };
+
+    $scope.getAddress = function(){
+      if(vm.addressForm.$valid){
+        console.log(JSON.stringify(vm.address));
+        $scope.pincodeModal.hide();
+      } else {
+        return false;
+      }
+    };
+
+
+    $scope.callbackMethod = function(query){
+     if(query.length>2)
+       return $http.get(vm.baseUrl+'/web/get/pincodes?search='+query);
+    };
+
+    $scope.clickedMethod = function(callback){
+      //console.log(JSON.stringify(callback.item.pincode));
+      var pincode = callback.item.pincode;
+      console.log(pincode);
+      Booking.getPincodeLocation(pincode).then(function(res){
+        vm.address.location = res.data.location;
+      }, function(err){
+        alert('invalid pincode');
+        console.log(JSON.stringify(err));
+      })
+    };
+
+    /*vm.openModal = function() {
+      $scope.modal.show();
+    };
+    vm.closeModal = function() {
+      $scope.modal.hide();
+    };*/
+
+
+
     vm.placeOrder = function(qn){
       if(qn==undefined||qn==''||qn==0){
         $window.document.getElementById('quantity').focus();
         return false;
       }
+      $rootScope.$broadcast('loading:show');
       var dd ={
         "stock_id":id,
         "order_id":vm.order_id,
-        "quantity":qn
+        "quantity":qn,
+        "pincode":vm.address.pincode,
+        "address":vm.address.address
       };
       Booking.createOrder(dd).then(function(res){
         //alert('success '+ JSON.stringify(res));
-        $state.go('app.orderhistory');
+        $rootScope.$broadcast('loading:hide');
+        $ionicPopup.alert({
+          title: 'Order Completed',
+          template: 'Your Order has been sent for review we will inform you when your order in confirmed!'
+        }).then(function(){
+          $state.go('app.orderDetail',{orderId:vm.order_id});
+        });
       },function(err){
         //alert('error '+JSON.stringify(err));
+        $rootScope.$broadcast('loading:hide');
       });
     }
   });
