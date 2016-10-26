@@ -10,15 +10,15 @@
       window.open= window.cordova.InAppBrowser.open;
     }
     if (window.StatusBar) {
-      StatusBar.styleDefault();
+       StatusBar.styleDefault();
     }
   });
 });
 app.constant("serverConfig", {
-  "baseUrl": "http://mandigate.com"
+  //"baseUrl": "http://mandigate.com"
   //"baseUrl": "http://10.0.2.2"
   //"baseUrl": "http://127.0.0.1:8000"
-  //"baseUrl": "http://192.168.1.20:8000"
+  "baseUrl": "http://192.168.1.20:8000"
 });
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -221,7 +221,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/notification',
     views: {
       'menuContent': {
-        templateUrl: 'templates/notification.html'
+        templateUrl: 'templates/notification.html',
+        controller:'NotificationCtrl',
+        controllerAs:'N'
       }
     }
   });

@@ -45,7 +45,8 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
   var service = {
     getProduct: getProduct,
     getProductDetails:getProductDetails,
-    loadStories:loadStories
+    loadStories:loadStories,
+    getNotification:getNotification
   };
   return service;
 
@@ -61,6 +62,14 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
       });
   }
 
+
+  function getNotification(){
+    return $http({
+      method:"GET",
+      url:baseUrl+"/api/mob/get_all_notifications",
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
 
   function getProduct(data){
     return $http({

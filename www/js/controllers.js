@@ -618,7 +618,23 @@
       }
       alert('success')
     };
-
-
   });
+
+
+  app.controller('NotificationCtrl', function ($scope,$stateParams,Product,serverConfig) {
+      var vm = this;
+      vm.baseUrl = serverConfig.baseUrl;
+      vm.getNotification = function(){
+          Product.getNotification().then(function(res){
+            //console.log('not:'+JSON.stringify(res))
+            vm.notification = res.data;
+            console.log('not:'+JSON.stringify(vm.notification));
+          },function(err){
+            console.log('error:'+JSON.stringify(err))
+          })
+      };
+      vm.getNotification();
+  });
+
+
 }());

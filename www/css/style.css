@@ -172,4 +172,12 @@ padding: 10px;
   border-radius: 50% !important;
 }
 
+
+.notif-text{
+  background-color: #f6f7f9;
+}
+.read_notif{
+  background-color: #fff !important;
+}
+
 /*fab button ends*/
