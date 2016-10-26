@@ -1,40 +1,46 @@
 <ion-view view-title="Product Description">
   <ion-content>
     <div class="list card">
-     <div>
-       <div class="item item-image">
-         <div class="">
-         <img ng-src="{{p.baseUrl}}{{p.product.image_url}}" style="height: 300px;width: auto;" class="pdp-img">
-         </div>
-       </div>
-         <div class="item item-body">
-         <div class="row">
-           <p>{{p.product.post_title}}</p>
-         </div>
-         <div class="row">
-           <div class=" col col-50">
-             <p>Price :</p>
-             <p>Quantity:</p>
-             <p>Pincode:</p>
-             <p>Availability By:</p>
-             <p>Delivery:</p>
-           </div>
-           <div class="col col-50">
-             <p>Rs. {{p.product.price}}</p>
-             <p>{{p.product.quantity}} Kg</p>
-             <p>{{p.product.pincode}}</p>
-             <p>{{p.product.available_till|date:short}}</p>
-             <p>{{p.product.available_till|date:short}}</p>
-           </div>
-         </div>
-         </div>
-       <div class="row">
-         <a href="#/app/orp/{{p.product.pk}}" class="button button-block button-positive mandi-button">
-           BUY
-         </a>
-       </div>
-     </div>
+      <div>
+        <div class="item item-image">
+          <div class="">
+            <img ng-src="{{p.baseUrl}}{{p.product.image_url}}" class="pdp-img">
+          </div>
+        </div>
+        <div class="item item-body">
+          <div class="row p-t-10 p-b-30">
+            <div class="col text-center">
+              <div class="f-24 w-500">{{p.product.post_title}}</div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=" col col-50">
+              <p>Price :</p>
+              <p>Quantity:</p>
+              <p>Pincode:</p>
+              <p>Availability By:</p>
+              <p>Delivery:</p>
+            </div>
+            <div class="col col-50">
+              <p>Rs. {{p.product.price}}</p>
+              <p>{{p.product.quantity}} Kg</p>
+              <p>{{p.product.pincode}}</p>
+              <p>{{p.product.available_till|date:short}}</p>
+              <p>{{p.product.available_till|date:short}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <a href="#/app/orp/{{p.product.pk}}" class="button button-block button-positive mandi-button">
+            BUY
+          </a>
+        </div>
+
+
+      </div>
     </div>
 
-    </ion-content>
-  </ion-view>
+  </ion-content>
+</ion-view>

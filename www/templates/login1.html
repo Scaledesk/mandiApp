@@ -1,36 +1,51 @@
 <ion-view>
   <ion-content>
     <form name="login.loginForm" ng-submit="login.doLogin(userData)" novalidate>
-      <div class="card">
-        <div class="list">
+      <div class="login-bg">
+        <div class="width-100">
+          <h3 class="text-center white">Login</h3>
 
-          <label class="item item-input item-floating-label">
-            <!--<span class="input-label">Mobile Number</span>-->
-            <input type="number" name="mobile" ng-model="userData.username" placeholder="Mobile Number" required>
 
-            <div ng-if="login.submited" ng-messages="login.loginForm.mobile.$error" style="color: maroon;">
-              <div ng-message="required">Mobile number is required.</div>
+          <div class="card p-0">
+            <div class="list">
+
+              <label class="item item-input item-floating-label">
+                <!--<span class="input-label">Mobile Number</span>-->
+                <input type="number" name="mobile" ng-model="userData.username" placeholder="Mobile Number" required>
+
+                <div ng-if="login.submited" ng-messages="login.loginForm.mobile.$error" style="color: maroon;">
+                  <div ng-message="required">Mobile number is required.</div>
+                </div>
+
+              </label>
+              <label class="item item-input item-floating-label">
+                <!--<span class="input-label">Password</span>-->
+                <input type="password" name="password" ng-model="userData.password"  placeholder="Password" required>
+                <div ng-if="login.submited" ng-messages="login.loginForm.password.$error" style="color: maroon;">
+                  <div ng-message="required">Password is required.</div>
+                </div>
+              </label>
+
+              <div class="text-right p-20">
+                <a href="#/app/forget" >Forget Password?</a>
+              </div>
+
+              <label class="item item-input item-floating-label p-0">
+                <button type="submit" class="mandi-login-btn">
+                  <p>LOGIN</p>
+                </button>
+              </label>
+
+
+
             </div>
-
-          </label>
-          <label class="item item-input item-floating-label">
-            <!--<span class="input-label">Password</span>-->
-            <input type="password" name="password" ng-model="userData.password"  placeholder="Password" required>
-            <div ng-if="login.submited" ng-messages="login.loginForm.password.$error" style="color: maroon;">
-              <div ng-message="required">Password is required.</div>
-            </div>
-          </label>
-
+          </div>
         </div>
       </div>
-      <div class="row">
-        <button type="submit" class="button button-block button-positive">
-          LOGIN
-        </button>
-      </div>
+
+
+
     </form>
-    <div class="text-center">
-      <a href="#/app/forget" >Forget Password?</a>
-    </div>
+
   </ion-content>
 </ion-view>
