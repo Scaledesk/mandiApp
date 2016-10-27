@@ -235,6 +235,10 @@ padding: 10px;
   color: #58a466!important;
 }
 
+.bg{
+  background-color: #58a466!important;;
+}
+
 .anchor-tag{
   display: block;
   text-decoration: none;
