@@ -44,9 +44,13 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
   var baseUrl = serverConfig.baseUrl;
   var service = {
     getProduct: getProduct,
+    getMyProduct: getMyProduct,
     getProductDetails:getProductDetails,
     loadStories:loadStories,
-    getNotification:getNotification
+    getNotification:getNotification,
+    getAvailableProduct:getAvailableProduct,
+    getAvailableGradeProduct:getAvailableGradeProduct,
+    addStockProduct:addStockProduct
   };
   return service;
 
@@ -62,6 +66,16 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
       });
   }
 
+
+
+  function addStockProduct(data){
+    return $http({
+      method:"POST",
+      url:baseUrl+"/api/mob/createposting/",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
 
   function getNotification(){
     return $http({
@@ -79,6 +93,15 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
       headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }
+
+  function getMyProduct(){
+    return $http({
+      method:"GET",
+      url:baseUrl+"/api/mob/getsellerstocks",
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+
   function getProductDetails(id){
     return $http({
       method:"GET",
@@ -86,6 +109,24 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
       headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }
+
+  function getAvailableProduct(ctype){
+    return $http({
+      method:"GET",
+      url:baseUrl+"/api/mob/getproductcategories?c_type="+ctype,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+
+  function getAvailableGradeProduct(id){
+    return $http({
+      method:"GET",
+      url:baseUrl+"/web/get/products/"+id,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+
+
 });
 
 angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){

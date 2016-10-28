@@ -4,53 +4,54 @@
       <div class="list">
 
 
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Product</span>
-          <!--<ion-select [(ngModel)]="product">
-            <ion-option value="f" selected="true">Female</ion-option>
-            <ion-option value="m">Male</ion-option>
-          </ion-select>-->
-
-          <select ng-model="stock.stockData.product">
-            <option value="">Select Product</option>
-            <option value="1">dcbshgcd</option>
-            <option value="2">csbchjs</option>
-            <option value="3">cnbs hdbs chj</option>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Product Category
+          </div>
+          <select name="category" ng-model="stock.stockData.category" ng-change="stock.getProduct(stock.stockData.category)" required>
+            <option value="grains">Grains</option>
+            <option value="veges">Vegetables</option>
+            <option value="fruits">Fruits</option>
           </select>
+          <div ng-messages="stock.myForm.category.$error" style="color: maroon;">
+            <div ng-message="required">select category</div>
+          </div>
         </label>
 
-
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Grade Product</span>
-          <!--<ion-select [(ngModel)]="product">
-            <ion-option value="f" selected="true">Female</ion-option>
-            <ion-option value="m">Male</ion-option>
-          </ion-select>-->
-
-          <select ng-model="stock.stockData.product">
-            <option value="">Select Grade Product</option>
-            <option value="1">dcbshgcd</option>
-            <option value="2">csbchjs</option>
-            <option value="3">cnbs hdbs chj</option>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Select Product
+          </div>
+          <select name="product" ng-model="stock.stockData.product" ng-change="stock.getGradeProduct(stock.stockData.product)" required>
+            <option ng-repeat="p in stock.products" value="{{p.pk}}">{{p.fields.product_name}}</option>
           </select>
-        </label>
-
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Title</span>
-          <input type="text" name="title" ng-model="stock.stockData.title" placeholder="Title" minlength="20" maxlength="100" required>
-          <div ng-messages="stock.myForm.title.$error" style="color: maroon;">
-            <div ng-message="required">Title is required.</div>
-            <div ng-message="minlength">Min 20 characters long.</div>
-            <div ng-message="maxlength">Max 100 characters long.</div>
+          <div ng-messages="stock.myForm.product.$error" style="color: maroon;">
+            <div ng-message="required">select product</div>
           </div>
         </label>
 
 
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Pincode</span>
-          <input type="text" name="pincode" ng-model="stock.stockData.pincode" placeholder="Name" minlength="6" maxlength="6" required>
-          <div ng-messages="stock.myForm.pincode.$error" style="color: maroon;">
-            <div ng-message="required">Pincode is required.</div>
+        <label ng-if="stock.gradeProduct.length>0" class="item item-input item-select">
+          <div class="input-label">
+            Grade Product
+          </div>
+          <select name="gradeP" ng-model="stock.stockData.gradeP" required>
+            <option ng-repeat="g in stock.gradeProduct" value="{{g[0]}}">{{g[1]}}</option>
+          </select>
+          <div ng-messages="stock.myForm.gradeP.$error" style="color: maroon;">
+            <div ng-message="required">select grade product</div>
+          </div>
+        </label>
+
+        <label ng-if="stock.gradeProductQuality.length>0" class="item item-input item-select">
+          <div class="input-label">
+            Grade Product Quality
+          </div>
+          <select name="gradePQ" ng-model="stock.stockData.gradePQ" required>
+            <option ng-repeat="q in stock.gradeProductQuality" value="{{q[0]}}">{{q[1]}}</option>
+          </select>
+          <div ng-messages="stock.myForm.gradePQ.$error" style="color: maroon;">
+            <div ng-message="required">select grade product quality</div>
           </div>
         </label>
 
@@ -64,12 +65,22 @@
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Available till date</span>
-          <input type="text" name="available_date" ng-model="stock.stockData.available_date" placeholder="Available Date" required>
+          <input type="date" name="available_date" ng-model="stock.stockData.available_date" placeholder="Available Date" required>
           <div ng-messages="stock.myForm.available_date.$error" style="color: maroon;">
             <div ng-message="required">Available date is required.</div>
           </div>
         </label>
 
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Pincode</span>
+          <input type="text" name="pincode" ng-model="stock.stockData.pincode" placeholder="pincode" minlength="6" maxlength="6" required>
+          <div ng-messages="stock.myForm.pincode.$error" style="color: maroon;">
+            <div ng-message="required">Pincode is required.</div>
+            <div ng-message="minlength">Invalid pin code</div>
+            <div ng-message="maxlength">Invalid pin code</div>
+          </div>
+        </label>
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Price</span>
@@ -78,9 +89,6 @@
             <div ng-message="required">Price is required.</div>
           </div>
         </label>
-
-
-
 
 
       </div>

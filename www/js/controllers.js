@@ -198,6 +198,7 @@
         $rootScope.$broadcast('loading:hide');
         $scope.quantityModal.show();
       } else {
+        $rootScope.$broadcast('loading:hide')
         vm.verified = false;
       }
     },function(){
@@ -588,38 +589,118 @@
     vm.baseUrl = serverConfig.baseUrl;
   });
 
-  app.controller('ListSellerItemsCtrl', function ($scope,$stateParams,Product,serverConfig) {
+  app.controller('ListSellerItemsCtrl', function ($scope,$stateParams,$rootScope,Product,serverConfig) {
     var vm = this;
     vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
-    vm.dt = {
-      "c_type":"category",
-      "entity_name":"fruits",
-      "page_number":0
-    };
-    Product.getProduct(vm.dt).then(function(res){
-        vm.products = vm.products.concat(res.data.data.all_stocks);
+    $rootScope.$broadcast('loading:show');
+    Product.getMyProduct().then(function(res){
+        vm.products = vm.products.concat(res.data);
+        console.log('sss:'+JSON.stringify(res.data));
+        //vm.products = vm.products.concat(res.data.data.all_stocks);
+      $rootScope.$broadcast('loading:hide');
     },function(error){
+      $rootScope.$broadcast('loading:hide');
     });
   });
 
-  app.controller('AddStockCtrl', function ($scope,$stateParams,Product,serverConfig) {
+  app.controller('AddStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
     var vm = this;
     vm.stockData = {};
     vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
+    vm.ddd = {};
+    vm.getProduct = function (ctype) {
+      $rootScope.$broadcast('loading:show');
+      Product.getAvailableProduct(ctype).then(function(res){
+        vm.products = res.data;
+        console.log(JSON.stringify(res.data));
+        $rootScope.$broadcast('loading:hide');
+      },function(error){
+        $rootScope.$broadcast('loading:hide');
+        console.log(JSON.stringify(error));
+      });
+    };
 
+    vm.getGradeProduct = function(id){
+      Product.getAvailableGradeProduct(id).then(function(res){
+        vm.gradeProduct = res.data[0];
+        vm.gradeProductQuality = res.data[1];
+        console.log('grade: '+JSON.stringify(res.data[0]));
+        console.log('grade quality: '+JSON.stringify(res.data[1]));
+        $rootScope.$broadcast('loading:hide');
+      },function(error){
+        $rootScope.$broadcast('loading:hide');
+        console.log(JSON.stringify(error));
+      });
+    };
 
     vm.addStock = function(){
       if(vm.myForm.$invalid){
-        /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
-         });*/
+        $cordovaToast.showShortTop('invalid data!').then(function(success) {
+         });
         return false;
       }
-      alert('success')
+
+      console.log(JSON.stringify(vm.stockData));
+      if(vm.stockData.category=='fruits'){
+        vm.ddd = {
+          "c_type":vm.stockData.category,
+          "fruits_product" : vm.stockData.product,
+          "fruits_grade_product": vm.stockData.gradeP,
+          "fruits_grade_quality": vm.stockData.gradePQ,
+          "fruits_quantity": vm.stockData.quantity,
+          "fruits_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
+          "fruits_pincode":vm.stockData.pincode,
+          "fruits_price": vm.stockData.price
+        };
+      } else if(vm.stockData.category=='grains'){
+        vm.ddd = {
+          "c_type":vm.stockData.category,
+          "grains_product" : vm.stockData.product,
+          "grains_grade_product":vm.stockData.gradeP,
+          "grains_grade_quality": vm.stockData.gradePQ,
+          "grains_quantity": vm.stockData.quantity,
+          "grains_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
+          "grains_pincode": vm.stockData.pincode,
+          "grains_price": vm.stockData.price
+        };
+      } else {
+        vm.ddd = {
+          "c_type":vm.stockData.category,
+          "veges_product" : vm.stockData.product,
+          "veges_grade_product": vm.stockData.gradeP,
+          "veges_grade_quality": vm.stockData.gradePQ,
+          "veges_quantity": vm.stockData.quantity,
+          "veges_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
+          "veges_pincode": vm.stockData.pincode,
+          "veges_price": vm.stockData.price
+        };
+      }
+      console.log('request data: '+JSON.stringify(vm.ddd));
+      $rootScope.$broadcast('loading:show');
+      Product.addStockProduct(vm.ddd).then(function(res){
+        console.log('success:'+JSON.stringify(res));
+        $rootScope.$broadcast('loading:hide');
+        $ionicPopup.alert({
+          title: 'Successfully Posted',
+          template: 'Your stock has been successfully posted!'
+        }).then(function(){
+            $state.go('app.listSellerItems');
+        });
+      },function(err){
+        $rootScope.$broadcast('loading:hide');
+        console.log(JSON.stringify(err));
+      })
+
+
+
+
+
+
+
     };
   });
-
 
   app.controller('NotificationCtrl', function ($scope,$stateParams,Product,serverConfig) {
       var vm = this;

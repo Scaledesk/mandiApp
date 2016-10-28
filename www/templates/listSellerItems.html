@@ -4,10 +4,15 @@
     <div class="list">
       <a class="item item-thumbnail-left" ng-repeat="prod in item.products" href="#/app/pdp/{{prod.pk}}">
         <img ng-src="{{item.baseUrl}}{{prod.image_url}}">
-        <h2 class="story-title">{{prod.post_title}}</h2>
-        <p> &#8377; <span>{{prod.price}}</span></p>
-        <p>Available till: {{prod.available_till | date:short}}</p>
+        <h2 class="story-title">{{prod.fields.post_title}}</h2>
+        <p> &#8377; <span>{{prod.fields.price}}</span></p>
+        <p>Available till: {{prod.fields.available_till | date:short}}</p>
       </a>
+    </div>
+
+    <div ng-if="item.products.length==0" class="list">
+      <p>No Stock Found</p>
+      <a href="#/app/addStock">Add Stock</a>
     </div>
 
   </ion-content>

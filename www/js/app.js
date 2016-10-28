@@ -21,6 +21,7 @@ app.constant("serverConfig", {
   //"baseUrl": "http://192.168.1.20:8000"
 });
 
+
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('get_started',{
     url: "/mainWalkthrough",
