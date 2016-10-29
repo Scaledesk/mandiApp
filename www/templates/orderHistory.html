@@ -44,7 +44,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.awaiting_confirmation.length==0" class="row">
@@ -58,7 +58,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.delivered.length==0" class="row">
@@ -71,7 +71,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.cancelled.length==0" class="row">
@@ -85,7 +85,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.completed.length==0" class="row">
@@ -99,7 +99,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.processing.length==0" class="row">
@@ -113,7 +113,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.adv_pay_rec.length==0" class="row">
@@ -127,7 +127,7 @@
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.under_review.length==0" class="row">

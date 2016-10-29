@@ -219,6 +219,7 @@
     }).then(function(modal) {
       $scope.quantityModal = modal;
     });
+    vm.loading = true;
 
     Booking.verifyOrder(id).then(function(res){
           console.log('verify');
@@ -226,13 +227,16 @@
       if(res.data.bank_verified && res.data.success){
         vm.order_id = res.data.order_id;
         vm.verified = true;
+        vm.loading = false;
         $rootScope.$broadcast('loading:hide');
         $scope.quantityModal.show();
       } else {
         $rootScope.$broadcast('loading:hide')
         vm.verified = false;
+        vm.loading = false;
       }
     },function(){
+      vm.loading = false;
       console.log('verify error');
       $rootScope.$broadcast('loading:hide');
       console.log(res);
@@ -275,6 +279,7 @@
     };
 
     $scope.getAddress = function(){
+      vm.submitted = true;
       if(vm.addressForm.$valid){
         console.log(JSON.stringify(vm.address));
         $scope.pincodeModal.hide();
@@ -340,7 +345,7 @@
     }
   });
 
-  app.controller('OrderHistoryCtrl', function ($scope,$state,Booking,Authentication,$filter) {
+  app.controller('OrderHistoryCtrl', function ($scope,$rootScope,$state,Booking,Authentication,$filter) {
     var vm = this;
     if(!Authentication.isLoggedIn()){
       $state.go('app.login1');
@@ -348,12 +353,16 @@
 
     vm.selected_status = 'awaiting_confirmation';
     vm.ordersDetail = {};
+
     function getOrderHistory(){
+      $rootScope.$broadcast('loading:show');
       Booking.getOrderHistory().then(function(res){
         console.log('order history success');
         console.log(JSON.stringify(res));
+        $rootScope.$broadcast('loading:hide');
         vm.ordersDetail = res.data.all_orders_listing;
       },function(err){
+        $rootScope.$broadcast('loading:hide');
       });
     }
     getOrderHistory();

@@ -13,15 +13,17 @@
 
           <label class="item item-input">
             <!--<input type="number" name="pincode" ng-model="B.address.pincode" placeholder="pincode">-->
-            <input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="B.address.pincode" item-view-value-key="pincode" item-value-key="pincode" items-method="callbackMethod(query)" max-selected-items="1" items-clicked-method="clickedMethod(callback)" placeholder="select pincode" />
+            <input ion-autocomplete type="text" name="pincode" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="B.address.pincode" item-view-value-key="pincode" item-value-key="pincode" items-method="callbackMethod(query)" max-selected-items="1" items-clicked-method="clickedMethod(callback)" placeholder="select pincode" required/>
           </label>
+          <p ng-if="B.submitted" ng-show="B.addressForm.pincode.$error.required" style="color: maroon">Pin code Required</p>
           <label class="item item-input">
             <input type="text" ng-model="B.address.location" readonly placeholder="location">
           </label>
 
           <label class="item item-input">
-            <input type="text" name="" ng-model="B.address.address" placeholder="Address">
+            <input type="text" name="address" ng-model="B.address.address" placeholder="Address" required>
           </label>
+          <p ng-if="B.submitted" ng-show="B.addressForm.address.$error.required" style="color: maroon">Address required</p>
 
 
         </div>
