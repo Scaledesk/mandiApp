@@ -1,10 +1,19 @@
-<ion-view>
+<ion-modal-view>
   <ion-content>
+
+    <div class="row">
+      <div class="col col-50">
+
+      </div>
+      <div class="col col-50">
+        <button class="button button-block button-outline button-assertive">Skip Verification</button>
+      </div>
+    </div>
+
     <div class="card">
       <div class="item item-text-wrap">
         We have send you Verification code to your entered Mobile No.
       </div>
-
     </div>
     <div class="list list-inset">
       <label class="item item-input">
@@ -12,7 +21,7 @@
       </label>
     </div>
     <div class="row">
-      <button class="button button-block button-positive mandi-button" ng-click="otp.checkOtp(otp.num)">Verify</button>
+      <button class="button button-block button-positive mandi-button" ng-click="verifiedOtp(otp.num)">Verify</button>
     </div>
   </ion-content>
-</ion-view>
+  </ion-modal-view>

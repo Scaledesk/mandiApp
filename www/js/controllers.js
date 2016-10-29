@@ -15,7 +15,9 @@
       });
     }
 
+
     $rootScope.$on('logged_in', function (event, args) {
+      $ionicHistory.nextViewOptions({historyRoot:true});
       Profile.getProfile().then(function(res){
         $rootScope.profile = res.data.profile_data;
         //$scope.profile = res.data.profile_data;
@@ -147,16 +149,45 @@
 
   });
 
-  app.controller('ProductCtrl', function ($scope,$http, $stateParams,Product,serverConfig) {
+  app.controller('ProductCtrl', function ($scope,$http,$ionicPopup,$state,$rootScope, $stateParams,Product,serverConfig) {
     var vm = this;
     vm.baseUrl = serverConfig.baseUrl;
     var id  = $stateParams.id;
     vm.product = {};
+    $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
      console.log(res);
       vm.product = res.data;
-     });
+      $rootScope.$broadcast('loading:hide');
+     },function(err){
+      $rootScope.$broadcast('loading:hide');
+    });
 
+
+    vm.deleteStock = function(id){
+      var dd = {
+        "stock_id":id.toString()
+      };
+      $rootScope.$broadcast('loading:show');
+      Product.deleteProductStock(dd).then(function(res){
+        console.log(res);
+        $rootScope.$broadcast('loading:hide');
+        $ionicPopup.alert({
+          title: 'Stock Deleted',
+          template: 'Your stock deleted successfully!'
+        }).then(function(){
+          $state.go('app.listSellerItems');
+        });
+      },function(err){
+        $rootScope.$broadcast('loading:hide');
+        $ionicPopup.alert({
+          title: 'Stock Deleted',
+          template: 'Unable to delete, something wrong!'
+        }).then(function(){
+
+        });
+      });
+    };
     /*vm.loadOlderStories = function(){
       var params = {};
       if(vm.products.length>0){
@@ -169,7 +200,7 @@
     };*/
   });
 
-  app.controller('BookingCtrl', function ($scope,serverConfig,$http,$state, $stateParams,$window,Product,Booking,$ionicModal,$ionicPopup,$rootScope) {
+  app.controller('BookingCtrl', function ($scope,$ionicHistory,serverConfig,$http,$state, $stateParams,$window,Product,Booking,$ionicModal,$ionicPopup,$rootScope) {
     var vm = this;
     var id  = $stateParams.id;
     vm.baseUrl = serverConfig.baseUrl;
@@ -191,7 +222,7 @@
 
     Booking.verifyOrder(id).then(function(res){
           console.log('verify');
-          console.log(res);
+          console.log(JSON.stringify(res));
       if(res.data.bank_verified && res.data.success){
         vm.order_id = res.data.order_id;
         vm.verified = true;
@@ -294,6 +325,7 @@
       };
       Booking.createOrder(dd).then(function(res){
         //alert('success '+ JSON.stringify(res));
+        $ionicHistory.nextViewOptions({historyRoot:true});
         $rootScope.$broadcast('loading:hide');
         $ionicPopup.alert({
           title: 'Order Completed',
@@ -371,10 +403,16 @@
 
   });
 
-  app.controller('RegisterCtrl', function ($scope,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
+  app.controller('RegisterCtrl', function ($scope,$ionicModal,$ionicPopup,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
+    $ionicModal.fromTemplateUrl('templates/otp.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.otpModal = modal;
+    });
     var vm = this;
     vm.userData = {};
     vm.userData.user_type = 'Individual';
@@ -387,12 +425,11 @@
           alert('Register successfully');
           vm.submitted = false;
           vm.userData={};
-          $rootScope.$broadcast('logged_in', { message: 'login successfully' });
-          /*$cordovaToast.showShortTop('Register successfully!').then(function(success) {
+          $cordovaToast.showShortTop('Register successfully!').then(function(success) {
+            $scope.otpModal.show();
           }, function (error) {
             console.log(error);
-          });*/
-          $state.go('app.otp');
+          });
         }
       },function(error){
         alert('Something Wrong!'+ JSON.stringify(error));
@@ -402,6 +439,40 @@
         });*/
       });
     }
+
+
+
+    $scope.skipVerification = function(){
+      $scope.otpModal.hide();
+      $rootScope.$broadcast('logged_in', { message: 'login successfully' });
+    };
+
+
+    $scope.verifiedOtp = function(otp){
+      var dd = {
+        "otp_val":otp
+      };
+      Authentication.verifyOtp(dd).then(function(res){
+        if(res.data.status){
+          $ionicPopup.alert({
+            title: 'Otp Verified',
+            template: 'Mobile Number Verified successfully!'
+          }).then(function(){
+            $scope.otpModal.hide();
+            $rootScope.$broadcast('logged_in', { message: 'login successfully' });
+          });
+        }
+      },function(err){
+        $ionicPopup.alert({
+          title: 'Failed',
+          template: 'Invalid OTP!'
+        }).then(function(){
+        });
+      })
+    };
+
+
+
     vm.doSellerRegistration = function () {
       vm.submitted = true;
       if(vm.seller.$invalid){
@@ -649,6 +720,7 @@
     };
 
     vm.addStock = function(){
+      vm.submitted =true;
       if(vm.myForm.$invalid){
         $cordovaToast.showShortTop('invalid data!').then(function(success) {
          });
@@ -665,7 +737,8 @@
           "fruits_quantity": vm.stockData.quantity,
           "fruits_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
           "fruits_pincode":vm.stockData.pincode,
-          "fruits_price": vm.stockData.price
+          "fruits_price": vm.stockData.price,
+          "fruits_posting_title": vm.stockData.title
         };
       } else if(vm.stockData.category=='grains'){
         vm.ddd = {
@@ -676,7 +749,8 @@
           "grains_quantity": vm.stockData.quantity,
           "grains_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
           "grains_pincode": vm.stockData.pincode,
-          "grains_price": vm.stockData.price
+          "grains_price": vm.stockData.price,
+          "grains_posting_title": vm.stockData.title
         };
       } else {
         vm.ddd = {
@@ -687,7 +761,8 @@
           "veges_quantity": vm.stockData.quantity,
           "veges_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
           "veges_pincode": vm.stockData.pincode,
-          "veges_price": vm.stockData.price
+          "veges_price": vm.stockData.price,
+          "veges_posting_title": vm.stockData.title
         };
       }
       console.log('request data: '+JSON.stringify(vm.ddd));

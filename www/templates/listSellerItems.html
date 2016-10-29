@@ -2,7 +2,7 @@
   <ion-content>
 
     <div class="list">
-      <a class="item item-thumbnail-left" ng-repeat="prod in item.products" href="#/app/pdp/{{prod.pk}}">
+      <a class="item item-thumbnail-left" ng-repeat="prod in item.products" href="#/app/pdp/{{prod.pk}}" ng-if="prod.fields.status!='closed'">
         <img ng-src="{{item.baseUrl}}{{prod.image_url}}">
         <h2 class="story-title">{{prod.fields.post_title}}</h2>
         <p> &#8377; <span>{{prod.fields.price}}</span></p>

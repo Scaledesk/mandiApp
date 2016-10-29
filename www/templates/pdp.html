@@ -37,7 +37,11 @@
             BUY
           </a>
         </div>
-
+        <div ng-if="profile.is_seller" class="row">
+          <button class="button button-block button-assertive" ng-click="p.deleteStock(p.product.pk)">
+            Delete Stock
+          </button>
+        </div>
 
       </div>
     </div>

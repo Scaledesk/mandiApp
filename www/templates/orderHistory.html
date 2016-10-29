@@ -26,11 +26,11 @@
     </div>
 
     <div ng-if="o.selected_status=='placed_orders'" class="list">
-      <a ng-repeat="order in o.ordersDetail.placed_orders | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.placed_orders | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
-        <p>Payment : Rs. {{order.proposed_price}}</p>
+        <p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.placed_orders.length==0" class="row">
@@ -40,9 +40,9 @@
 
 
     <div ng-if="o.selected_status=='awaiting_confirmation'" class="list">
-      <a ng-repeat="order in o.ordersDetail.awaiting_confirmation | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.awaiting_confirmation | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
@@ -54,9 +54,9 @@
 
 
     <div ng-if="o.selected_status=='delivered'" class="list">
-      <a ng-repeat="order in o.ordersDetail.delivered | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.delivered | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
@@ -67,9 +67,9 @@
     </div>
 
     <div ng-if="o.selected_status=='cancelled'" class="list">
-      <a ng-repeat="order in o.ordersDetail.cancelled | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.cancelled | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
@@ -81,9 +81,9 @@
 
 
     <div ng-if="o.selected_status=='completed'" class="list">
-      <a ng-repeat="order in o.ordersDetail.completed | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.completed | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
@@ -95,9 +95,9 @@
 
 
     <div ng-if="o.selected_status=='processing'" class="list">
-      <a ng-repeat="order in o.ordersDetail.processing | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.processing | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
@@ -109,9 +109,9 @@
 
 
     <div ng-if="o.selected_status=='adv_pay_rec'" class="list">
-      <a ng-repeat="order in o.ordersDetail.adv_pay_rec | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.adv_pay_rec | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
@@ -123,9 +123,9 @@
 
 
     <div ng-if="o.selected_status=='under_review'" class="list">
-      <a ng-repeat="order in o.ordersDetail.under_review | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item item-thumbnail-left">
-        <img src="img/potato.png">
-        <h3>Potato</h3>
+      <a ng-repeat="order in o.ordersDetail.under_review | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <p>Payment : Rs. {{order.proposed_price}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>

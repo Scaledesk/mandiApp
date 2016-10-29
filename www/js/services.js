@@ -4,9 +4,20 @@ angular.module('md_gate').factory('Authentication', function($http,$q,serverConf
     login: login,
     registration: registration,
     isLoggedIn:isLoggedIn,
-    logoutUser:logoutUser
+    logoutUser:logoutUser,
+    verifyOtp:verifyOtp
   };
   return service;
+
+  function verifyOtp(data){
+    return $http({
+      method:"PUT",
+      url:baseUrl+"/api/mob/verifyusermobile/",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
+    });
+  }
+
 
   function login(data){
     return $http({
@@ -50,10 +61,20 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
     getNotification:getNotification,
     getAvailableProduct:getAvailableProduct,
     getAvailableGradeProduct:getAvailableGradeProduct,
-    addStockProduct:addStockProduct
+    addStockProduct:addStockProduct,
+    deleteProductStock:deleteProductStock
   };
   return service;
 
+
+  function deleteProductStock(data){
+    return $http({
+      method:"DELETE",
+      url:baseUrl+"/api/mob/deletesellerstock/",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
+    });
+  }
 
   function loadStories(params, callback){
     $http.get('https://www.reddit.com/r/android/new/.json', {params: params})
