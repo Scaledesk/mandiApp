@@ -356,6 +356,19 @@
       });
     }
     getOrderDetails();
+
+
+    vm.confirmOrder = function(id){
+      Booking.confirmOrder(id).then(function(res){
+        console.log('order confirmed');
+        console.log(JSON.stringify(res));
+        getOrderDetails();
+      },function(err){
+        alert('error :'+err);
+      });
+    }
+
+
   });
 
   app.controller('RegisterCtrl', function ($scope,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {

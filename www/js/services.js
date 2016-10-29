@@ -136,9 +136,19 @@ angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
     createOrder:createOrder,
     getOrderHistory:getOrderHistory,
     getOrderDetail:getOrderDetail,
-    getPincodeLocation:getPincodeLocation
+    getPincodeLocation:getPincodeLocation,
+    confirmOrder:confirmOrder
   };
   return service;
+
+  function confirmOrder(id){
+    return $http({
+      method:"PUT",
+      url:baseUrl+"/api/mob/confirmorder/confirm/"+id,
+      headers:{'Authorization':"Token "+window.localStorage['token']}
+    });
+  }
+
   function verifyOrder(id){
     return $http({
       method:"GET",
