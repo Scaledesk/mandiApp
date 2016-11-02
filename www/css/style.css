@@ -245,6 +245,11 @@ padding: 10px;
   color: #777;
 }
 
+
+.ionic-content-bg{
+  background-color: #ededed;
+}
+
 /*////////CSS helpers classes*/
 
 
@@ -478,7 +483,9 @@ padding: 10px;
 }
 
 
-
+.text-muted{
+  color: #999;
+}
 
 
 /*///ends here///*/

@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-content>
+  <ion-content class="ionic-content-bg">
     <div ng-if="B.verified" class="card">
       <div class="item item-divider">
         Order Summary
@@ -8,13 +8,13 @@
         <div class="row">
           <div class=" col col-50">
             <!--<p>Order Total :</p>-->
-            <p>Quantity:</p>
-            <p>Delivery By:</p>
-            <p>Total Payable</p>
+            <p class="m-b-10">Quantity:</p>
+            <p class="m-b-10">Delivery By:</p>
+            <p class="m-b-10">Total Payable</p>
           </div>
           <div class="col col-50">
             <!--<p>Rs. 56000</p>-->
-            <p><input type="number" ng-model="B.quantity" id="quantity" name="quantity" placeholder="enter quantity" /></p>
+            <p><input type="number" ng-model="B.quantity" id="quantity" name="quantity" placeholder="Enter quantity" /></p>
             <p>24 Jul 2016</p>
             <p>&#8377; {{B.product.price*B.quantity}}</p>
           </div>

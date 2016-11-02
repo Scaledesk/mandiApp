@@ -1,18 +1,19 @@
 <ion-view title="Order Summary">
-  <ion-content>
+  <ion-content class="ionic-content-bg">
     <div class="card">
-   <div class="row">
-     <div class="col col-50">
-       <p>Ordered On:</p>
-       <p>Order Id:</p>
-       <p>Status:</p>
-     </div>
-     <div class="col col-50">
-       <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
-       <p>{{OD.ordersDetail.order_data.order_uid}}</p>
-       <p><label>{{OD.ordersDetail.order_data.order_status.replace('_',' ') | capitalizeFirst}}</label></p>
-     </div>
-   </div>
+      <div class="row">
+        <div class="col col-50">
+          <p class="text-muted">Ordered On:</p>
+          <p class="text-muted">Order Id:</p>
+          <p class="text-muted">Status:</p>
+        </div>
+
+        <div class="col col-50">
+          <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
+          <p>{{OD.ordersDetail.order_data.order_uid}}</p>
+          <p><label>{{OD.ordersDetail.order_data.order_status.replace('_',' ') | capitalizeFirst}}</label></p>
+        </div>
+      </div>
 
       <div ng-if="profile.is_seller && OD.ordersDetail.order_data.order_status=='awaiting_confirmation'" class="row">
         <div class="col">
@@ -24,24 +25,25 @@
 
     <div class=" list card ">
       <div class="item">
-      <img ng-src="{{OD.baseUrl}}{{OD.ordersDetail.stock_data.image_url}}" width="100%" height="auto"></div>
+        <img ng-src="{{OD.baseUrl}}{{OD.ordersDetail.stock_data.image_url}}" width="100%" height="auto"></div>
 
-    <div class="item item-body">
-      <div class="row">
-      <div class="col col-50">
-        <p>Delivered On:</p>
-        <p>Quantity:</p>
-        <p>Unit Price:</p>
-        <p>Grand Total</p>
-      </div>
-      <div class="col col-50">
-        <p>NA</p>
-        <p>{{OD.ordersDetail.order_data.quantity}}</p>
-        <p>{{OD.ordersDetail.stock_data.price}}</p>
-        <p>&#8377; {{OD.ordersDetail.order_data.quantity*OD.ordersDetail.stock_data.price}}</p>
-      </div>
-      </div>
-    </div></div>
+      <div class="item item-body">
+        <div class="row">
+          <div class="col col-50">
+            <p>Delivered On:</p>
+            <p>Quantity:</p>
+            <p>Unit Price:</p>
+            <p>Grand Total</p>
+          </div>
+
+          <div class="col col-50">
+            <p class="w-800">NA</p>
+            <p class="w-800">{{OD.ordersDetail.order_data.quantity}}</p>
+            <p class="w-800">{{OD.ordersDetail.stock_data.price}}</p>
+            <p class="w-800">&#8377; {{OD.ordersDetail.order_data.quantity*OD.ordersDetail.stock_data.price}}</p>
+          </div>
+        </div>
+      </div></div>
     <!--<div class="card">
       <div class="item item-divider">
         Delivery Address

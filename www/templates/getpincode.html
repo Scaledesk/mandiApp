@@ -1,41 +1,48 @@
 <ion-modal-view>
-  <ion-content>
+  <ion-content class="ionic-content-bg">
     <div class="row text-center">
-      <div class="col col-100">
+      <div class="col-50 text-left p-l-10">
+        <p class="f-18 text-muted" style="margin: 10px 0;"><a href="" class="text-muted"><i class="fa fa-angle-left"></i>&nbsp;Back</a></p>
+      </div>
+
+      <div class="col-50">
         <h4>Address Details</h4>
+
       </div>
     </div>
+
+
     <form name="B.addressForm">
-    <div class="row">
-      <div class="col col-100">
+      <div class="row">
+        <div class="col col-100">
 
-        <div class="list list-inset">
+          <div class="list list-inset m-0">
 
-          <label class="item item-input">
-            <!--<input type="number" name="pincode" ng-model="B.address.pincode" placeholder="pincode">-->
-            <input ion-autocomplete type="text" name="pincode" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="B.address.pincode" item-view-value-key="pincode" item-value-key="pincode" items-method="callbackMethod(query)" max-selected-items="1" items-clicked-method="clickedMethod(callback)" placeholder="select pincode" required/>
-          </label>
-          <p ng-if="B.submitted" ng-show="B.addressForm.pincode.$error.required" style="color: maroon">Pin code Required</p>
-          <label class="item item-input">
-            <input type="text" ng-model="B.address.location" readonly placeholder="location">
-          </label>
+            <label class="item item-input m-0">
+              <!--<input type="number" name="pincode" ng-model="B.address.pincode" placeholder="pincode">-->
+              <input ion-autocomplete type="text" name="pincode" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="B.address.pincode" item-view-value-key="pincode" item-value-key="pincode" items-method="callbackMethod(query)" max-selected-items="1" items-clicked-method="clickedMethod(callback)" placeholder="select pincode" required/>
+            </label>
+            <p ng-if="B.submitted" ng-show="B.addressForm.pincode.$error.required" style="color: maroon">Pin code Required</p>
+            <label class="item item-input m-0">
+              <input type="text" ng-model="B.address.location" readonly placeholder="location">
+            </label>
 
-          <label class="item item-input">
-            <input type="text" name="address" ng-model="B.address.address" placeholder="Address" required>
-          </label>
-          <p ng-if="B.submitted" ng-show="B.addressForm.address.$error.required" style="color: maroon">Address required</p>
+            <label class="item item-input m-0">
+              <input type="text" name="address" ng-model="B.address.address" placeholder="Address" required>
+            </label>
+            <p ng-if="B.submitted" ng-show="B.addressForm.address.$error.required" style="color: maroon">Address required</p>
 
 
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col col-100">
-        <button class="button button-block button-positive" ng-click="getAddress()">
-          Submit
-        </button>
+      <div class="row">
+        <div class="col col-100">
+          <button class="button button-block button-positive bg" ng-click="getAddress()">
+            Submit
+          </button>
+        </div>
       </div>
-    </div>
 
     </form>
 

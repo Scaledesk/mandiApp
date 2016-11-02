@@ -1,92 +1,93 @@
 <ion-view view-title="Buyer Registration">
-  <ion-content>
+  <ion-content class="ionic-content-bg">
+
+    <div class="login-bg">
 
 
+      <form ng-submit="register.doBuyerRegistration()" name="register.buyer" novalidate>
+        <div class="card width-100 m-0">
+          <div class="list">
 
-    <form ng-submit="register.doBuyerRegistration()" name="register.buyer" novalidate>
-      <div class="card">
-        <div class="list">
-
-          <label class="item item-input">
-            <!--<ion-checkbox ng-model="register.isChecked">Organization</ion-checkbox>-->
-            <div class="row">
-              <div class="col-50">
-                <ion-radio ng-model="register.userData.user_type" ng-value="'Individual'" checked>Individual</ion-radio>
+            <label class="item item-input p-10">
+              <!--<ion-checkbox ng-model="register.isChecked">Organization</ion-checkbox>-->
+              <div class="row">
+                <div class="col-50">
+                  <ion-radio ng-model="register.userData.user_type" ng-value="'Individual'" checked>Individual</ion-radio>
+                </div>
+                <div class="col-50">
+                  <ion-radio ng-model="register.userData.user_type" ng-value="'Organization'">Organization</ion-radio>
+                </div>
               </div>
-              <div class="col-50">
-                <ion-radio ng-model="register.userData.user_type" ng-value="'Organization'">Organization</ion-radio>
+            </label>
+
+
+
+            <label ng-if="register.userData.user_type=='Organization'" class="item item-input item-floating-label">
+              <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="Organization" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.fname.$error" style="color: maroon;">
+                <div ng-message="required">First name is required.</div>
               </div>
-            </div>
-          </label>
+            </label>
+
+            <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
+              <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="First Name" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.fname.$error" style="color: maroon;">
+                <div ng-message="required">First name is required.</div>
+              </div>
+            </label>
 
 
+            <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
+              <input type="text" name="lname" ng-model="register.userData.last_name" placeholder="Last Name" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.lname.$error" style="color: maroon;">
+                <div ng-message="required">Last name is required.</div>
+              </div>
+            </label>
 
-          <label ng-if="register.userData.user_type=='Organization'" class="item item-input item-floating-label">
-            <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="Organization" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.fname.$error" style="color: maroon;">
-              <div ng-message="required">First name is required.</div>
-            </div>
-          </label>
-
-          <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
-            <input type="text" name="fname" ng-model="register.userData.first_name" placeholder="First Name" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.fname.$error" style="color: maroon;">
-              <div ng-message="required">First name is required.</div>
-            </div>
-          </label>
-
-
-          <label ng-if="register.userData.user_type=='Individual'" class="item item-input item-floating-label">
-            <input type="text" name="lname" ng-model="register.userData.last_name" placeholder="Last Name" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.lname.$error" style="color: maroon;">
-              <div ng-message="required">Last name is required.</div>
-            </div>
-          </label>
-
-          <label class="item item-input item-floating-label">
-            <input type="number" name="mobile" ng-model="register.userData.mobile" placeholder="Mobile" minlength="10" maxlength="10" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.mobile.$error" style="color: maroon;">
-              <div ng-message="required">Mobile number is required.</div>
-              <div ng-message="minlength">Enter valid mobile number.</div>
-              <div ng-message="maxlength">Enter valid mobile number.</div>
-            </div>
-          </label>
-          <label class="item item-input item-floating-label">
-            <input type="email" name="email" ng-model="register.userData.email" placeholder="Email" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.email.$error" style="color: maroon;">
-              <div ng-message="required">Email is required.</div>
-              <div ng-message="email">Enter valid email.</div>
-            </div>
-          </label>
-          <label class="item item-input item-floating-label">
-            <input type="password" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.password.$error" style="color: maroon;">
-              <div ng-message="required">Password is required.</div>
-              <div ng-message="minlength">Minimum 6 char.</div>
-            </div>
-          </label>
-          <label class="item item-input item-floating-label">
-            <input type="number" name="pincode" ng-model="register.userData.pincode" placeholder="Pincode" minlength="6" maxlength="6" required>
-            <div ng-if="register.submitted" ng-messages="register.buyer.pincode.$error" style="color: maroon;">
-              <div ng-message="required">Pincode is required.</div>
-              <div ng-message="minlength">Enter valid pincode.</div>
-              <div ng-message="maxlength">Enter valid pincode.</div>
-            </div>
-          </label>
-          <label class="item item-input item-floating-label">
-            <textarea name="address" ng-model="register.userData.address" placeholder="Address" required></textarea>
-            <div ng-if="register.submitted" ng-messages="register.buyer.address.$error" style="color: maroon;">
-              <div ng-message="required">Address is required.</div>
-            </div>
-          </label>
+            <label class="item item-input item-floating-label">
+              <input type="number" name="mobile" ng-model="register.userData.mobile" placeholder="Mobile" minlength="10" maxlength="10" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.mobile.$error" style="color: maroon;">
+                <div ng-message="required">Mobile number is required.</div>
+                <div ng-message="minlength">Enter valid mobile number.</div>
+                <div ng-message="maxlength">Enter valid mobile number.</div>
+              </div>
+            </label>
+            <label class="item item-input item-floating-label">
+              <input type="email" name="email" ng-model="register.userData.email" placeholder="Email" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.email.$error" style="color: maroon;">
+                <div ng-message="required">Email is required.</div>
+                <div ng-message="email">Enter valid email.</div>
+              </div>
+            </label>
+            <label class="item item-input item-floating-label">
+              <input type="password" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.password.$error" style="color: maroon;">
+                <div ng-message="required">Password is required.</div>
+                <div ng-message="minlength">Minimum 6 char.</div>
+              </div>
+            </label>
+            <label class="item item-input item-floating-label">
+              <input type="number" name="pincode" ng-model="register.userData.pincode" placeholder="Pincode" minlength="6" maxlength="6" required>
+              <div ng-if="register.submitted" ng-messages="register.buyer.pincode.$error" style="color: maroon;">
+                <div ng-message="required">Pincode is required.</div>
+                <div ng-message="minlength">Enter valid pincode.</div>
+                <div ng-message="maxlength">Enter valid pincode.</div>
+              </div>
+            </label>
+            <label class="item item-input item-floating-label">
+              <textarea name="address" ng-model="register.userData.address" placeholder="Address" required></textarea>
+              <div ng-if="register.submitted" ng-messages="register.buyer.address.$error" style="color: maroon;">
+                <div ng-message="required">Address is required.</div>
+              </div>
+            </label>
+          </div>
         </div>
+        <div class="row">
+          <button type="submit" class="button button-block button-positive mandi-button">
+            REGISTER
+          </button>
         </div>
-  <div class="row">
-    <button type="submit" class="button button-block button-positive mandi-button">
-      REGISTER
-    </button>
-  </div>
-    </form>
-
+      </form>
+    </div>
   </ion-content>
 </ion-view>

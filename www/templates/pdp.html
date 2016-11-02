@@ -1,5 +1,5 @@
 <ion-view view-title="Product Description">
-  <ion-content>
+  <ion-content class="ionic-content-bg">
     <div class="list card">
       <div>
         <div class="item item-image">
@@ -17,17 +17,18 @@
 
           <div class="row">
             <div class=" col col-50">
-              <p>Price :</p>
-              <p>Quantity:</p>
-              <p>Pincode:</p>
-              <p>Availability By:</p>
+              <p class="text-muted">Price :</p>
+              <p class="text-muted">Quantity:</p>
+              <p class="text-muted">Pincode:</p>
+              <p class="text-muted">Availability By:</p>
               <!--<p>Delivery:</p>-->
             </div>
+
             <div class="col col-50">
-              <p>Rs. {{p.product.price}}</p>
-              <p>{{p.product.quantity}} Kg</p>
-              <p>{{p.product.pincode}}</p>
-              <p>{{p.product.available_till|date:short}}</p>
+              <p class="w-800">Rs. {{p.product.price}}</p>
+              <p class="w-800">{{p.product.quantity}} Kg</p>
+              <p class="w-800">{{p.product.pincode}}</p>
+              <p class="w-800">{{p.product.available_till|date:short}}</p>
               <!--<p>{{p.product.available_till|date:short}}</p>-->
             </div>
           </div>
