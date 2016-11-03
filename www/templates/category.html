@@ -27,7 +27,7 @@
 
     </div>
 
-    <div ng-show="c.products.length==0" class="row">
+    <div ng-if="!c.loading" ng-show="c.products.length==0" class="row">
       No Product found
     </div>
 

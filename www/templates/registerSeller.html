@@ -46,19 +46,19 @@
           </div>
         </label>
         <label class="item item-input item-floating-label">
-          <input type="email" name="email" ng-model="register.userData.email" placeholder="Email" required>
+          <input type="email" name="email" ng-model="register.userData.email" placeholder="Email">
           <div ng-if="register.submitted" ng-messages="register.seller.email.$error" style="color: maroon;">
-            <div ng-message="required">Email is required.</div>
             <div ng-message="email">Enter valid email.</div>
           </div>
         </label>
         <label class="item item-input item-floating-label">
-          <input type="password" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
+          <input type="{{register.pass?'password':'text'}}" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
           <div ng-if="register.submitted" ng-messages="register.seller.password.$error" style="color: maroon;">
             <div ng-message="required">Password is required.</div>
             <div ng-message="minlength">Minimum 6 char.</div>
           </div>
         </label>
+        <ion-checkbox ng-model="isChecked" ng-click="register.changepasswordtype(isChecked)">Show password</ion-checkbox>
         <label class="item item-input item-floating-label">
           <input type="number" name="pincode" ng-model="register.userData.pincode" placeholder="Pincode" minlength="6" maxlength="6" required>
           <div ng-if="register.submitted" ng-messages="register.seller.pincode.$error" style="color: maroon;">

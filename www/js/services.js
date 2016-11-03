@@ -5,16 +5,26 @@ angular.module('md_gate').factory('Authentication', function($http,$q,serverConf
     registration: registration,
     isLoggedIn:isLoggedIn,
     logoutUser:logoutUser,
-    verifyOtp:verifyOtp
+    verifyOtp:verifyOtp,
+    sendOtp:sendOtp
   };
   return service;
+
+
+  function sendOtp(data){
+    return $http({
+      method:"PUT",
+      url:baseUrl+"/api/resendotp",
+      data:data
+    });
+  }
 
   function verifyOtp(data){
     return $http({
       method:"PUT",
       url:baseUrl+"/api/mob/verifyusermobile/",
-      data:data,
-      headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
+      data:data
+      //headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
     });
   }
 

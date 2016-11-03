@@ -1,6 +1,6 @@
 (function() {
   var app = angular.module('md_gate');
-  app.controller('AppCtrl', function ($scope,$ionicHistory,$rootScope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
+  app.controller('AppCtrl', function ($scope,$ionicHistory,$ionicPopup,$rootScope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
@@ -32,17 +32,25 @@
     });
 
     $scope.logout = function () {
-      $rootScope.$broadcast('loading:show');
-      $timeout(function(){
-        if(Authentication.logoutUser()){
-          window.localStorage['is_seller'] = undefined;
-          //$scope.profile = undefined;
-          $rootScope.profile = undefined;
-          $ionicHistory.nextViewOptions({historyRoot:true});
-          $state.go('app.home');
-          $rootScope.$broadcast('loading:hide');
+
+      $ionicPopup.confirm({
+        title: 'Mandigate Logout',
+        template: 'Are you sure to logout!'
+      }).then(function(res){
+        if(res){
+          $rootScope.$broadcast('loading:show');
+          $timeout(function(){
+            if(Authentication.logoutUser()){
+              window.localStorage['is_seller'] = undefined;
+              //$scope.profile = undefined;
+              $rootScope.profile = undefined;
+              $rootScope.$broadcast('loading:hide');
+              $ionicHistory.nextViewOptions({historyRoot:true});
+              $state.go('app.home');
+            }
+          },3000);
         }
-      },3000);
+      });
 
       /*Authentication.logoutUser().then(function(data){
         window.localStorage['token'] = '';
@@ -87,6 +95,7 @@
     var vm = this;
      vm.baseUrl = serverConfig.baseUrl;
     vm.sortBy= 'price';
+    vm.loading = true;
     if(!Authentication.isLoggedIn()){
       $ionicHistory.nextViewOptions({historyRoot:true});
       $state.go('app.login1');
@@ -108,6 +117,7 @@
       if(vm.products.length>0){
         vm.dt.page_number++;
       }
+      vm.loading = true;
       Product.getProduct(vm.dt).then(function(res){
         if(res.data.status&&res.data.data.total_records>0){
           vm.products = vm.products.concat(res.data.data.all_stocks);
@@ -115,14 +125,13 @@
           $scope.$broadcast('scroll.infiniteScrollComplete');
           if(vm.products.length==res.data.data.total_records){
             vm.no_stocks = true;
+            vm.loading = false;
           }
         }
       },function(error){
-        console.log(JSON.stringify(error));
         $scope.$broadcast('scroll.infiniteScrollComplete');
         vm.no_stocks = true;
-        console.log('this controller');
-        console.log(this);
+        vm.loading = false;
       });
     };
 
@@ -156,7 +165,7 @@
     vm.product = {};
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
-     console.log(res);
+     console.log(JSON.stringify(res));
       vm.product = res.data;
       $rootScope.$broadcast('loading:hide');
      },function(err){
@@ -215,7 +224,8 @@
     $rootScope.$broadcast('loading:show');
     $ionicModal.fromTemplateUrl('templates/getQuantity.html', {
       scope: $scope,
-      animation: 'slide-in-up'
+      animation: 'slide-in-up',
+      hardwareBackButtonClose: false
     }).then(function(modal) {
       $scope.quantityModal = modal;
     });
@@ -252,7 +262,8 @@
 
     $ionicModal.fromTemplateUrl('templates/getpincode.html', {
       scope: $scope,
-      animation: 'slide-in-up'
+      animation: 'slide-in-up',
+      hardwareBackButtonClose: false
     }).then(function(modal) {
       $scope.pincodeModal = modal;
     });
@@ -353,16 +364,20 @@
 
     vm.selected_status = 'awaiting_confirmation';
     vm.ordersDetail = {};
+    vm.loading = true;
 
     function getOrderHistory(){
+
       $rootScope.$broadcast('loading:show');
       Booking.getOrderHistory().then(function(res){
         console.log('order history success');
         console.log(JSON.stringify(res));
         $rootScope.$broadcast('loading:hide');
         vm.ordersDetail = res.data.all_orders_listing;
+        vm.loading = false;
       },function(err){
         $rootScope.$broadcast('loading:hide');
+        vm.loading = false;
       });
     }
     getOrderHistory();
@@ -408,8 +423,6 @@
         alert('error :'+err);
       });
     }
-
-
   });
 
   app.controller('RegisterCtrl', function ($scope,$ionicModal,$ionicPopup,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
@@ -418,20 +431,21 @@
     }
     $ionicModal.fromTemplateUrl('templates/otp.html', {
       scope: $scope,
-      animation: 'slide-in-up'
+      animation: 'slide-in-up',
+      hardwareBackButtonClose: false
     }).then(function(modal) {
       $scope.otpModal = modal;
     });
     var vm = this;
     vm.userData = {};
     vm.userData.user_type = 'Individual';
+    vm.pass = true;
     function registration(){
       $ionicHistory.nextViewOptions({historyRoot:true});
       Authentication.registration(vm.userData).then(function (response) {
         console.log(response);
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
-          alert('Register successfully');
           vm.submitted = false;
           vm.userData={};
           $cordovaToast.showShortTop('Register successfully!').then(function(success) {
@@ -448,8 +462,6 @@
         });*/
       });
     }
-
-
 
     $scope.skipVerification = function(){
       $scope.otpModal.hide();
@@ -499,6 +511,15 @@
         registration();
       }
     };
+
+    vm.changepasswordtype = function(checked){
+
+      if(checked){
+        vm.pass = false;
+      } else {
+        vm.pass = true;
+      }
+    };
     vm.doBuyerRegistration = function () {
       vm.submitted = true;
       if(vm.buyer.$invalid){
@@ -540,12 +561,36 @@
     };
   });
 
-  app.controller('LoginCtrl', function ($scope,Profile,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
+  app.controller('LoginCtrl', function ($scope,$ionicPopup,$ionicModal,Profile,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
+
+    $ionicModal.fromTemplateUrl('templates/otp.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.otpModal = modal;
+    });
+
+
+
+
     var vm = this;
     vm.submited = false;
+
+
+    function resendOtp(dd){
+      Authentication.sendOtp(dd).then(function(res){
+        console.log(JSON.stringify(res));
+      },function(err){
+        console.log(JSON.stringify(err));
+      });
+    }
+
+
+
     vm.doLogin = function (data) {
       vm.submited = true;
      if(vm.loginForm.$invalid){
@@ -554,7 +599,7 @@
       $ionicHistory.nextViewOptions({historyRoot:true});
       $rootScope.$broadcast('loading:show');
       Authentication.login(data).then(function (response) {
-        console.log(response);
+        console.log(JSON.stringify(response));
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
           /*$cordovaToast.showShortTop('login successfully!').then(function(success) {
@@ -565,13 +610,54 @@
           $rootScope.$broadcast('loading:hide');
         }
       },function(error){
-        alert('invalid mobile number and password');
-        console.log('error: '+ JSON.stringify(error));
-        $rootScope.$broadcast('loading:hide');
-        /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
-        });*/
+        console.log(JSON.stringify(error.data));
+        if(error.data.msg=='User phone not verified'){
+          $rootScope.$broadcast('loading:hide');
+          $scope.otpModal.show();
+          var dd = {
+            "mobile_number":data.username
+          };
+          resendOtp(dd);
+          data = {};
+        } else {
+          alert('else');
+          $cordovaToast.showShortTop('invalid username or password!').then(function(success) {
+          });
+          console.log('error: '+ JSON.stringify(error));
+          $rootScope.$broadcast('loading:hide');
+        }
       });
-    }
+    };
+
+
+
+    $scope.verifiedOtp = function(otp){
+      var dd = {
+        "otp_val":otp
+      };
+      Authentication.verifyOtp(dd).then(function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.data.status){
+          $ionicPopup.alert({
+            title: 'Otp Verified',
+            template: 'Mobile Number Verified successfully!'
+          }).then(function(){
+            window.localStorage['token'] = response.data.token;
+            $scope.otpModal.hide();
+            $rootScope.$broadcast('logged_in', { message: 'login successfully' });
+          });
+        }
+      },function(err){
+        $ionicPopup.alert({
+          title: 'Failed',
+          template: 'Invalid OTP!'
+        }).then(function(){
+        });
+      })
+    };
+
+
+
   });
 
   app.controller('FaqCtrl', function ($scope) {
@@ -802,13 +888,16 @@
   app.controller('NotificationCtrl', function ($scope,$stateParams,Product,serverConfig) {
       var vm = this;
       vm.baseUrl = serverConfig.baseUrl;
-      vm.getNotification = function(){
+      vm.loading = true;
+    vm.getNotification = function(){
           Product.getNotification().then(function(res){
             //console.log('not:'+JSON.stringify(res))
             vm.notification = res.data;
             console.log('not:'+JSON.stringify(vm.notification));
+            vm.loading = false;
           },function(err){
             console.log('error:'+JSON.stringify(err))
+            vm.loading = false;
           })
       };
       vm.getNotification();
