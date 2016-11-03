@@ -87,8 +87,33 @@
     };
   });
 
-  app.controller('HomeCtrl', function ($scope, Authentication, $state,Product) {
+  app.controller('HomeCtrl', function ($scope,serverConfig,$http, Authentication, $state,Product) {
     var vm = this;
+    vm.baseUrl = serverConfig.baseUrl;
+    $scope.callbackMethod = function(query){
+      if(query.length>1){
+        var d =[];
+         $http.get(vm.baseUrl+'/web/get/search/?search='+query).then(function(res){
+          console.log(JSON.stringify(res.data));
+          angular.forEach(res.data.data,function(obj){
+            console.log(JSON.stringify(obj));
+            var dd = {
+              product:obj[1]
+            };
+            d.push(dd);
+          });
+          console.log(JSON.stringify(d));
+          return d;
+        });
+      }
+    };
+
+    $scope.clickedMethod = function (callback) {
+      console.log(callback);
+    }
+
+
+
   });
 
   app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
@@ -158,7 +183,7 @@
 
   });
 
-  app.controller('ProductCtrl', function ($scope,$http,$ionicPopup,$state,$rootScope, $stateParams,Product,serverConfig) {
+  app.controller('ProductCtrl', function ($scope,$http,Booking,$ionicPopup,$state,$rootScope, $stateParams,Product,serverConfig) {
     var vm = this;
     vm.baseUrl = serverConfig.baseUrl;
     var id  = $stateParams.id;
@@ -167,6 +192,7 @@
     Product.getProductDetails(id).then(function(res){
      console.log(JSON.stringify(res));
       vm.product = res.data;
+      getLocationDetails(vm.product.pincode);
       $rootScope.$broadcast('loading:hide');
      },function(err){
       $rootScope.$broadcast('loading:hide');
@@ -197,16 +223,18 @@
         });
       });
     };
-    /*vm.loadOlderStories = function(){
-      var params = {};
-      if(vm.products.length>0){
-        params['after'] = vm.products[vm.products.length-1].name;
-      }
-      Product.loadStories(params, function(olderProducts){
-        vm.products = vm.products.concat(olderProducts);
-        $scope.$broadcast('scroll.infiniteScrollComplete');
-      });
-    };*/
+
+
+    function getLocationDetails(pin){
+      Booking.getPincodeLocation(pin).then(function(res){
+        vm.location = res.data.location;
+      }, function(err){
+      })
+    }
+
+
+
+
   });
 
   app.controller('BookingCtrl', function ($scope,$ionicHistory,serverConfig,$http,$state, $stateParams,$window,Product,Booking,$ionicModal,$ionicPopup,$rootScope) {
@@ -219,6 +247,14 @@
     vm.quantity = undefined;
     vm.quantityError = false;
     vm.address = {};
+
+
+
+
+
+
+
+
     vm.profile = $rootScope.profile;
     console.log('profile:' + JSON.stringify(vm.profile));
     $rootScope.$broadcast('loading:show');
@@ -251,7 +287,6 @@
       $rootScope.$broadcast('loading:hide');
       console.log(res);
     });
-
     Product.getProductDetails(id).then(function(res){
       console.log(res);
       vm.product = res.data;
@@ -278,16 +313,27 @@
 
     $scope.getQunatity = function(){
       if(vm.quantity<100 ||vm.quantity==undefined || vm.quantity > vm.product.quantity){
-
         vm.quantityError=true;
-
         return false;
       }
       else {
         $scope.quantityModal.hide();
-        $scope.pincodeModal.show();
+          $scope.pincodeModal.show();
       }
     };
+
+    $scope.backQuantity = function(){
+      navigator.app.backHistory();
+      //$ionicHistory.goBack();
+      $scope.quantityModal.hide();
+    };
+
+
+    $scope.backpincode = function(){
+      $scope.pincodeModal.hide();
+      $scope.quantityModal.show();
+    };
+
 
     $scope.getAddress = function(){
       vm.submitted = true;
@@ -445,9 +491,8 @@
       Authentication.registration(vm.userData).then(function (response) {
         console.log(response);
         if (response.data.status) {
-          window.localStorage['token'] = response.data.token;
+          //window.localStorage['token'] = response.data.token;
           vm.submitted = false;
-          vm.userData={};
           $cordovaToast.showShortTop('Register successfully!').then(function(success) {
             $scope.otpModal.show();
           }, function (error) {
@@ -470,8 +515,10 @@
 
 
     $scope.verifiedOtp = function(otp){
+      //vm.userData={};
       var dd = {
-        "otp_val":otp
+        "otp_val":otp,
+        "mobile_number":vm.userData.username
       };
       Authentication.verifyOtp(dd).then(function(res){
         if(res.data.status){
@@ -480,6 +527,7 @@
             template: 'Mobile Number Verified successfully!'
           }).then(function(){
             $scope.otpModal.hide();
+            window.localStorage['token'] = res.data.token;
             $rootScope.$broadcast('logged_in', { message: 'login successfully' });
           });
         }
@@ -596,6 +644,7 @@
      if(vm.loginForm.$invalid){
        return false;
      }
+      vm.mobile_number = data.username;
       $ionicHistory.nextViewOptions({historyRoot:true});
       $rootScope.$broadcast('loading:show');
       Authentication.login(data).then(function (response) {
@@ -633,7 +682,8 @@
 
     $scope.verifiedOtp = function(otp){
       var dd = {
-        "otp_val":otp
+        "otp_val":otp,
+        "mobile_number":vm.mobile_number
       };
       Authentication.verifyOtp(dd).then(function(res){
         console.log(JSON.stringify(res.data));
@@ -642,7 +692,7 @@
             title: 'Otp Verified',
             template: 'Mobile Number Verified successfully!'
           }).then(function(){
-            window.localStorage['token'] = response.data.token;
+            window.localStorage['token'] = res.data.token;
             $scope.otpModal.hide();
             $rootScope.$broadcast('logged_in', { message: 'login successfully' });
           });

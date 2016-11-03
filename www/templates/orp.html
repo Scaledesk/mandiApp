@@ -9,17 +9,26 @@
           <div class=" col col-50">
             <!--<p>Order Total :</p>-->
             <p class="m-b-10">Quantity:</p>
-            <p class="m-b-10">Delivery By:</p>
-            <p class="m-b-10">Total Payable</p>
+            <!--<p class="m-b-10">Delivery By:</p>-->
+            <p class="m-b-10">Sub Total</p>
+            <p class="m-b-10">APMC Tax</p>
+            <p class="m-b-10">Commission</p>
+            <p class="m-b-10">Service Tax</p>
+            <p class="m-b-10">Grand Total</p>
           </div>
           <div class="col col-50">
             <!--<p>Rs. 56000</p>-->
-            <p><input type="number" ng-model="B.quantity" id="quantity" name="quantity" placeholder="Enter quantity" /></p>
-            <p>24 Jul 2016</p>
-            <p>&#8377; {{B.product.price*B.quantity}}</p>
+            <p class="m-b-10"><input type="number" ng-model="B.quantity" id="quantity" name="quantity" placeholder="Enter quantity" /></p>
+            <!--<p>24 Jul 2016</p>-->
+            <p class="m-b-10">&#8377; {{B.product.price*B.quantity}}</p>
+            <p class="m-b-10">&#8377; {{((B.product.price*B.quantity)*(1.2/100)).toFixed(2)}}</p>
+            <p class="m-b-10">&#8377; {{((B.product.price*B.quantity)*(1.2/100)).toFixed(2)}}</p>
+            <p class="m-b-10">&#8377; {{((B.product.price*B.quantity)*(1.2/100)).toFixed(2)}}</p>
+            <p class="m-b-10">&#8377; {{((B.product.price*B.quantity)*(1.2/100))+((B.product.price*B.quantity)*(1.2/100))+((B.product.price*B.quantity)*(1.2/100))+(B.product.price*B.quantity)}}</p>
           </div>
         </div>
       </div>
+
 
     </div>
     <div ng-if="B.verified" class="card">
@@ -53,8 +62,10 @@
         <div class="item item-thumbnail-left">
           <img ng-src="{{B.baseUrl}}{{B.product.image_url}}">
           <h3>{{B.product.post_title}}</h3>
+          <p class="w-800">{{B.product.get_product_quality.quality_name}}</p>
           <p>Cash On Delivery</p>
-          <p>Payment : &#8377; {{B.product.price*B.quantity}}</p>
+
+          <p>Payment : &#8377; {{((B.product.price*B.quantity)*(1.2/100))+((B.product.price*B.quantity)*(1.2/100))+((B.product.price*B.quantity)*(1.2/100))+(B.product.price*B.quantity)}}</p>
           <!--<p>Estimated Delivery : 15 Jun,2015</p>-->
         </div>
       </div>

@@ -17,19 +17,23 @@
 
           <div class="row">
             <div class=" col col-50">
-	      <p class="text-muted">Product Quality :</p>
+	            <p class="text-muted">Product :</p>
+	            <p class="text-muted">Product Grade :</p>
+	            <p class="text-muted">Product Quality :</p>
               <p class="text-muted">Price :</p>
               <p class="text-muted">Quantity:</p>
-              <p class="text-muted">Pincode:</p>
+              <p class="text-muted">Location:</p>
               <p class="text-muted">Availability By:</p>
               <!--<p>Delivery:</p>-->
             </div>
 
             <div class="col col-50">
-	      <p class="w-800">{{p.product.get_product_quality.quality_name}}</p>
+	            <p class="w-800">{{p.product.product}}</p>
+	            <p class="w-800">{{p.product.grade_product}}</p>
+	            <p class="w-800">{{p.product.get_product_quality.quality_name}}</p>
               <p class="w-800">Rs. {{p.product.price}}</p>
               <p class="w-800">{{p.product.quantity}} Kg</p>
-              <p class="w-800">{{p.product.pincode}}</p>
+              <p class="w-800">{{p.product.location}}</p>
               <p class="w-800">{{p.product.available_till|date:short}}</p>
               <!--<p>{{p.product.available_till|date:short}}</p>-->
             </div>
