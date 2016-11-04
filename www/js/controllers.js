@@ -420,7 +420,8 @@
       Booking.getPincodeLocation(pincode).then(function(res){
         vm.address.location = res.data.location;
       }, function(err){
-        alert('invalid pincode');
+        //alert('invalid pincode');
+
         console.log(JSON.stringify(err));
       })
     };
@@ -516,7 +517,7 @@
         console.log(JSON.stringify(res));
         vm.ordersDetail = res.data;
       },function(err){
-          alert('error ');
+          //alert('error ');
       });
     }
     getOrderDetails();
@@ -528,7 +529,7 @@
         console.log(JSON.stringify(res));
         getOrderDetails();
       },function(err){
-        alert('error :'+err);
+        //alert('error :'+err);
       });
     }
   });
@@ -562,14 +563,14 @@
           });
         }
       },function(error){
-        alert('Something Wrong!'+ JSON.stringify(error));
+        //alert('Something Wrong!'+ JSON.stringify(error));
 
 
-        /*$ionicPopup.alert({
+        $ionicPopup.alert({
           title: 'Error',
           template: error.data.msg
         }).then(function(){
-        });*/
+        });
 
 
         /*$cordovaToast.showShortTop('Something Wrong!').then(function(success) {
@@ -668,10 +669,10 @@
         }, function (error) {
           console.log(error);
         });*/
-        alert('Verified successfully');
+        //alert('Verified successfully');
         $state.go('app.home');
       }else {
-        alert('Otp does not match');
+        //alert('Otp does not match');
         /*$cordovaToast.showShortTop('Otp does not match !').then(function(success) {
         }, function (error) {
           console.log(error);
@@ -740,7 +741,7 @@
           resendOtp(dd);
           data = {};
         } else {
-          alert('else');
+          //alert('else');
           $cordovaToast.showShortTop('invalid username or password!').then(function(success) {
           });
           console.log('error: '+ JSON.stringify(error));
@@ -849,7 +850,7 @@
 
     });
 
-  app.controller('ProfileCtrl', function ($scope, Authentication, $state,Profile) {
+  app.controller('ProfileCtrl', function ($scope, Authentication,$cordovaToast, $state,Profile) {
     var vm = this;
     if(!Authentication.isLoggedIn()){
       $state.go('app.login1');
@@ -865,17 +866,19 @@
 
     vm.updateProfile = function(){
       if(vm.myForm.$invalid){
-        alert('Some thing wrong');
-        /*$cordovaToast.showShortTop('invalid username or password!').then(function(success) {
-         });*/
+        //alert('Some thing wrong');
+        $cordovaToast.showShortTop('invalid data!').then(function(success) {
+         });
         return false;
       }
 
       Profile.updateProfile(vm.profileData).then(function(res){
         console.log(res.data.status);
         if(res.data.status){
-          alert('updated successfully');
-          $state.go('app.account');
+          //alert('updated successfully');
+          $cordovaToast.showShortTop('profile update successfully').then(function(success) {
+            $state.go('app.account');
+          });
         }
 
       });
