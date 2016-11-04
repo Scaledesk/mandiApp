@@ -72,10 +72,18 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
     getAvailableProduct:getAvailableProduct,
     getAvailableGradeProduct:getAvailableGradeProduct,
     addStockProduct:addStockProduct,
-    deleteProductStock:deleteProductStock
+    deleteProductStock:deleteProductStock,
+    getSearchProduct:getSearchProduct
   };
   return service;
 
+
+  function getSearchProduct(id){
+    return $http({
+      method:"GET",
+      url:baseUrl+"/api/mob/stocks/?search="+id
+    });
+  }
 
   function deleteProductStock(data){
     return $http({

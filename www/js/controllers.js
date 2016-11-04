@@ -90,6 +90,15 @@
   app.controller('HomeCtrl', function ($scope,serverConfig,$http, Authentication, $state,Product) {
     var vm = this;
     vm.baseUrl = serverConfig.baseUrl;
+
+
+    $scope.searchResult = function(query){
+      if(query!=''||query!=undefined){
+        $state.go('app.searchResult',{query:query});
+      }
+    };
+
+
     $scope.callbackMethod = function(query){
       if(query.length>1){
         var d =[];
@@ -116,10 +125,33 @@
 
   });
 
-  app.controller('CategoryCtrl', function ($scope,$http,$state,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
+  app.controller('SearchCtrl', function ($scope,$http,$state,$rootScope,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
     var vm = this;
-     vm.baseUrl = serverConfig.baseUrl;
-    vm.sortBy= 'price';
+    vm.baseUrl = serverConfig.baseUrl;
+    var id  = $stateParams.query;
+    vm.products = [];
+    vm.loading = true;
+
+    $rootScope.$broadcast('loading:show');
+    Product.getSearchProduct(id).then(function(res){
+      vm.products = res.data;
+      vm.loading = false;
+      $rootScope.$broadcast('loading:hide');
+    },function(error){
+      vm.loading = false;
+      $rootScope.$broadcast('loading:hide');
+    });
+
+
+
+
+
+
+  });
+  app.controller('CategoryCtrl', function ($scope,$filter,$http,$state,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
+    var vm = this;
+    vm.baseUrl = serverConfig.baseUrl;
+    vm.sortBy= 'sort';
     vm.loading = true;
     if(!Authentication.isLoggedIn()){
       $ionicHistory.nextViewOptions({historyRoot:true});
@@ -133,7 +165,8 @@
       "entity_name":id,
       "page_number":0
     };
-
+    vm.min = 0;
+    vm.max = 20;
     vm.loadProduct = function(){
       if(vm.no_stocks){
         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -173,20 +206,49 @@
     vm.closeModal = function() {
       $scope.modal.hide();
     };
+
     vm.applyFilter = function(){
+      if(vm.priceChoice =='A'){
+        vm.min = 10;
+        vm.max = 20;
+      } else if(vm.priceChoice =='B') {
+        vm.min = 20;
+        vm.max = 40;
+      } else if(vm.priceChoice =='C'){
+        vm.min = 40;
+        vm.max = 5000;
+      }
+
+      if(vm.sorting=='lowtohigh'){
+        vm.products = $filter('orderBy')(vm.products, 'price');
+
+      } else if(vm.sorting=='hightolow'){
+        vm.products = $filter('orderBy')(vm.products, 'price',true);
+      }
+
+
+
+
+
       vm.closeModal();
     };
     vm.clearFilter = function(){
+      vm.min = 0;
+      vm.max = 20;
       vm.closeModal();
     };
 
 
   });
 
-  app.controller('ProductCtrl', function ($scope,$http,Booking,$ionicPopup,$state,$rootScope, $stateParams,Product,serverConfig) {
+  app.controller('ProductCtrl', function ($scope,$http,Authentication,Booking,$ionicPopup,$state,$rootScope, $stateParams,Product,serverConfig) {
     var vm = this;
     vm.baseUrl = serverConfig.baseUrl;
     var id  = $stateParams.id;
+    if(!Authentication.isLoggedIn()){
+      $ionicHistory.nextViewOptions({historyRoot:true});
+      $state.go('app.login1');
+    }
     vm.product = {};
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
@@ -501,6 +563,15 @@
         }
       },function(error){
         alert('Something Wrong!'+ JSON.stringify(error));
+
+
+        /*$ionicPopup.alert({
+          title: 'Error',
+          template: error.data.msg
+        }).then(function(){
+        });*/
+
+
         /*$cordovaToast.showShortTop('Something Wrong!').then(function(success) {
         }, function (error) {
           console.log(error);
@@ -839,6 +910,9 @@
     vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
     vm.ddd = {};
+    var today=new Date();
+    $scope.today = $filter('date')(today, 'yyyy-MM-dd');
+    console.log($scope.today);
     vm.getProduct = function (ctype) {
       $rootScope.$broadcast('loading:show');
       Product.getAvailableProduct(ctype).then(function(res){

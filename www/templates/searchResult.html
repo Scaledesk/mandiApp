@@ -1,0 +1,23 @@
+
+<ion-view view-title="Search Results">
+  <ion-content class="ionic-content-bg">
+    <div class="card" ng-repeat="prod in S.products" style="padding: 0 5px;" ng-if="prod.status!='closed'">
+      <div ui-sref="app.pdp({'id':{{prod.pk}}})">
+        <div class="row">
+          <div class="col-25">
+            <img ng-src="{{S.baseUrl}}{{prod.image_url}}" width="95" height="95">
+          </div>
+          <div class="col-75 p-l-10">
+            <h4 class="story-title">{{prod.post_title}}</h4>
+            <p><span class="text-muted">price:</span>&nbsp;&nbsp;  &#8377; <span>{{prod.price}}</span></p>
+            <p><span class="text-muted">Available till:</span>&nbsp;&nbsp; {{prod.available_till | date:short}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="!S.loading&&S.products.length==0" class="row">
+      No Product found
+    </div>
+  </ion-content>
+  <!--fab button opening modal-->
+</ion-view>

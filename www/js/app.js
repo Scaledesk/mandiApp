@@ -179,6 +179,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+  $stateProvider.state('app.searchResult', {
+    url: '/searchResult/:query',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/searchResult.html',
+        controller: 'SearchCtrl',
+        controllerAs:'S'
+      }
+    }
+  });
 
   $stateProvider.state('app.otp', {
     url: '/otp',

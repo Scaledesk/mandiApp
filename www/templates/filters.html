@@ -16,25 +16,18 @@
       <div class="col col-33">
        <ul class="list">
          <li class="item" ng-click="c.sortBy='price'">Price</li>
-         <li class="item" ng-click="c.sortBy='grade'">Grade</li>
          <!--<li class="item" ng-click="c.sortBy='availability'">Availability</li>-->
          <li class="item" ng-click="c.sortBy='sort'">Sort By</li>
        </ul>
       </div>
       <div class="col col-66">
         <div ng-if="c.sortBy=='price'" id="price">
-        <ion-list>
-          <ion-checkbox >Rs.200-400</ion-checkbox>
-          <ion-checkbox>Rs.500-800</ion-checkbox>
-          <ion-checkbox>Rs.1000-above</ion-checkbox>
-        </ion-list>
-          </div>
-        <div ng-if="c.sortBy=='grade'" id="grade">
           <ion-list>
-            <ion-checkbox>Premium</ion-checkbox>
-            <ion-checkbox>Regular</ion-checkbox>
+            <ion-radio ng-model="c.priceChoice" ng-value="'A'">Rs.10-20</ion-radio>
+            <ion-radio ng-model="c.priceChoice" ng-value="'B'">Rs.20-40</ion-radio>
+            <ion-radio ng-model="c.priceChoice" ng-value="'C'">Rs.40-above</ion-radio>
           </ion-list>
-        </div>
+          </div>
         <!--<div ng-if="c.sortBy=='availability'" id="avail">
           <ion-list>
             <ion-checkbox>By Date</ion-checkbox>
@@ -44,9 +37,9 @@
         </div>-->
         <div ng-if="c.sortBy=='sort'" id="sort">
           <ion-list>
-            <ion-checkbox>Price: Low to High</ion-checkbox>
-            <ion-checkbox>Price: High to Low</ion-checkbox>
-            <ion-checkbox>Newest</ion-checkbox>
+            <ion-radio ng-model="c.sorting" ng-value="'lowtohigh'">Price: Low to High</ion-radio>
+            <ion-radio ng-model="c.sorting" ng-value="'hightolow'">Price: High to Low</ion-radio>
+
           </ion-list>
         </div>
       </div>
