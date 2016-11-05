@@ -7,7 +7,7 @@
             <img ng-src="{{p.baseUrl}}{{p.product.image_url}}" class="pdp-img">
           </div>
         </div>
-        <div class="item item-body">
+        <div class="item item-body p-10">
           <div class="row p-t-10 p-b-30">
             <div class="col text-center">
               <div class="f-24 w-500">{{p.product.post_title}}</div>
@@ -16,27 +16,113 @@
           </div>
 
           <div class="row">
-            <div class=" col col-50">
-	            <p class="text-muted">Product :</p>
-	            <p class="text-muted">Product Grade :</p>
-	            <p class="text-muted">Product Quality :</p>
-              <p class="text-muted">Price :</p>
-              <p class="text-muted">Quantity:</p>
-              <p class="text-muted">Location:</p>
-              <p class="text-muted">Availability By:</p>
+            <div class="col-33">
+	            <p class="text-muted f-12">Product :</p>
+              </div>
+
+            <div class="col-67">
+              <p class="w-800 text-right">{{p.product.product}}</p>
+
+            </div>
+            </div>
+
+
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Product Grade :</p>
+
+            </div>
+
+            <div class="col-67">
+              <p class="w-800 text-right">{{p.product.grade_product}}</p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Product Quality :</p>
+
+            </div>
+
+            <div class="col-67">
+              <p class="w-800 text-right">{{p.product.get_product_quality.quality_name}}</p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Price :</p>
+
+            </div>
+
+
+            <div class="col-67">
+              <p class="w-800 text-right">Rs. {{p.product.price}}</p>
+
+            </div>
+
+
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Quantity:</p>
+
+            </div>
+
+            <div class="col-67">
+              <p class="w-800 text-right">{{p.product.quantity}} Kg</p>
+
+            </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Location:</p>
+
+            </div>
+
+
+            <div class="col-67">
+              <p class="w-800 text-right">{{p.product.location}}</p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Availability By:</p>
+
+            </div>
+
+            <div class="col-67">
+              <p class="w-800 text-right">{{p.product.available_till|date:short}}</p>
+
+            </div>
+
+          </div>
+
               <!--<p>Delivery:</p>-->
             </div>
 
-            <div class="col col-50">
-	            <p class="w-800">{{p.product.product}}</p>
-	            <p class="w-800">{{p.product.grade_product}}</p>
-	            <p class="w-800">{{p.product.get_product_quality.quality_name}}</p>
-              <p class="w-800">Rs. {{p.product.price}}</p>
-              <p class="w-800">{{p.product.quantity}} Kg</p>
-              <p class="w-800">{{p.product.location}}</p>
-              <p class="w-800">{{p.product.available_till|date:short}}</p>
-              <!--<p>{{p.product.available_till|date:short}}</p>-->
-            </div>
+            <!--<div class="col col-50">-->
+              <!--&lt;!&ndash;<p>{{p.product.available_till|date:short}}</p>&ndash;&gt;-->
+            <!--</div>-->
           </div>
         </div>
         <div ng-if="profile.is_buyer" class="row">
@@ -50,7 +136,5 @@
           </button>
         </div>
 
-      </div>
-    </div>
   </ion-content>
 </ion-view>
