@@ -13,7 +13,7 @@
           <p>{{OD.ordersDetail.order_data.order_uid}}</p>
           <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
           <p><label>{{OD.ordersDetail.order_data.order_status.replace('_',' ') | capitalizeFirst}}</label></p>
-          <p>{{OD.ordersDetail.order_data.quantity*OD.ordersDetail.stock_data.price}}</p>
+          <p>{{(((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))+((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))+(((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))*(14.5/100))+(OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)).toFixed(2)}}</p>
         </div>
       </div>
 
