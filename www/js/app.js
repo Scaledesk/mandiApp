@@ -120,6 +120,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('app.category', {
     url: '/category/:categoryId',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/category.html',
@@ -128,6 +129,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
+
   $stateProvider.state('app.signup', {
     url: '/signup',
     views: {
