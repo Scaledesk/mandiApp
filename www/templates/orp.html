@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view view-title="Order Review">
   <ion-content class="ionic-content-bg">
     <div ng-if="B.verified" class="card">
       <div class="item item-divider">
@@ -18,7 +18,7 @@
           </div>
           <div class="col col-50">
             <!--<p>Rs. 56000</p>-->
-            <p class="m-b-10"><input type="number" ng-model="B.quantity" id="quantity" name="quantity" placeholder="Enter quantity" /></p>
+            <p class="m-b-10"><input type="number" number-converter="" ng-model="B.quantity" id="quantity" name="quantity" placeholder="Enter quantity" /></p>
             <!--<p>24 Jul 2016</p>-->
             <p class="m-b-10">&#8377; {{B.product.price*B.quantity}}</p>
             <p class="m-b-10">&#8377; {{((B.product.price*B.quantity)*(1.2/100)).toFixed(2)}}</p>
@@ -45,7 +45,7 @@
           <p>{{B.address.address}}<br>
             Pincode : {{B.address.pincode}}</p>
         </div>
-        <div class="col col-10" ng-click="showpincodemodal()"><i class="ion-edit"></i></div>
+        <div class="col col-10" ng-click="redirectPincode()"><i class="ion-edit"></i></div>
         <hr>
       </div>
       <div class="row">
@@ -70,6 +70,7 @@
         </div>
       </div>
     </div>
+
     <div ng-if="!B.verified && !B.loading" class="card">
       <div class="item item-divider">
         Verification Failed
@@ -79,7 +80,6 @@
           <p>Your Account Details Not Verified yet!</p>
         </div>
       </div>
-
     </div>
 
     <div ng-if="B.verified" class="row">

@@ -1,35 +1,58 @@
-<ion-modal-view>
+<ion-view view-title="Product Quantity">
   <ion-content class="ionic-content-bg">
-
     <div class="row text-center">
-
-      <div class="col-50 text-left p-l-10">
+      <!--<div class="col-50 text-left p-l-10">
         <p class="f-18 text-muted" style="margin: 10px 0;" ng-click="backQuantity()"><a href="" class="text-muted"><i class="fa fa-angle-left"></i>&nbsp;Back</a></p>
-      </div>
-
-      <div class="col-50 text-center">
+      </div>-->
+      <div class="col text-center">
         <h4>Quantity</h4>
       </div>
     </div>
 
+    <form name="Q.quantityForm" ng-submit="Q.getQunatity()" novalidate>
     <div class="row">
       <div class="col col-100">
         <div class="list list-inset m-0">
           <label class="item item-input">
-            <input type="number" ng-model="B.quantity" placeholder="0 kg" ng-focus="B.quantityError=false">
+            <input type="number" name="quantity" number-converter="" ng-model="Q.quantity" placeholder="0 kg" required min="100" max="{{Q.product.quantity}}">
           </label>
-          <p ng-if="B.quantityError" style="color: maroon">Quantity must be greater than or equal to 100 kg</p>
-          <p ng-if="B.quantityError" style="color: maroon">Available Quantity: {{B.product.quantity}}</p>
+          <div ng-if="Q.submited" ng-messages="Q.quantityForm.quantity.$error" style="color: maroon;">
+            <div ng-message="required">Quantity Required</div>
+            <div ng-message="min">Quantity must be greater than or equal to 100 kg</div>
+            <div ng-message="max">Quantity must be greater than or equal to 100 kg</div>
+          </div>
         </div>
       </div>
      </div>
 
+
     <div class="row">
       <div class="col col-100">
-        <button class="button button-block button-positive bg" ng-click="getQunatity()">
+        <button type="submit" class="button button-block button-positive bg">
           Submit
         </button>
       </div>
     </div>
+    </form>
+
+
+
+    <!--<div ng-if="!Q.verified && !Q.loading" class="row">
+      <div class="item item-divider">
+        Verification Failed
+      </div>
+      <div class="item item-text-wrap">
+        <div class="row">
+          <p>Your Account Details Not Verified yet!</p>
+        </div>
+      </div>
+    </div>-->
+
+
+
+
+
+
+
   </ion-content>
-</ion-modal-view>
+</ion-view>

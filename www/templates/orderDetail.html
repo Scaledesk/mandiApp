@@ -3,15 +3,17 @@
     <div class="card">
       <div class="row">
         <div class="col col-50">
-          <p class="text-muted">Ordered On:</p>
           <p class="text-muted">Order Id:</p>
+          <p class="text-muted">Ordered On:</p>
           <p class="text-muted">Status:</p>
+          <p class="text-muted">Grand Total:</p>
         </div>
 
         <div class="col col-50">
-          <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
           <p>{{OD.ordersDetail.order_data.order_uid}}</p>
+          <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
           <p><label>{{OD.ordersDetail.order_data.order_status.replace('_',' ') | capitalizeFirst}}</label></p>
+          <p>{{OD.ordersDetail.order_data.quantity*OD.ordersDetail.stock_data.price}}</p>
         </div>
       </div>
 
@@ -28,19 +30,26 @@
         <img ng-src="{{OD.baseUrl}}{{OD.ordersDetail.stock_data.image_url}}" width="100%" height="auto"></div>
 
       <div class="item item-body">
+
+        <div class="row">
+          <h2>Product Details</h2>
+        </div>
+
         <div class="row">
           <div class="col col-50">
-            <p>Delivered On:</p>
+            <p>Name:</p>
+            <p>Grade:</p>
             <p>Quantity:</p>
             <p>Unit Price:</p>
-            <p>Grand Total</p>
+            <p>Delivered On:</p>
           </div>
 
           <div class="col col-50">
+            <p class="w-800">{{OD.ordersDetail.stock_data.post_title}}</p>
+            <p class="w-800">{{OD.ordersDetail.stock_data.get_product_quality.quality_name}}</p>
+            <p class="w-800">{{OD.ordersDetail.order_data.quantity}} kg</p>
+            <p class="w-800">{{OD.ordersDetail.stock_data.price}}/kg</p>
             <p class="w-800">NA</p>
-            <p class="w-800">{{OD.ordersDetail.order_data.quantity}}</p>
-            <p class="w-800">{{OD.ordersDetail.stock_data.price}}</p>
-            <p class="w-800">&#8377; {{OD.ordersDetail.order_data.quantity*OD.ordersDetail.stock_data.price}}</p>
           </div>
         </div>
       </div></div>

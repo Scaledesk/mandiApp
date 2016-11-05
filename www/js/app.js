@@ -307,6 +307,36 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
+
+  $stateProvider.state('app.getQuantity', {
+    url: '/getQuantity/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/getQuantity.html',
+        controller: 'GetQuantityCtrl',
+        controllerAs:'Q'
+      }
+    }
+  });
+
+
+
+  $stateProvider.state('app.getPincode', {
+    url: '/getPincode/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/getpincode.html',
+        controller: 'GetPincodeCtrl',
+        controllerAs:'P'
+      }
+    }
+  });
+
+
+
+
+
   $stateProvider.state('app.orp', {
     url: '/orp/:id',
     views: {
@@ -364,5 +394,25 @@ app.filter('capitalizeFirst', function() {
     return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
   }
 });
+
+  app.directive('numberConverter', function () {
+    return {
+      priority: 1,
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (scope, element, attr, ngModel) {
+        function toModel(value) {
+          return "" + value; // convert to string
+        }
+
+        function toView(value) {
+          return parseInt(value); // convert to number
+        }
+
+        ngModel.$formatters.push(toView);
+        ngModel.$parsers.push(toModel);
+      }
+    };
+  });
 
 }());
