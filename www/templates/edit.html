@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view view-title="Edit your Profile">
   <ion-content>
     <form name="profile.myForm" ng-submit="profile.updateProfile()" novalidate>
     <div class="list">
@@ -20,6 +20,10 @@
           <div ng-message="email">Enter valid email.</div>
         </div>
       </label>
+        
+        <p class=" f-14 m-t-10 m-l-20"><span class="text-muted">Registered Mobile No. : 
+            </span> 
+            {{profile.profileData.phone_number}}</p>
 
       <label class="item item-input item-floating-label">
         <span class="input-label">Bank Name</span>

@@ -542,7 +542,7 @@
         $rootScope.$broadcast('loading:hide');
         $ionicPopup.alert({
           title: 'Order Completed',
-          template: 'Your Order has been sent for review we will inform you when your order in confirmed!'
+          template: 'Your Order has been sent for review. We will inform you when your order is confirmed !'
         }).then(function(){
           window.localStorage['address'] = undefined;
           window.localStorage['quantity'] = undefined;
