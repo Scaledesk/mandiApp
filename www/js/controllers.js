@@ -156,7 +156,7 @@
     vm.loading = true;
     if(!Authentication.isLoggedIn()){
       $ionicHistory.nextViewOptions({historyRoot:true});
-      $state.go('app.login1');
+      $state.go('app.login');
     }
     var id  = $stateParams.categoryId;
     vm.products = [];

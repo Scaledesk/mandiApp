@@ -12,7 +12,7 @@
           <h3>{{B.product.post_title}}</h3>
           <p class="w-800">{{B.product.grade_product}}</p>
           <p class="w-800">{{B.product.get_product_quality.quality_name}}</p>
-          <p>Price : &#8377; {{B.product.price}}/kg</p>
+          <p>Price : &#8377; {{B.product.price | currency:"#8377;"}}/kg</p>
         </div>
       </div>
     </div>
