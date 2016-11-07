@@ -305,12 +305,16 @@
     var id  = $stateParams.id;
     vm.baseUrl = serverConfig.baseUrl;
     vm.product = {};
-    if(window.localStorage['address']!=''||window.localStorage['address']!=undefined){
+    if(window.localStorage['address']!="undefined" && window.localStorage['address']!=undefined && window.localStorage['address']!=""){
       vm.address = angular.fromJson(window.localStorage['address']);
     } else {
       vm.address = {};
     }
-    vm.quantity = window.localStorage['quantity'];
+    if(window.localStorage['address']!=undefined){
+      vm.quantity = window.localStorage['quantity'];
+    } else {
+      vm.quantity = undefined;
+    }
     vm.loading = true;
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
