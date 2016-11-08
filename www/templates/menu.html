@@ -8,6 +8,18 @@
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
         </button>
       </ion-nav-buttons>
+
+
+
+      <ion-nav-buttons side="right">
+        <a ng-if="unreadNotif.length>0" class="button button-assertive button-icon-left button-clear" ng-href="#/app/notification">
+          <i class="icon ion-android-notifications"></i>{{unreadNotif.length}}
+        </a>
+      </ion-nav-buttons>
+
+
+
+
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>

@@ -69,6 +69,7 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
     getProductDetails:getProductDetails,
     loadStories:loadStories,
     getNotification:getNotification,
+    readNotification:readNotification,
     getAvailableProduct:getAvailableProduct,
     getAvailableGradeProduct:getAvailableGradeProduct,
     addStockProduct:addStockProduct,
@@ -78,6 +79,13 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
   return service;
 
 
+  function readNotification(){
+    return $http({
+      method:"PUT",
+      url:baseUrl+"/web/mark_read/notif/",
+      headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
+    });
+  }
   function getSearchProduct(id){
     return $http({
       method:"GET",

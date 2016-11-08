@@ -1,9 +1,10 @@
 (function() {
   var app = angular.module('md_gate');
-  app.controller('AppCtrl', function ($scope,$ionicHistory,$ionicPopup,$rootScope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
+  app.controller('AppCtrl', function ($scope,$filter,$ionicHistory,$ionicPopup,Product,$rootScope, $ionicModal, Authentication, $state,Profile,$cordovaToast, $timeout) {
     $scope.isAuthenticate = function () {
       return Authentication.isLoggedIn();
     };
+
     if(Authentication.isLoggedIn()){
       Profile.getProfile().then(function(res){
         //$scope.profile = res.data.profile_data;
@@ -13,9 +14,22 @@
           $state.go('app.dashboard');
         }*/
       });
+      getNotification();
     }
-
-
+    $rootScope.unreadNotif = [];
+    function getNotification(){
+      Product.getNotification().then(function(res){
+        $rootScope.notification = res.data;
+        angular.forEach($rootScope.notification,function(obj){
+              if(obj.fields.notif_read==false){
+                $rootScope.unreadNotif.push(obj);
+              }
+        });
+        console.log('unread: '+$rootScope.unreadNotif.length);
+      },function(err){
+        console.log('error:'+JSON.stringify(err));
+      })
+    }
     $rootScope.$on('logged_in', function (event, args) {
       $ionicHistory.nextViewOptions({historyRoot:true});
       Profile.getProfile().then(function(res){
@@ -29,6 +43,7 @@
           $state.go('app.home');
         }
       });
+      getNotification();
     });
 
     $scope.logout = function () {
@@ -1156,10 +1171,6 @@
         console.log(JSON.stringify(error));
       });
     };
-
-
-
-
     vm.addStock = function(){
       vm.submitted =true;
       if(vm.myForm.$invalid){
@@ -1225,10 +1236,6 @@
     };
   });
 
-
-
-
-
   app.controller('NotificationCtrl', function ($scope,$stateParams,Product,serverConfig) {
       var vm = this;
       vm.baseUrl = serverConfig.baseUrl;
@@ -1240,12 +1247,17 @@
             console.log('not:'+JSON.stringify(vm.notification));
             vm.loading = false;
           },function(err){
-            console.log('error:'+JSON.stringify(err))
+            console.log('error:'+JSON.stringify(err));
             vm.loading = false;
           })
       };
+    vm.readNotification = function(){
+      Product.readNotification().then(function(res){
+        console.log(JSON.stringify(res.data));
+      },function(err){
+      })
+    };
       vm.getNotification();
+      vm.readNotification();
   });
-
-
 }());
