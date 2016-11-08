@@ -44,6 +44,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
   $stateProvider.state('app.dashboard', {
     url: '/dashboard',
     views:{
@@ -57,6 +58,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('app.listSellerItems', {
     url: '/listSellerItems',
+    cache:false,
     views:{
       'menuContent': {
         templateUrl: 'templates/listSellerItems.html',
@@ -76,6 +78,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
+
+
+  $stateProvider.state('app.editStock', {
+    url: '/editStock/:id',
+    views:{
+      'menuContent': {
+        templateUrl: 'templates/EditStock.html',
+        controller: 'EditStockCtrl',
+        controllerAs: 'editStock'
+      }
+    }
+  });
+
+
 
   $stateProvider.state('app.seller', {
       url: '/seller',

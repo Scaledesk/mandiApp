@@ -131,9 +131,16 @@
           </a>
         </div>
         <div ng-if="profile.is_seller" class="row">
-          <button class="button button-block button-assertive" ng-click="p.deleteStock(p.product.pk)">
+
+          <div class="button-bar">
+            <a class="button button-block button-positive mybar" ng-href="#/app/editStock/{{p.product.pk}}">Edit Stock</a>
+            <button class="button button-assertive button-block" ng-click="p.deleteStock(p.product.pk)">Delete Stock</button>
+          </div>
+          <!--button-outline-->
+          <!--<button class="button button-block button-assertive" ng-click="p.deleteStock(p.product.pk)">
             Delete Stock
-          </button>
+          </button>-->
+
         </div>
 
   </ion-content>

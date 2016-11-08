@@ -255,7 +255,7 @@
     Product.getProductDetails(id).then(function(res){
      console.log(JSON.stringify(res));
       vm.product = res.data;
-      getLocationDetails(vm.product.pincode);
+      //getLocationDetails(vm.product.pincode);
       $rootScope.$broadcast('loading:hide');
      },function(err){
       $rootScope.$broadcast('loading:hide');
@@ -266,6 +266,21 @@
       var dd = {
         "stock_id":id.toString()
       };
+
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Delete Stock',
+        template: 'Are you sure you want to delete this stock?'
+      });
+      confirmPopup.then(function(res) {
+        if(res) {
+          vm.deleteStockDetails(dd);
+        } else {
+        }
+      });
+    };
+
+
+    vm.deleteStockDetails  = function(dd){
       $rootScope.$broadcast('loading:show');
       Product.deleteProductStock(dd).then(function(res){
         console.log(res);
@@ -286,7 +301,6 @@
         });
       });
     };
-
 
     function getLocationDetails(pin){
       Booking.getPincodeLocation(pin).then(function(res){
@@ -630,6 +644,7 @@
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
+    $scope.sendingOtp = false;
     $ionicModal.fromTemplateUrl('templates/otp.html', {
       scope: $scope,
       animation: 'slide-in-up',
@@ -672,10 +687,10 @@
       });
     }
 
-    $scope.skipVerification = function(){
+   /* $scope.skipVerification = function(){
       $scope.otpModal.hide();
       $rootScope.$broadcast('logged_in', { message: 'login successfully' });
-    };
+    };*/
 
 
     $scope.verifiedOtp = function(otp){
@@ -704,7 +719,19 @@
       })
     };
 
-
+    $scope.resendOtpButton = function(){
+      var dd = {
+        "mobile_number":vm.userData.username
+      };
+      $scope.sendingOtp = true;
+      Authentication.sendOtp(dd).then(function(res){
+        console.log(JSON.stringify(res));
+        $scope.sendingOtp = false;
+      },function(err){
+        $scope.sendingOtp = false;
+        console.log(JSON.stringify(err));
+      });
+    };
 
     vm.doSellerRegistration = function () {
       vm.submitted = true;
@@ -751,33 +778,35 @@
     };
   });
 
+/*
   app.controller('OtpCtrl', function ($scope,$state,$ionicHistory,$cordovaToast, Authentication) {
     var vm = this;
     vm.checkOtp = function(num){
       if(num==12345){
         $ionicHistory.nextViewOptions({historyRoot:true});
-        /*$cordovaToast.showShortTop('Verified Successfully !').then(function(success) {
+        /!*$cordovaToast.showShortTop('Verified Successfully !').then(function(success) {
           $state.go('app.home');
         }, function (error) {
           console.log(error);
-        });*/
+        });*!/
         //alert('Verified successfully');
         $state.go('app.home');
       }else {
         //alert('Otp does not match');
-        /*$cordovaToast.showShortTop('Otp does not match !').then(function(success) {
+        /!*$cordovaToast.showShortTop('Otp does not match !').then(function(success) {
         }, function (error) {
           console.log(error);
-        });*/
+        });*!/
       }
     };
   });
+*/
 
   app.controller('LoginCtrl', function ($scope,$ionicPopup,$ionicModal,Profile,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
-
+    $scope.sendingOtp = false;
     $ionicModal.fromTemplateUrl('templates/otp.html', {
       scope: $scope,
       animation: 'slide-in-up',
@@ -785,19 +814,18 @@
     }).then(function(modal) {
       $scope.otpModal = modal;
     });
-
-
-
-
     var vm = this;
     vm.submited = false;
 
 
     function resendOtp(dd){
+      $scope.sendingOtp = true;
       Authentication.sendOtp(dd).then(function(res){
         console.log(JSON.stringify(res));
+        $scope.sendingOtp = false;
       },function(err){
         console.log(JSON.stringify(err));
+        $scope.sendingOtp = false;
       });
     }
 
@@ -871,6 +899,12 @@
     };
 
 
+    $scope.resendOtpButton = function(){
+      var dd = {
+        "mobile_number":vm.mobile_number
+      };
+      resendOtp(dd);
+    };
 
   });
 
@@ -984,30 +1018,80 @@
     vm.baseUrl = serverConfig.baseUrl;
   });
 
-  app.controller('ListSellerItemsCtrl', function ($scope,$stateParams,$rootScope,Product,serverConfig) {
+  app.controller('ListSellerItemsCtrl', function ($scope,$ionicHistory,$stateParams,$rootScope,Product,serverConfig) {
     var vm = this;
     vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
+    var backview = $ionicHistory.backView();
+    if(backview!=null){
+      if(backview.stateName!=app.dashboard){
+        $ionicHistory.removeBackView()
+      }
+    }
+
     $rootScope.$broadcast('loading:show');
+    vm.loading = true;
     Product.getMyProduct().then(function(res){
-        vm.products = vm.products.concat(res.data);
-        console.log('sss:'+JSON.stringify(res.data));
+        vm.products = vm.products.concat(res.data.data);
+        //console.log('sss:'+JSON.stringify(res.data.data));
         //vm.products = vm.products.concat(res.data.data.all_stocks);
+      vm.loading = false;
       $rootScope.$broadcast('loading:hide');
     },function(error){
+      vm.loading = false;
       $rootScope.$broadcast('loading:hide');
     });
   });
 
-  app.controller('AddStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
+
+
+  app.controller('EditStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
     var vm = this;
+    var id  = $stateParams.id;
     vm.stockData = {};
     vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
     vm.ddd = {};
     var today=new Date();
     $scope.today = $filter('date')(today, 'yyyy-MM-dd');
-    console.log($scope.today);
+
+
+    $rootScope.$broadcast('loading:show');
+    Product.getProductDetails(id).then(function(res){
+      console.log('result'+JSON.stringify(res.data));
+      vm.product = res.data;
+      /*var d = {
+        "status": "closed",
+        "product": "Mango",
+        "price": 50,
+        "pincode": "110096",
+        "grade_product": "Alphonso",
+        "get_product_quality": {"quality_name": "Grade B"},
+        "post_title": "Ratnagiri Alphonso",
+        "available_till": "2016-08-31",
+        "image_url": "/media/uploads/Mango.jpg",
+        "location": "110096, nan, East Delhi, DELHI",
+        "pk": 20,
+        "quantity": 8787878
+      };*/
+      vm.stockData = {
+        "category":"",
+        "product":vm.product.product,
+        "gradeP":vm.product.grade_product,
+        "gradePQ":vm.product.get_product_quality.quality_name,
+        "quantity":vm.product.quantity,
+        "available_date":new Date(vm.product.available_till),
+        "pincode":vm.product.pincode,
+        "price":vm.product.price,
+        "title":vm.product.post_title
+      };
+
+      $rootScope.$broadcast('loading:hide');
+    },function(err){
+      $rootScope.$broadcast('loading:hide');
+    });
+
+
     vm.getProduct = function (ctype) {
       $rootScope.$broadcast('loading:show');
       Product.getAvailableProduct(ctype).then(function(res){
@@ -1019,7 +1103,6 @@
         console.log(JSON.stringify(error));
       });
     };
-
     vm.getGradeProduct = function(id){
       Product.getAvailableGradeProduct(id).then(function(res){
         vm.gradeProduct = res.data[0];
@@ -1032,6 +1115,50 @@
         console.log(JSON.stringify(error));
       });
     };
+  });
+
+
+
+
+
+  app.controller('AddStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
+    var vm = this;
+    vm.stockData = {};
+    vm.products = [];
+    vm.baseUrl = serverConfig.baseUrl;
+    vm.ddd = {};
+    var today=new Date();
+    $scope.today = $filter('date')(today, 'yyyy-MM-dd');
+    console.log($scope.today);
+
+
+
+    vm.getProduct = function (ctype) {
+      $rootScope.$broadcast('loading:show');
+      Product.getAvailableProduct(ctype).then(function(res){
+        vm.products = res.data;
+        console.log(JSON.stringify(res.data));
+        $rootScope.$broadcast('loading:hide');
+      },function(error){
+        $rootScope.$broadcast('loading:hide');
+        console.log(JSON.stringify(error));
+      });
+    };
+    vm.getGradeProduct = function(id){
+      Product.getAvailableGradeProduct(id).then(function(res){
+        vm.gradeProduct = res.data[0];
+        vm.gradeProductQuality = res.data[1];
+        console.log('grade: '+JSON.stringify(res.data[0]));
+        console.log('grade quality: '+JSON.stringify(res.data[1]));
+        $rootScope.$broadcast('loading:hide');
+      },function(error){
+        $rootScope.$broadcast('loading:hide');
+        console.log(JSON.stringify(error));
+      });
+    };
+
+
+
 
     vm.addStock = function(){
       vm.submitted =true;
@@ -1088,21 +1215,19 @@
           title: 'Successfully Posted',
           template: 'Your stock has been successfully posted!'
         }).then(function(){
-            $state.go('app.listSellerItems');
+
+          $state.go('app.listSellerItems');
         });
       },function(err){
         $rootScope.$broadcast('loading:hide');
         console.log(JSON.stringify(err));
       })
-
-
-
-
-
-
-
     };
   });
+
+
+
+
 
   app.controller('NotificationCtrl', function ($scope,$stateParams,Product,serverConfig) {
       var vm = this;

@@ -20,6 +20,13 @@
         <input type="text" placeholder="Please Enter the OTP" ng-model="otp.num">
       </label>
     </div>
+
+
+
+    <div class="text-center">
+      <a class="" disabled="sendingOtp" ng-click="resendOtpButton()">Resend Otp</a>
+    </div>
+
     <div class="row">
       <button class="button button-block button-positive mandi-button" ng-click="verifiedOtp(otp.num)">Verify</button>
     </div>
