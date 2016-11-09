@@ -88,13 +88,15 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
     });
   }
 
+
   function readNotification(){
     return $http({
       method:"PUT",
-      url:baseUrl+"/web/mark_read/notif/",
+      url:baseUrl+"/api/mob/marknotificationsread/",
       headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
     });
   }
+
   function getSearchProduct(id){
     return $http({
       method:"GET",

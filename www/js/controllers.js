@@ -1243,7 +1243,7 @@
     };
   });
 
-  app.controller('NotificationCtrl', function ($scope,$stateParams,Product,serverConfig) {
+  app.controller('NotificationCtrl', function ($scope,$rootScope,$stateParams,Product,serverConfig) {
       var vm = this;
       vm.baseUrl = serverConfig.baseUrl;
       vm.loading = true;
@@ -1251,6 +1251,13 @@
           Product.getNotification().then(function(res){
             //console.log('not:'+JSON.stringify(res))
             vm.notification = res.data;
+            vm.unread = [];
+            angular.forEach(vm.notification,function(obj){
+              if(obj.fields.notif_read==false){
+                vm.unread.push(obj);
+              }
+            });
+            $rootScope.unreadNotif = vm.unread;
             console.log('not:'+JSON.stringify(vm.notification));
             vm.loading = false;
           },function(err){
@@ -1261,6 +1268,7 @@
     vm.readNotification = function(){
       Product.readNotification().then(function(res){
         console.log(JSON.stringify(res.data));
+        $rootScope.unreadNotif = [];
       },function(err){
       })
     };
