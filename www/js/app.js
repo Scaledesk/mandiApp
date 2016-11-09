@@ -311,6 +311,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
   $stateProvider.state('app.account', {
     url: '/account',
+    cache:false,
     views: {
       'menuContent': {
         templateUrl: 'templates/account.html',
@@ -329,6 +330,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
   $stateProvider.state('app.edit', {
     url: '/edit',
+    cache:false,
     views: {
       'menuContent': {
         templateUrl: 'templates/edit.html',

@@ -46,6 +46,14 @@
       getNotification();
     });
 
+
+
+    $rootScope.$on('profile_updated', function (event, args) {
+      Profile.getProfile().then(function(res){
+        $rootScope.profile = res.data.profile_data;
+      });
+    });
+
     $scope.logout = function () {
 
       $ionicPopup.confirm({
@@ -991,37 +999,45 @@
 
     });
 
-  app.controller('ProfileCtrl', function ($scope, Authentication,$cordovaToast, $state,Profile) {
+  app.controller('ProfileCtrl', function ($scope, Authentication,$rootScope,$cordovaToast, $state,Profile) {
     var vm = this;
     if(!Authentication.isLoggedIn()){
-      $state.go('app.login1');
+      $state.go('app.login');
     }
+    vm.loading = true;
+    $rootScope.$broadcast('loading:show');
     Profile.getProfile().then(function(res){
-      console.log('msvhv hjs dvchgsvdch c sch sch s');
       if(res.data.status){
-        vm.profileData = res.data.profile_data
+        vm.profileData = res.data.profile_data;
       }
+      vm.loading = false;
+      $rootScope.$broadcast('loading:hide');
     },function(err){
+      vm.loading = false;
+      $rootScope.$broadcast('loading:hide');
       console.log('error'+JSON.stringify(err));
     });
 
+
     vm.updateProfile = function(){
       if(vm.myForm.$invalid){
-        //alert('Some thing wrong');
         $cordovaToast.showShortTop('invalid data!').then(function(success) {
          });
         return false;
       }
-
+      $rootScope.$broadcast('loading:show');
       Profile.updateProfile(vm.profileData).then(function(res){
         console.log(res.data.status);
         if(res.data.status){
           //alert('updated successfully');
           $cordovaToast.showShortTop('profile update successfully').then(function(success) {
+            $rootScope.$broadcast('profile_updated', { message: 'login successfully' });
             $state.go('app.account');
           });
         }
-
+        $rootScope.$broadcast('loading:hide');
+      },function(err){
+        $rootScope.$broadcast('loading:hide');
       });
     };
 

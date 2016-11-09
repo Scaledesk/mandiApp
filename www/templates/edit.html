@@ -1,73 +1,121 @@
 <ion-view view-title="Edit your Profile">
-  <ion-content>
+  <ion-content class="ionic-content-bg">
+    <!--loading-->
     <form name="profile.myForm" ng-submit="profile.updateProfile()" novalidate>
-    <div class="list">
-      <label class="item item-input item-floating-label">
+
+    <div ng-if="!profile.loading" class="list card">
+
+      <div class="row p-t-10 p-b-30">
+        <div class="col text-center">
+          <div class="f-24 w-500">User Profiles</div>
+        </div>
+      </div>
+
+        <label class="item item-input item-floating-label">
         <span class="input-label">Name</span>
-        <input type="text" name="name" ng-model="profile.profileData.name" placeholder="Name" maxlength="50" required>
+        <input ng-disabled="" type="text" name="name" ng-model="profile.profileData.name" placeholder="Name" maxlength="50" required>
         <div ng-messages="profile.myForm.name.$error" style="color: maroon;">
           <div ng-message="required">Name is required.</div>
           <div ng-message="maxlength">Max 50 characters long.</div>
         </div>
-      </label>
+        </label>
 
 
       <label class="item item-input item-floating-label">
         <span class="input-label">Email</span>
-        <input type="email" name="email" ng-model="profile.profileData.email" placeholder="Email" required>
+        <input type="email" name="email" ng-model="profile.profileData.email" placeholder="Email">
         <div ng-messages="profile.myForm.email.$error" style="color: maroon;">
-          <div ng-message="required">Email is required.</div>
           <div ng-message="email">Enter valid email.</div>
         </div>
       </label>
-        
-        <p class=" f-14 m-t-10 m-l-20"><span class="text-muted">Registered Mobile No. : 
-            </span> 
+
+        <p class=" f-14 m-t-10 m-l-20"><span class="text-muted">Registered Mobile No. :
+            </span>
             {{profile.profileData.phone_number}}</p>
 
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Bank Name</span>
-        <input type="text" ng-model="profile.profileData.bank_name" placeholder="Bank Name">
-      </label>
 
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Bank Account Number</span>
-        <input type="number" number-converter ng-model="profile.profileData.bank_account_num" placeholder="Bank Account Number">
-      </label>
-
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Bank IFSC Code</span>
-        <input type="text" ng-model="profile.profileData.bank_ifsc_code" placeholder="Bank IFSC Code">
-      </label>
-
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Location</span>
-        <input type="text" ng-model="profile.profileData.location" placeholder="Location">
-      </label>
       <label class="item item-input item-floating-label">
         <span class="input-label">Address</span>
         <input type="text" ng-model="profile.profileData.address" placeholder="Address">
       </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Location</span>
+          <input type="text" ng-model="profile.profileData.location" placeholder="Location">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">City</span>
+          <input type="text" ng-model="profile.profileData.city" placeholder="City">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">State</span>
+          <input type="text" ng-model="profile.profileData.state" placeholder="State">
+        </label>
 
       <label class="item item-input item-floating-label">
         <span class="input-label">Pincode</span>
         <input type="text" ng-model="profile.profileData.pincode" placeholder="Pin Code">
       </label>
 
-      <label class="item item-input item-floating-label">
-        <span class="input-label">State</span>
-        <input type="text" ng-model="profile.profileData.state" placeholder="State">
-      </label>
-
-      <label class="item item-input item-floating-label">
-        <span class="input-label">City</span>
-        <input type="text" ng-model="profile.profileData.city" placeholder="City">
-      </label>
-
     </div>
-    <div class="row">
-      <button type="submit" class="button button-block button-balanced mandi-button" >Update</button>
-    </div>
+
+
+
+
+      <div ng-if="profile.profileData.is_seller" class="list card">
+
+        <div class="row p-t-10 p-b-30">
+          <div class="col text-center">
+            <div class="f-24 w-500">Bank Details</div>
+          </div>
+        </div>
+
+
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Bank Name</span>
+          <input type="text" ng-model="profile.profileData.bank_name" placeholder="Bank Name">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Bank Account Number</span>
+          <input type="number" number-converter ng-model="profile.profileData.bank_account_num" placeholder="Bank Account Number">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Bank IFSC Code</span>
+          <input type="text" ng-model="profile.profileData.bank_ifsc_code" placeholder="Bank IFSC Code">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Account Holder Name</span>
+          <input type="text" ng-model="profile.profileData.bank_account_holder_name" placeholder="Account Holder Name">
+        </label>
+
+        <label class="item item-input item-input item-select">
+          <div class="input-label">
+            Account Type
+          </div>
+          <select name="" ng-model="profile.profileData.bank_account_type">
+            <option value="Saving">Saving</option>
+            <option value="Current">Current</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+      </div>
+
+
+
+      <div class="row">
+        <button type="submit" class="button button-block button-balanced mandi-button" >Update</button>
+      </div>
     </form>
+
+    <!--<div ng-if="!profile.loading" class="list">
+
+    </div>-->
+
   </ion-content>
 </ion-view>
