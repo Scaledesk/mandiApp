@@ -339,7 +339,7 @@
     } else {
       vm.address = {};
     }
-    if(window.localStorage['address']!=undefined){
+    if(window.localStorage['quantity']!='undefined' && window.localStorage['quantity']!='' && window.localStorage['quantity']!=undefined){
       vm.quantity = window.localStorage['quantity'];
     } else {
       vm.quantity = undefined;
@@ -1040,7 +1040,7 @@
     var backview = $ionicHistory.backView();
     if(backview!=null){
       if(backview.stateName!=app.dashboard){
-        $ionicHistory.removeBackView()
+        $ionicHistory.removeBackView();
       }
     }
 
@@ -1057,8 +1057,6 @@
       $rootScope.$broadcast('loading:hide');
     });
   });
-
-
 
   app.controller('EditStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
     var vm = this;
@@ -1119,7 +1117,7 @@
       });
     };
     vm.getGradeProduct = function(id){
-      Product.getAvailableGradeProduct(id).then(function(res){
+      Product.getAvailableGradeProduct(id.pk).then(function(res){
         vm.gradeProduct = res.data[0];
         vm.gradeProductQuality = res.data[1];
         console.log('grade: '+JSON.stringify(res.data[0]));
@@ -1133,8 +1131,33 @@
   });
 
 
+  app.controller('ReviewStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,$ionicHistory,serverConfig) {
+    var vm = this;
+    vm.stockData = angular.fromJson(window.localStorage['stockData']);
+    vm.ddd = angular.fromJson(window.localStorage['stockDetails']);
+    console.log(JSON.stringify(vm.ddd));
 
+    vm.postStock = function(){
+      $rootScope.$broadcast('loading:show');
+      Product.addStockProduct(vm.ddd).then(function(res){
+       console.log('success:'+JSON.stringify(res));
+       $rootScope.$broadcast('loading:hide');
+       $ionicPopup.alert({
+       title: 'Successfully Posted',
+       template: 'Your stock has been successfully posted!'
+       }).then(function(){
+         window.localStorage['stockData'] = undefined;
+         window.localStorage['stockDetails'] = undefined;
+         $ionicHistory.removeBackView();
+         $state.go('app.listSellerItems');
+       });
+       },function(err){
+       $rootScope.$broadcast('loading:hide');
+       console.log(JSON.stringify(err));
+       })
+    };
 
+  });
 
   app.controller('AddStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
     var vm = this;
@@ -1145,9 +1168,6 @@
     var today=new Date();
     $scope.today = $filter('date')(today, 'yyyy-MM-dd');
     console.log($scope.today);
-
-
-
     vm.getProduct = function (ctype) {
       $rootScope.$broadcast('loading:show');
       Product.getAvailableProduct(ctype).then(function(res){
@@ -1159,8 +1179,11 @@
         console.log(JSON.stringify(error));
       });
     };
+
     vm.getGradeProduct = function(id){
-      Product.getAvailableGradeProduct(id).then(function(res){
+      var d = angular.fromJson(id);
+      //console.log(id);
+      Product.getAvailableGradeProduct(d.pk).then(function(res){
         vm.gradeProduct = res.data[0];
         vm.gradeProductQuality = res.data[1];
         console.log('grade: '+JSON.stringify(res.data[0]));
@@ -1178,14 +1201,15 @@
          });
         return false;
       }
-
-      console.log(JSON.stringify(vm.stockData));
+      vm.stockData.product = angular.fromJson(vm.stockData.product);
+      vm.stockData.gradeP = angular.fromJson(vm.stockData.gradeP);
+      vm.stockData.gradePQ = angular.fromJson(vm.stockData.gradePQ);
       if(vm.stockData.category=='fruits'){
         vm.ddd = {
           "c_type":vm.stockData.category,
-          "fruits_product" : vm.stockData.product,
-          "fruits_grade_product": vm.stockData.gradeP,
-          "fruits_grade_quality": vm.stockData.gradePQ,
+          "fruits_product" : vm.stockData.product.pk,
+          "fruits_grade_product": vm.stockData.gradeP[0],
+          "fruits_grade_quality": vm.stockData.gradePQ[0],
           "fruits_quantity": vm.stockData.quantity,
           "fruits_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
           "fruits_pincode":vm.stockData.pincode,
@@ -1195,9 +1219,9 @@
       } else if(vm.stockData.category=='grains'){
         vm.ddd = {
           "c_type":vm.stockData.category,
-          "grains_product" : vm.stockData.product,
-          "grains_grade_product":vm.stockData.gradeP,
-          "grains_grade_quality": vm.stockData.gradePQ,
+          "grains_product" : vm.stockData.product.pk,
+          "grains_grade_product":vm.stockData.gradeP[0],
+          "grains_grade_quality": vm.stockData.gradePQ[0],
           "grains_quantity": vm.stockData.quantity,
           "grains_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
           "grains_pincode": vm.stockData.pincode,
@@ -1207,9 +1231,9 @@
       } else {
         vm.ddd = {
           "c_type":vm.stockData.category,
-          "veges_product" : vm.stockData.product,
-          "veges_grade_product": vm.stockData.gradeP,
-          "veges_grade_quality": vm.stockData.gradePQ,
+          "veges_product" : vm.stockData.product.pk,
+          "veges_grade_product": vm.stockData.gradeP[0],
+          "veges_grade_quality": vm.stockData.gradePQ[0],
           "veges_quantity": vm.stockData.quantity,
           "veges_date_availabilty": $filter('date')(vm.stockData.available_date, 'MM/dd/yyyy'),
           "veges_pincode": vm.stockData.pincode,
@@ -1217,22 +1241,9 @@
           "veges_posting_title": vm.stockData.title
         };
       }
-      console.log('request data: '+JSON.stringify(vm.ddd));
-      $rootScope.$broadcast('loading:show');
-      Product.addStockProduct(vm.ddd).then(function(res){
-        console.log('success:'+JSON.stringify(res));
-        $rootScope.$broadcast('loading:hide');
-        $ionicPopup.alert({
-          title: 'Successfully Posted',
-          template: 'Your stock has been successfully posted!'
-        }).then(function(){
-
-          $state.go('app.listSellerItems');
-        });
-      },function(err){
-        $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(err));
-      })
+      window.localStorage['stockDetails']=angular.toJson(vm.ddd);
+      window.localStorage['stockData']=angular.toJson(vm.stockData);
+      $state.go('app.reviewStock');
     };
   });
 

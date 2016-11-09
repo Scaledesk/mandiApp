@@ -79,6 +79,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   });
 
+  $stateProvider.state('app.reviewStock', {
+    url: '/reviewStock',
+    views:{
+      'menuContent': {
+        templateUrl: 'templates/reviewStock.html',
+        controller: 'ReviewStockCtrl',
+        controllerAs: 'RS'
+      }
+    }
+  });
 
 
   $stateProvider.state('app.editStock', {

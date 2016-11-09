@@ -1,0 +1,79 @@
+<ion-view view-title="Review Stock">
+  <ion-content class="ionic-content-bg">
+
+
+    <div class="list card">
+      <div>
+        <div class="item item-body p-10">
+          <div class="row p-t-10 p-b-30">
+            <div class="col text-center">
+              <div class="f-24 w-500">{{RS.stockData.title}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Product :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.product.fields.product_name}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Product Grade :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.gradeP[1]}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Product Quality :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.gradePQ[1]}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Price :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.price | currency:"&#8377;"}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Quantity :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.quantity | number:2}} Kg</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Location :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.pincode}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-33">
+              <p class="text-muted f-12">Availabile Till :</p>
+            </div>
+            <div class="col-67">
+              <p class="w-800 text-right">{{RS.stockData.available_date|date:short}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <button type="button" class="button button-block button-balanced mandi-button" ng-click="RS.postStock()" >Add Stock</button>
+        </div>
+
+
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

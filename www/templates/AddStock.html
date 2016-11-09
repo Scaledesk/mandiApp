@@ -23,7 +23,7 @@
             Select Product
           </div>
           <select name="product" ng-model="stock.stockData.product" ng-change="stock.getGradeProduct(stock.stockData.product)" required>
-            <option ng-repeat="p in stock.products" value="{{p.pk}}">{{p.fields.product_name}}</option>
+            <option ng-repeat="p in stock.products" value="{{p}}">{{p.fields.product_name}}</option>
           </select>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.product.$error" style="color: maroon;">
             <div ng-message="required">select product</div>
@@ -36,7 +36,7 @@
             Grade Product
           </div>
           <select name="gradeP" ng-model="stock.stockData.gradeP" required>
-            <option ng-repeat="g in stock.gradeProduct" value="{{g[0]}}">{{g[1]}}</option>
+            <option ng-repeat="g in stock.gradeProduct" value="{{g}}">{{g[1]}}</option>
           </select>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.gradeP.$error" style="color: maroon;">
             <div ng-message="required">select grade product</div>
@@ -48,7 +48,7 @@
             Grade Product Quality
           </div>
           <select name="gradePQ" ng-model="stock.stockData.gradePQ" required>
-            <option ng-repeat="q in stock.gradeProductQuality" value="{{q[0]}}">{{q[1]}}</option>
+            <option ng-repeat="q in stock.gradeProductQuality" value="{{q}}">{{q[1]}}</option>
           </select>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.gradePQ.$error" style="color: maroon;">
             <div ng-message="required">select grade product quality</div>
