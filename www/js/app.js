@@ -447,4 +447,25 @@ app.filter('capitalizeFirst', function() {
     };
   });
 
+
+  app.run(function($ionicPlatform,$state,$ionicHistory, $ionicPopup) {
+    $ionicPlatform.registerBackButtonAction(function () {
+      if($ionicHistory.backView()==null){
+        $ionicPopup.confirm({
+          title: 'Mandi Gate - Alert',
+          template: 'Are you sure you want to exit?'
+        }).then(function(res){
+          if(res){
+            navigator.app.exitApp();
+          }
+        }, function(){
+
+        })
+      } else {
+        navigator.app.backHistory();
+      }
+    }, 101);
+  });
+
+
 }());
