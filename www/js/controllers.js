@@ -1078,74 +1078,54 @@
     var vm = this;
     var id  = $stateParams.id;
     vm.stockData = {};
-    vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
-    vm.ddd = {};
     var today=new Date();
     $scope.today = $filter('date')(today, 'yyyy-MM-dd');
-
 
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
       console.log('result'+JSON.stringify(res.data));
       vm.product = res.data;
-      /*var d = {
-        "status": "closed",
-        "product": "Mango",
-        "price": 50,
-        "pincode": "110096",
-        "grade_product": "Alphonso",
-        "get_product_quality": {"quality_name": "Grade B"},
-        "post_title": "Ratnagiri Alphonso",
-        "available_till": "2016-08-31",
-        "image_url": "/media/uploads/Mango.jpg",
-        "location": "110096, nan, East Delhi, DELHI",
-        "pk": 20,
-        "quantity": 8787878
-      };*/
       vm.stockData = {
-        "category":"",
-        "product":vm.product.product,
-        "gradeP":vm.product.grade_product,
-        "gradePQ":vm.product.get_product_quality.quality_name,
+        "stock_id":vm.product.pk,
         "quantity":vm.product.quantity,
-        "available_date":new Date(vm.product.available_till),
+        "available_till":new Date(vm.product.available_till),
         "pincode":vm.product.pincode,
         "price":vm.product.price,
-        "title":vm.product.post_title
+        "post_title":vm.product.post_title
       };
-
       $rootScope.$broadcast('loading:hide');
     },function(err){
       $rootScope.$broadcast('loading:hide');
     });
 
 
-    vm.getProduct = function (ctype) {
+    vm.editStock = function(){
+      vm. submitted = true;
+      if(vm.editStockForm.$invalid){
+        $cordovaToast.showShortTop('invalid data!').then(function(success) {
+        });
+        return false;
+      }
       $rootScope.$broadcast('loading:show');
-      Product.getAvailableProduct(ctype).then(function(res){
-        vm.products = res.data;
-        console.log(JSON.stringify(res.data));
-        $rootScope.$broadcast('loading:hide');
-      },function(error){
-        $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(error));
-      });
+      vm.stockData.available_till =$filter('date')(vm.stockData.available_till, 'MM/dd/yyyy');
+        Product.editStockProduct(vm.stockData).then(function(res){
+          console.log('success:'+JSON.stringify(res));
+          $rootScope.$broadcast('loading:hide');
+          $ionicPopup.alert({
+            title: 'Successfully Posted',
+            template: 'Your stock has been edited successfully!'
+          }).then(function(){
+            $state.go('app.listSellerItems');
+          });
+        },function(err){
+          $rootScope.$broadcast('loading:hide');
+          console.log(JSON.stringify(err));
+        })
     };
-    vm.getGradeProduct = function(id){
-      Product.getAvailableGradeProduct(id.pk).then(function(res){
-        vm.gradeProduct = res.data[0];
-        vm.gradeProductQuality = res.data[1];
-        console.log('grade: '+JSON.stringify(res.data[0]));
-        console.log('grade quality: '+JSON.stringify(res.data[1]));
-        $rootScope.$broadcast('loading:hide');
-      },function(error){
-        $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(error));
-      });
-    };
-  });
 
+
+  });
 
   app.controller('ReviewStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,$ionicHistory,serverConfig) {
     var vm = this;

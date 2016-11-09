@@ -73,11 +73,20 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
     getAvailableProduct:getAvailableProduct,
     getAvailableGradeProduct:getAvailableGradeProduct,
     addStockProduct:addStockProduct,
+    editStockProduct:editStockProduct,
     deleteProductStock:deleteProductStock,
     getSearchProduct:getSearchProduct
   };
   return service;
 
+  function editStockProduct(data){
+    return $http({
+      method:"PUT",
+      url:baseUrl+"/api/mob/updatesellerstock/",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
+    });
+  }
 
   function readNotification(){
     return $http({

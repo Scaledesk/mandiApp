@@ -1,81 +1,31 @@
 <ion-view view-title="Edit Stock">
   <ion-content>
-    <form name="stock.myForm" ng-submit="editStock.editStock()" novalidate>
+    <form name="editStock.editStockForm" ng-submit="editStock.editStock()" novalidate>
       <div class="list">
 
 
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Product Category
-          </div>
-          <select name="category" ng-model="editStock.stockData.category" ng-change="editStock.getProduct(editStock.stockData.category)" required>
-            <option value="grains">Grains</option>
-            <option value="vege">Vegetables</option>
-            <option value="fruits">Fruits</option>
-          </select>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.category.$error" style="color: maroon;">
-            <div ng-message="required">select category</div>
-          </div>
-        </label>
-
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Select Product
-          </div>
-          <select name="product" ng-model="editStock.stockData.product" ng-change="editStock.getGradeProduct(editStock.stockData.product)" required>
-            <option ng-repeat="p in editStock.products" value="{{p.pk}}">{{p.fields.product_name}}</option>
-          </select>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.product.$error" style="color: maroon;">
-            <div ng-message="required">select product</div>
-          </div>
-        </label>
-
-
-        <label ng-if="editStock.gradeProduct.length>0" class="item item-input item-select">
-          <div class="input-label">
-            Grade Product
-          </div>
-          <select name="gradeP" ng-model="editStock.stockData.gradeP" required>
-            <option ng-repeat="g in editStock.gradeProduct" value="{{g[0]}}">{{g[1]}}</option>
-          </select>
-          <div ng-if="stock.submitted" ng-messages="editStock.myForm.gradeP.$error" style="color: maroon;">
-            <div ng-message="required">select grade product</div>
-          </div>
-        </label>
-
-        <label ng-if="editStock.gradeProductQuality.length>0" class="item item-input item-select">
-          <div class="input-label">
-            Grade Product Quality
-          </div>
-          <select name="gradePQ" ng-model="editStock.stockData.gradePQ" required>
-            <option ng-repeat="q in editStock.gradeProductQuality" value="{{q[0]}}">{{q[1]}}</option>
-          </select>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.gradePQ.$error" style="color: maroon;">
-            <div ng-message="required">select grade product quality</div>
-          </div>
-        </label>
-
         <label class="item item-input item-floating-label">
           <span class="input-label">Title</span>
-          <input type="text" name="title" ng-model="editStock.stockData.title" placeholder="Title" required>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.title.$error" style="color: maroon;">
+          <input type="text" name="title" ng-model="editStock.stockData.post_title" placeholder="Title" required>
+          <div ng-if="editStock.submitted" ng-messages="editStock.editStockForm.title.$error" style="color: maroon;">
             <div ng-message="required">Title is required.</div>
           </div>
         </label>
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Quantity</span>
-          <input type="number" name="quantity" ng-model="editStock.stockData.quantity" placeholder="Quantity" min="100" required>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.quantity.$error" style="color: maroon;">
+          <input type="number" name="quantity" ng-model="editStock.stockData.quantity" placeholder="Quantity" min="100" max="10000000" required>
+          <div ng-if="editStock.submitted" ng-messages="editStock.editStockForm.quantity.$error" style="color: maroon;">
             <div ng-message="required">Quantity is required.</div>
             <div ng-message="min">Quantity must be greater than 100</div>
+            <div ng-message="min">Quantity must be less than 10000000</div>
           </div>
         </label>
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Available till date</span>
-          <input type="date" name="available_date" ng-model="editStock.stockData.available_date" placeholder="Available Date" min="{{today}}" required>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.available_date.$error" style="color: maroon;">
+          <input type="date" name="available_date" ng-model="editStock.stockData.available_till" placeholder="Available Date" min="{{today}}" required>
+          <div ng-if="editStock.submitted" ng-messages="editStock.editStockForm.available_date.$error" style="color: maroon;">
             <div ng-message="required">Available date is required.</div>
             <div ng-message="min">Available date must be greater than today's date.</div>
           </div>
@@ -85,7 +35,7 @@
         <label class="item item-input item-floating-label">
           <span class="input-label">Pincode</span>
           <input type="number" name="pincode" ng-model="editStock.stockData.pincode" number-converter="" placeholder="pincode" minlength="6" maxlength="6" required>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.pincode.$error" style="color: maroon;">
+          <div ng-if="editStock.submitted" ng-messages="editStock.editStockForm.pincode.$error" style="color: maroon;">
             <div ng-message="required">Pincode is required.</div>
             <div ng-message="minlength">Invalid pin code</div>
             <div ng-message="maxlength">Invalid pin code</div>
@@ -94,12 +44,14 @@
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Price</span>
-          <input type="number" name="price" ng-model="editStock.stockData.price" placeholder="Price per kg" min="0" required>
-          <div ng-if="editStock.submitted" ng-messages="editStock.myForm.price.$error" style="color: maroon;">
+          <input type="number" name="price" ng-model="editStock.stockData.price" number-converter="" placeholder="Price per kg" min="0" required>
+          <div ng-if="editStock.submitted" ng-messages="editStock.editStockForm.price.$error" style="color: maroon;">
             <div ng-message="required">Price is required.</div>
             <div ng-message="min">Price must be greater than 0</div>
           </div>
         </label>
+
+
 
 
       </div>
