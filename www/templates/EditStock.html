@@ -5,6 +5,36 @@
 
 
         <label class="item item-input item-floating-label">
+          <span class="input-label">Product Category</span>
+          <input type="text" name="" ng-disabled="true" ng-model="editStock.product.category.category_name" placeholder="Product Category">
+        </label>
+
+
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Product Name</span>
+          <input type="text" name="" ng-disabled="true" ng-model="editStock.product.product" placeholder="Product Category">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Grade Product</span>
+          <input type="text" name="" ng-disabled="true" ng-model="editStock.product.grade_product" placeholder="Product Category">
+        </label>
+
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Grade Product Quality</span>
+          <input type="text" name="" ng-disabled="true" ng-model="editStock.product.get_product_quality.quality_name" placeholder="Product Category">
+        </label>
+
+
+
+
+
+
+
+
+        <label class="item item-input item-floating-label">
           <span class="input-label">Title</span>
           <input type="text" name="title" ng-model="editStock.stockData.post_title" placeholder="Title" required>
           <div ng-if="editStock.submitted" ng-messages="editStock.editStockForm.title.$error" style="color: maroon;">

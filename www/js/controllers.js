@@ -1074,7 +1074,7 @@
     });
   });
 
-  app.controller('EditStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
+  app.controller('EditStockCtrl', function ($scope,$ionicPopup,$rootScope,$ionicHistory,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
     var vm = this;
     var id  = $stateParams.id;
     vm.stockData = {};
@@ -1116,6 +1116,7 @@
             title: 'Successfully Posted',
             template: 'Your stock has been edited successfully!'
           }).then(function(){
+            $ionicHistory.removeBackView();
             $state.go('app.listSellerItems');
           });
         },function(err){
