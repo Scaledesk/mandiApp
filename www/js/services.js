@@ -6,10 +6,20 @@ angular.module('md_gate').factory('Authentication', function($http,$q,serverConf
     isLoggedIn:isLoggedIn,
     logoutUser:logoutUser,
     verifyOtp:verifyOtp,
-    sendOtp:sendOtp
+    sendOtp:sendOtp,
+    changePassword:changePassword
   };
   return service;
 
+
+  function changePassword(data){
+    return $http({
+      method:"POST",
+      url:baseUrl+"/api/change/password/",
+      data:data,
+      headers:{'Authorization':"Token "+window.localStorage['token'],"Content-Type":"application/json"}
+    });
+  }
 
   function sendOtp(data){
     return $http({

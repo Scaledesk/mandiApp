@@ -1275,4 +1275,31 @@
       vm.getNotification();
       vm.readNotification();
   });
+
+  app.controller('ChangePasswordCtrl', function ($scope,$rootScope,$state,$ionicPopup,$stateParams,Authentication,serverConfig) {
+      var vm = this;
+    vm.passData = {};
+      vm.changePassword = function(){
+        vm.submitted = true;
+        if(vm.myForm.$valid){
+          $rootScope.$broadcast('loading:show');
+          Authentication.changePassword(vm.passData).then(function(res){
+            $rootScope.$broadcast('loading:hide');
+            $ionicPopup.alert({
+              title: 'Password Changed',
+              template: 'Your password changed successfully!'
+            }).then(function(){
+              vm.passData = {};
+              vm.submitted = false;
+              $state.go('app.account');
+            });
+          },function(err){
+            $rootScope.$broadcast('loading:hide');
+            alert(JSON.stringify(err));
+          });
+        } else {
+          return false;
+        }
+    }
+  });
 }());

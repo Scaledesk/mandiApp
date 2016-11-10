@@ -324,7 +324,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/change',
     views: {
       'menuContent': {
-        templateUrl: 'templates/changePassword.html'
+        templateUrl: 'templates/changePassword.html',
+        controller: 'ChangePasswordCtrl',
+        controllerAs:'CP'
       }
     }
   });

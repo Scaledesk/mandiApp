@@ -1,6 +1,7 @@
 <ion-view view-title="My Stock">
   <ion-content>
 
+
     <!--<div class="list">
       <a class="item item-thumbnail-left" ng-repeat="prod in item.products" href="#/app/pdp/{{prod.pk}}" ng-if="prod.fields.status!='closed'">
         <img ng-src="{{item.baseUrl}}{{prod.image_url}}">
@@ -11,7 +12,7 @@
     </div>-->
 
 
-    <div class="card" ng-repeat="prod in item.products" ng-if="prod.status=='closed'">
+    <div class="card" ng-repeat="prod in item.products" ng-if="prod.status!='closed'">
       <div style="padding: 0 5px;">
         <div ui-sref="app.pdp({'id':{{prod.pk}}})">
           <div class="row">
