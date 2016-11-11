@@ -1009,6 +1009,12 @@
     Profile.getProfile().then(function(res){
       if(res.data.status){
         vm.profileData = res.data.profile_data;
+        var email = vm.profileData.email;
+        var dd =  email.split("@");
+        console.log(dd);
+        if(dd[1]=='mandigate.com'){
+          vm.profileData.email = '';
+        }
       }
       vm.loading = false;
       $rootScope.$broadcast('loading:hide');
@@ -1249,6 +1255,7 @@
       vm.baseUrl = serverConfig.baseUrl;
       vm.loading = true;
     vm.getNotification = function(){
+          $rootScope.$broadcast('loading:show');
           Product.getNotification().then(function(res){
             //console.log('not:'+JSON.stringify(res))
             vm.notification = res.data;
@@ -1260,8 +1267,10 @@
             });
             $rootScope.unreadNotif = vm.unread;
             console.log('not:'+JSON.stringify(vm.notification));
+            $rootScope.$broadcast('loading:hide');
             vm.loading = false;
           },function(err){
+            $rootScope.$broadcast('loading:hide');
             console.log('error:'+JSON.stringify(err));
             vm.loading = false;
           })
@@ -1303,4 +1312,113 @@
         }
     }
   });
+
+  app.controller('ForgotPasswordCtrl', function ($scope,$rootScope,$state,$ionicPopup,$stateParams,Authentication,serverConfig) {
+      var vm = this;
+    vm.dd = {};
+    vm.sentOtp = function(){
+      if(vm.fpForm.$valid){
+        $rootScope.$broadcast('loading:show');
+        Authentication.sendForgotPassworOtp(vm.dd).then(function(res){
+          if(res.data.status){
+            $rootScope.$broadcast('loading:hide');
+            $state.go('app.forgetVerify',{mobile:vm.dd.mobile_number});
+          }
+        },function(err){
+          $rootScope.$broadcast('loading:hide');
+        });
+
+      } else {
+        return false;
+      }
+    };
+
+  });
+  app.controller('ForgotPasswordVerifyCtrl', function ($scope,$rootScope,$state,$ionicPopup,$stateParams,Authentication,serverConfig) {
+    var vm = this;
+    vm.dd = {};
+    var mobile = $stateParams.mobile;
+    vm.verifyOtp = function() {
+      vm.dd.mobile_number = mobile;
+      $rootScope.$broadcast('loading:show');
+      Authentication.verifyForgotPasswordOtp(vm.dd).then(function (res) {
+        if(res.data.status){
+          $rootScope.$broadcast('loading:hide');
+          $state.go('app.reset',{mobile:mobile,otp:vm.dd.otp_value});
+        }
+      }, function (err) {
+        $rootScope.$broadcast('loading:hide');
+        $ionicPopup.alert({
+          title: 'Verify OTP',
+          template: 'OTP does not match!'
+        }).then(function(){
+        });
+      });
+    }
+
+  });
+
+
+
+  app.controller('PasswordResetCtrl', function ($scope,$rootScope,$state,$ionicPopup,$ionicHistory,$stateParams,Authentication,serverConfig) {
+      var vm = this;
+      vm.dd = {
+        mobile_number:$stateParams.mobile,
+        otp_value:$stateParams.otp
+      };
+      vm.resetPassword = function () {
+        vm.submited = true;
+        if(vm.myForm.$valid){
+          $rootScope.$broadcast('loading:show');
+          Authentication.resetPassword(vm.dd).then(function(res){
+            if(res.data.status){
+              $rootScope.$broadcast('loading:hide');
+              $ionicPopup.alert({
+                title: 'Password Reste',
+                template: 'Password successfully reset!'
+              }).then(function(){
+                $ionicHistory.nextViewOptions({historyRoot:true});
+                $state.go('app.login');
+              });
+            }
+          },function(err){
+            $rootScope.$broadcast('loading:hide');
+          });
+        } else {
+          return false;
+        }
+      }
+
+  });
+
+  app.controller('ContactUsCtrl', function ($scope,$rootScope,$state,$ionicPopup,$ionicHistory,$stateParams,Authentication,serverConfig) {
+      var vm = this;
+      vm.dd = {};
+      vm.contactus = function () {
+        vm.submited = true;
+        if(vm.myForm.$valid){
+          $rootScope.$broadcast('loading:show');
+          vm.dd.phone = vm.dd.phone.toString();
+          Authentication.contactus(vm.dd).then(function(res){
+            if(res.data.status){
+              $ionicPopup.alert({
+                title: 'Contact Us',
+                template: 'Thank you for contacting us. We will contact you soon!'
+              }).then(function(){
+                $ionicHistory.nextViewOptions({historyRoot:true});
+                $state.go('app.aboutUs');
+              });
+            }
+            $rootScope.$broadcast('loading:hide');
+          }, function(err){
+            $rootScope.$broadcast('loading:hide');
+          })
+        } else {
+          return false;
+        }
+      }
+  });
+
+
+
 }());

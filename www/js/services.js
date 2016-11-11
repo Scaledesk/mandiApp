@@ -7,10 +7,47 @@ angular.module('md_gate').factory('Authentication', function($http,$q,serverConf
     logoutUser:logoutUser,
     verifyOtp:verifyOtp,
     sendOtp:sendOtp,
-    changePassword:changePassword
+    changePassword:changePassword,
+    sendForgotPassworOtp:sendForgotPassworOtp,
+    verifyForgotPasswordOtp:verifyForgotPasswordOtp,
+    resetPassword:resetPassword,
+    contactus:contactus
   };
   return service;
 
+
+  function contactus(dd){
+    return $http({
+      method:"POST",
+      url:baseUrl+"/api/mob/sendcontactusmail",
+      data:dd
+    });
+  }
+
+  function resetPassword(dd){
+    return $http({
+      method:"PUT",
+      url:baseUrl+"/api/mob/resetpasswordbyotp/",
+      data:dd
+    });
+  }
+
+  function verifyForgotPasswordOtp(dd){
+    return $http({
+      method:"POST",
+      url:baseUrl+"/api/mob/verifyotp/",
+      data:dd
+    });
+  }
+
+
+  function sendForgotPassworOtp(data){
+    return $http({
+      method:"POST",
+      url:baseUrl+"/api/mob/generateotp/",
+      data:data
+    });
+  }
 
   function changePassword(data){
     return $http({

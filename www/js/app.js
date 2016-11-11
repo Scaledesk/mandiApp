@@ -170,15 +170,31 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/forget',
     views: {
       'menuContent': {
-        templateUrl: 'templates/forgetPassword.html'
+        templateUrl: 'templates/forgetPassword.html',
+        controller:'ForgotPasswordCtrl',
+        controllerAs:'FP'
+
+      }
+    }
+  });
+  $stateProvider.state('app.forgetVerify', {
+    url: '/forgetVerify/:mobile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/forgetPasswordVerify.html',
+        controller:'ForgotPasswordVerifyCtrl',
+        controllerAs:'FPV'
+
       }
     }
   });
   $stateProvider.state('app.reset', {
-    url: '/reset',
+    url: '/reset/:mobile/:otp',
     views: {
       'menuContent': {
-        templateUrl: 'templates/resetPassword.html'
+        templateUrl: 'templates/resetPassword.html',
+        controller:'PasswordResetCtrl',
+        controllerAs:'PR'
       }
     }
   });
@@ -196,7 +212,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/aboutUs',
     views: {
       'menuContent': {
-        templateUrl: 'templates/aboutUs.html',
+        templateUrl: 'templates/aboutUs.html'
+      }
+    }
+  });
+
+  $stateProvider.state('app.contactus', {
+    url: '/contactus',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/contactus.html',
+        controller: 'ContactUsCtrl',
+        controllerAs:'CU'
 
       }
     }

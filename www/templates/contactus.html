@@ -1,0 +1,56 @@
+<ion-view view-title="Contact Us">
+  <ion-content class="ionic-content-bg">
+
+
+
+
+
+
+
+    <div class="row p-t-10 p-b-30">
+      <div class="col text-center">
+        <div class="f-24 w-500">Contact Us</div>
+      </div>
+    </div>
+
+
+    <form name="CU.myForm" ng-submit="CU.contactus()">
+      <div class="row ">
+
+        <div class="list mandi-input">
+
+          <label class="item item-input">
+            <input type="text" name="name" ng-model="CU.dd.name" placeholder="Name" required >
+            <div ng-if="CU.submited" ng-messages="CU.myForm.name.$error" style="color: maroon;">
+              <div ng-message="required">Name is required.</div>
+            </div>
+          </label>
+
+          <label class="item item-input">
+            <input type="email" name="email" ng-model="CU.dd.email" placeholder="Email" required >
+            <div ng-if="CU.submited" ng-messages="CU.myForm.email.$error" style="color: maroon;">
+              <div ng-message="required">Email is required.</div>
+            </div>
+          </label>
+
+
+          <label class="item item-input">
+            <input type="number" name="mobile" ng-model="CU.dd.phone" placeholder="Mobile" required >
+            <div ng-if="CU.submited" ng-messages="CU.myForm.mobile.$error" style="color: maroon;">
+              <div ng-message="required">Mobile number is required.</div>
+            </div>
+          </label>
+
+
+
+        </div>
+      </div>
+      <div class="row">
+        <button type="submit" class="button button-block button-positive mandi-button"> Reset</button>
+      </div>
+
+    </form>
+
+
+  </ion-content>
+</ion-view>
