@@ -70,6 +70,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('app.addStock', {
     url: '/addStock',
+    cache:false,
     views:{
       'menuContent': {
         templateUrl: 'templates/AddStock.html',
@@ -259,6 +260,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
   $stateProvider.state('app.orderhistory', {
     url: '/orderhistory',
+    cache:false,
     views: {
       'menuContent': {
         templateUrl: 'templates/orderHistory.html',

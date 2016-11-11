@@ -52,23 +52,12 @@
             <p class="w-800">NA</p>
           </div>
         </div>
-      </div></div>
-    <!--<div class="card">
-      <div class="item item-divider">
-        Delivery Address
       </div>
-      <div class="item item-text-wrap">
-        <p>214 M.G road, Block 34<br>
-          Noida, UP<br>
-          201301
-        </p>
-      </div>
-      </div>-->
+    </div>
 
-    <!--<div class="card">
-      {{OD.ordersDetail}}
-    </div>-->
-
+    <div ng-if="profile.is_buyer" class="row">
+      <button class="button button-block button-balanced mybar" ng-click="OD.redirectHome()">Go back to home</button>
+    </div>
 
   </ion-content>
 </ion-view>

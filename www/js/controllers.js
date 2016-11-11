@@ -55,7 +55,6 @@
     });
 
     $scope.logout = function () {
-
       $ionicPopup.confirm({
         title: 'Mandigate Logout',
         template: 'Are you sure to logout!'
@@ -67,6 +66,8 @@
               window.localStorage['is_seller'] = undefined;
               //$scope.profile = undefined;
               $rootScope.profile = undefined;
+              window.localStorage['stockData'] = undefined;
+              window.localStorage['stockDetails'] = undefined;
               $rootScope.$broadcast('loading:hide');
               $ionicHistory.nextViewOptions({historyRoot:true});
               $state.go('app.home');
@@ -110,18 +111,20 @@
     };
   });
 
-  app.controller('HomeCtrl', function ($scope,serverConfig,$http, Authentication, $state,Product) {
+  app.controller('HomeCtrl', function ($scope,serverConfig,$http, Authentication,$ionicHistory, $state,Product) {
     var vm = this;
     vm.baseUrl = serverConfig.baseUrl;
-
-
+    var backview = $ionicHistory.backView();
+    if(backview!=null){
+      if(backview.stateName=='app.orderDetail'){
+        $ionicHistory.removeBackView();
+      }
+    }
     $scope.searchResult = function(query){
       if(query!=''||query!=undefined){
         $state.go('app.searchResult',{query:query});
       }
     };
-
-
     $scope.callbackMethod = function(query){
       if(query.length>1){
         var d =[];
@@ -150,6 +153,11 @@
 
   app.controller('SearchCtrl', function ($scope,$http,$state,$rootScope,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
     var vm = this;
+    if(!Authentication.isLoggedIn()){
+      $ionicHistory.nextViewOptions({historyRoot:true});
+      $state.go('app.login');
+    }
+
     vm.baseUrl = serverConfig.baseUrl;
     var id  = $stateParams.query;
     vm.products = [];
@@ -661,6 +669,12 @@
         //alert('error :'+err);
       });
     }
+
+    vm.redirectHome = function(){
+      $state.go('app.home');
+    }
+
+
   });
 
   app.controller('RegisterCtrl', function ($scope,$ionicModal,$ionicPopup,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
@@ -686,7 +700,7 @@
         if (response.data.status) {
           //window.localStorage['token'] = response.data.token;
           vm.submitted = false;
-          $cordovaToast.showShortTop('Register successfully!').then(function(success) {
+          $cordovaToast.showShortTop('Enter OTP to verfiy Mobile Number!').then(function(success) {
             $scope.otpModal.show();
           }, function (error) {
             console.log(error);
@@ -1061,11 +1075,10 @@
     vm.baseUrl = serverConfig.baseUrl;
     var backview = $ionicHistory.backView();
     if(backview!=null){
-      if(backview.stateName!=app.dashboard){
+      if(backview.stateName!='app.dashboard'){
         $ionicHistory.removeBackView();
       }
     }
-
     $rootScope.$broadcast('loading:show');
     vm.loading = true;
     Product.getMyProduct().then(function(res){
@@ -1164,13 +1177,8 @@
 
   app.controller('AddStockCtrl', function ($scope,$ionicPopup,$rootScope,$state,$stateParams,$cordovaToast,$filter,Product,serverConfig) {
     var vm = this;
+
     vm.stockData = {};
-    vm.products = [];
-    vm.baseUrl = serverConfig.baseUrl;
-    vm.ddd = {};
-    var today=new Date();
-    $scope.today = $filter('date')(today, 'yyyy-MM-dd');
-    console.log($scope.today);
     vm.getProduct = function (ctype) {
       $rootScope.$broadcast('loading:show');
       Product.getAvailableProduct(ctype).then(function(res){
@@ -1197,6 +1205,41 @@
         console.log(JSON.stringify(error));
       });
     };
+
+    if(window.localStorage['stockData']!=''&&window.localStorage['stockData']!=undefined&&window.localStorage['stockData']!='undefined'){
+      vm.stockData = angular.fromJson(window.localStorage['stockData']);
+      vm.getGradeProduct(vm.stockData.product);
+      vm.getProduct(vm.stockData.category);
+      vm.stockData.product = angular.toJson(vm.stockData.product);
+      vm.stockData.gradeP = angular.toJson(vm.stockData.gradeP);
+      vm.stockData.gradePQ = angular.toJson(vm.stockData.gradePQ);
+      vm.stockData.available_date = new Date(vm.stockData.available_date);
+    }
+
+
+    vm.products = [];
+    vm.baseUrl = serverConfig.baseUrl;
+    vm.ddd = {};
+    var today=new Date();
+    $scope.today = $filter('date')(today, 'yyyy-MM-dd');
+    console.log($scope.today);
+
+    vm.getGradeProduct = function(id){
+      var d = angular.fromJson(id);
+      //console.log(id);
+      Product.getAvailableGradeProduct(d.pk).then(function(res){
+        vm.gradeProduct = res.data[0];
+        vm.gradeProductQuality = res.data[1];
+        console.log('grade: '+JSON.stringify(res.data[0]));
+        console.log('grade quality: '+JSON.stringify(res.data[1]));
+        $rootScope.$broadcast('loading:hide');
+      },function(error){
+        $rootScope.$broadcast('loading:hide');
+        console.log(JSON.stringify(error));
+      });
+    };
+
+
     vm.addStock = function(){
       vm.submitted =true;
       if(vm.myForm.$invalid){

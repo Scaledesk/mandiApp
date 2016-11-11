@@ -38,7 +38,7 @@
           </div>
         </label>
         <label class="item item-input item-floating-label">
-          <input type="number" name="mobile" ng-model="register.userData.mobile" placeholder="Mobile" minlength="10" maxlength="10" required>
+          <input type="number" name="mobile" ng-model="register.userData.mobile" placeholder="Mobile Number" minlength="10" maxlength="10" required>
           <div ng-if="register.submitted" ng-messages="register.seller.mobile.$error" style="color: maroon;">
             <div ng-message="required">Mobile Number is required.</div>
             <div ng-message="minlength">Enter valid phone number</div>
@@ -46,7 +46,7 @@
           </div>
         </label>
         <label class="item item-input item-floating-label">
-          <input type="email" name="email" ng-model="register.userData.email" placeholder="Email">
+          <input type="email" name="email" ng-model="register.userData.email" placeholder="e-Mail (Optional)">
           <div ng-if="register.submitted" ng-messages="register.seller.email.$error" style="color: maroon;">
             <div ng-message="email">Enter valid email.</div>
           </div>

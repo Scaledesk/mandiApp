@@ -65,11 +65,11 @@
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Quantity</span>
-          <input type="number" name="quantity" ng-model="stock.stockData.quantity" number-converter="" placeholder="Quantity" min="100" max="10000000" required>
+          <input type="number" name="quantity" ng-model="stock.stockData.quantity" number-converter="" placeholder="Quantity" min="100" max="1000000" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.quantity.$error" style="color: maroon;">
             <div ng-message="required">Quantity is required.</div>
             <div ng-message="min">Quantity must be greater than 100</div>
-            <div ng-message="max">Quantity must be less than 10000000</div>
+            <div ng-message="max">Quantity must be less than 1000000</div>
           </div>
         </label>
 
@@ -84,8 +84,8 @@
 
 
         <label class="item item-input item-floating-label">
-          <span class="input-label">Pincode</span>
-          <input type="number" name="pincode" ng-model="stock.stockData.pincode" number-converter="" placeholder="pincode" minlength="6" maxlength="6" required>
+          <span class="input-label">Source PINCODE</span>
+          <input type="number" name="pincode" ng-model="stock.stockData.pincode" number-converter="" placeholder="Source PINCODE" minlength="6" maxlength="6" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.pincode.$error" style="color: maroon;">
             <div ng-message="required">Pincode is required.</div>
             <div ng-message="minlength">Invalid pin code</div>
@@ -95,11 +95,11 @@
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Price</span>
-          <input type="number" name="price" ng-model="stock.stockData.price" number-converter="" placeholder="Price per kg" min="0" max="100000" required>
+          <input type="number" name="price" ng-model="stock.stockData.price" number-converter="" placeholder="Price per kg" min="1" max="10000" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.price.$error" style="color: maroon;">
             <div ng-message="required">Price is required.</div>
             <div ng-message="min">Price must be greater than 0</div>
-            <div ng-message="max">Price must be less than 100000</div>
+            <div ng-message="max">Price must be less than 10000</div>
           </div>
         </label>
 
