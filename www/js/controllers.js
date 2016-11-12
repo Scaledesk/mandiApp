@@ -610,18 +610,23 @@
       $state.go('app.login1');
     }
 
-    vm.selected_status = 'awaiting_confirmation';
+    vm.selected_status = 'all';
     vm.ordersDetail = {};
+    vm.ordersDetails = [];
     vm.loading = true;
 
     function getOrderHistory(){
-
       $rootScope.$broadcast('loading:show');
       Booking.getOrderHistory().then(function(res){
         console.log('order history success');
         console.log(JSON.stringify(res));
-        $rootScope.$broadcast('loading:hide');
         vm.ordersDetail = res.data.all_orders_listing;
+        angular.forEach(vm.ordersDetail,function(obj){
+          angular.forEach(obj,function(obj){
+            vm.ordersDetails.push(obj);
+          })
+        });
+        $rootScope.$broadcast('loading:hide');
         vm.loading = false;
       },function(err){
         $rootScope.$broadcast('loading:hide');
@@ -629,7 +634,6 @@
       });
     }
     getOrderHistory();
-
 
     $scope.sorting = function(ddd){
       if(ddd = 'order_date'){
@@ -695,8 +699,10 @@
     vm.pass = true;
     function registration(){
       $ionicHistory.nextViewOptions({historyRoot:true});
+      $rootScope.$broadcast('loading:show');
       Authentication.registration(vm.userData).then(function (response) {
         console.log(response);
+        $rootScope.$broadcast('loading:hide');
         if (response.data.status) {
           //window.localStorage['token'] = response.data.token;
           vm.submitted = false;
@@ -709,10 +715,10 @@
       },function(error){
         //alert('Something Wrong!'+ JSON.stringify(error));
 
-
+        $rootScope.$broadcast('loading:hide');
         $ionicPopup.alert({
           title: 'Error',
-          template: error.data.msg
+          template: error.data.msg.replace('username','mobile number')
         }).then(function(){
         });
 
@@ -736,7 +742,9 @@
         "otp_val":otp,
         "mobile_number":vm.userData.username
       };
+      $rootScope.$broadcast('loading:show');
       Authentication.verifyOtp(dd).then(function(res){
+        $rootScope.$broadcast('loading:hide');
         if(res.data.status){
           $ionicPopup.alert({
             title: 'Otp Verified',
@@ -748,6 +756,7 @@
           });
         }
       },function(err){
+        $rootScope.$broadcast('loading:hide');
         $ionicPopup.alert({
           title: 'Failed',
           template: 'Invalid OTP!'
@@ -761,10 +770,13 @@
         "mobile_number":vm.userData.username
       };
       $scope.sendingOtp = true;
+      $rootScope.$broadcast('loading:show');
       Authentication.sendOtp(dd).then(function(res){
+        $rootScope.$broadcast('loading:hide');
         console.log(JSON.stringify(res));
         $scope.sendingOtp = false;
       },function(err){
+        $rootScope.$broadcast('loading:hide');
         $scope.sendingOtp = false;
         console.log(JSON.stringify(err));
       });

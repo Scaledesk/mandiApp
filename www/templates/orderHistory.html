@@ -1,18 +1,12 @@
 <ion-view title="Order History">
   <ion-content class="ionic-content-bg">
-
-
-    <!--<div class="button-bar">
-      <button class="button icon-left ion-funnel button-positive button-block button-outline" ng-click="sorting('order_date')">Date</button>
-      <button class="button icon-left ion-funnel button-positive button-block button-outline" ng-click="sorting('proposed_price')">Price</button>
-    </div>-->
-
     <div class="list">
       <label class="item item-input item-select">
         <div class="input-label">
           Status
         </div>
         <select ng-model="o.selected_status">
+          <option value="all">All Orders</option>
           <option value="awaiting_confirmation">Awaiting Confirmation</option>
           <option value="placed_orders">Place Orders</option>
           <option value="delivered">Delivered</option>
@@ -25,13 +19,30 @@
       </label>
     </div>
 
+    <div ng-if="o.selected_status=='all'" class="list">
+      <a ng-repeat="order in o.ordersDetails | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
+        <!--<img src="img/potato.png">-->
+        <h3>Order No: {{order.order_uid}}</h3>
+        <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
+        <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
+        <p>Order Date : {{order.order_date|date:short}}</p>
+      </a>
+      <div ng-if="o.ordersDetails.length==0 && !o.loading" class="row text-center">
+        <p class="f-20">No Records Found!</p>
+      </div>
+    </div>
+
+
     <div ng-if="o.selected_status=='placed_orders'" class="list">
       <a ng-repeat="order in o.ordersDetail.placed_orders | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.placed_orders.length==0 && !o.loading" class="row text-center">
@@ -40,13 +51,16 @@
     </div>
 
 
+
+
     <div ng-if="o.selected_status=='awaiting_confirmation'" class="list">
       <a ng-repeat="order in o.ordersDetail.awaiting_confirmation | orderBy : '-order_date' " href="#/app/orderDetail/{{order.pk}}" class="item">
         <!--<img src="img/potato.png">-->
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.awaiting_confirmation.length==0 && !o.loading" class="row text-center">
@@ -61,7 +75,8 @@
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.delivered.length==0 && !o.loading" class="row text-center">
@@ -75,7 +90,8 @@
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.cancelled.length==0 && !o.loading" class="row text-center">
@@ -90,7 +106,8 @@
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.completed.length==0 && !o.loading" class="row text-center">
@@ -105,7 +122,8 @@
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.processing.length==0 && !o.loading" class="row text-center">
@@ -120,7 +138,8 @@
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.adv_pay_rec.length==0 && !o.loading" class="row text-center">
@@ -135,7 +154,8 @@
         <h3>Order No: {{order.order_uid}}</h3>
         <p>Status : {{order.order_status.replace('_',' ') | capitalizeFirst}}</p>
         <!--<p>Payment : Rs. {{order.proposed_price*order.quantity}}</p>-->
-        <p>Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_buyer">Payment : Rs. {{(((order.proposed_price*order.quantity)*(1.2/100))+((order.proposed_price*order.quantity)*(1.2/100))+(((order.proposed_price*order.quantity)*(1.2/100))*(14.5/100))+(order.proposed_price*order.quantity)).toFixed(2)}}</p>
+        <p ng-if="profile.is_seller">Payment : Rs. {{order.proposed_price*order.quantity}}</p>
         <p>Order Date : {{order.order_date|date:short}}</p>
       </a>
       <div ng-if="o.ordersDetail.under_review.length==0 && !o.loading" class="row text-center">

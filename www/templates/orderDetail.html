@@ -13,7 +13,8 @@
           <p>{{OD.ordersDetail.order_data.order_uid}}</p>
           <p>{{OD.ordersDetail.order_data.order_date|date:medium}}</p>
           <p><label>{{OD.ordersDetail.order_data.order_status.replace('_',' ') | capitalizeFirst}}</label></p>
-          <p>{{(((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))+((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))+(((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))*(14.5/100))+(OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)).toFixed(2)}}</p>
+          <p ng-if="profile.is_buyer">{{(((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))+((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))+(((OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)*(1.2/100))*(14.5/100))+(OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity)).toFixed(2) | currency:"&#8377; "}}</p>
+          <p ng-if="profile.is_seller">{{OD.ordersDetail.stock_data.price*OD.ordersDetail.order_data.quantity | currency:"&#8377; "}}</p>
         </div>
       </div>
 
