@@ -75,6 +75,7 @@
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Available till date</span>
+          <p ng-if="!stock.stockData.available_date">Available till date</p>
           <input type="date" name="available_date" ng-model="stock.stockData.available_date" placeholder="Available Date" min="{{today}}" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.available_date.$error" style="color: maroon;">
             <div ng-message="required">Available date is required.</div>
