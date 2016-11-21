@@ -42,15 +42,15 @@
             <p>Grade:</p>
             <p>Quantity:</p>
             <p>Unit Price:</p>
-            <p>Delivered On:</p>
+            <!--<p>Delivered On:</p>-->
           </div>
 
           <div class="col col-50">
             <p class="w-800">{{OD.ordersDetail.stock_data.post_title}}</p>
             <p class="w-800">{{OD.ordersDetail.stock_data.get_product_quality.quality_name}}</p>
             <p class="w-800">{{OD.ordersDetail.order_data.quantity}} kg</p>
-            <p class="w-800">{{OD.ordersDetail.stock_data.price}}/kg</p>
-            <p class="w-800">NA</p>
+            <p class="w-800">{{OD.ordersDetail.stock_data.price | currency:"&#8377; "}}/kg</p>
+            <!--<p class="w-800">NA</p>-->
           </div>
         </div>
       </div>
