@@ -46,6 +46,14 @@ padding: 10px;
 .pdp-img{
   margin-bottom: 10px;
 }
+
+.p-b-0{
+  padding-bottom: 0px !important;
+}
+
+.p-t-0 {
+  padding-top: 0px !important;
+}
 .mandi{
   padding: 10px;
 }

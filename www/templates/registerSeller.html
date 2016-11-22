@@ -4,11 +4,12 @@
 
 
     <form ng-submit="register.doSellerRegistration()" name="register.seller" novalidate>
-      <div class="card m-0 width-100">
+      <!--<div class="card m-0 width-100">-->
+      <div class="card width-100 m-0 m-t-60">
       <div class="list">
-        <label class="item item-input p-10">
+        <label class="item item-input p-0">
           <!--<ion-checkbox ng-model="register.isChecked">Organization</ion-checkbox>-->
-          <div class="row">
+          <div class="row p-t-0 p-b-0" >
             <div class="col-50">
               <ion-radio ng-model="register.userData.user_type" ng-value="'Individual'" checked>Individual</ion-radio>
             </div>
@@ -76,7 +77,7 @@
       </div>
     </div>
       <div class="row">
-      <button type="submit" class="button button-block button-positive mandi-button">
+      <button type="submit" class="button button-block button-positive mandi-button m-t-0">
         REGISTER
       </button>
       </div>

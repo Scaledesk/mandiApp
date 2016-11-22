@@ -34,7 +34,10 @@
       <ion-list>
          <ion-item menu-close ng-if="isAuthenticate()">
            <div class="row">
-             <div class="col col-40"><img src="img/default-user-image.png" height="80px" width="80px" style="border-radius: 50%"></div>
+             <div class="col col-40">
+               <img ng-if="profile.is_seller" src="img/seller.png" height="80px" width="80px" style="border-radius: 50%">
+               <img ng-if="profile.is_buyer" src="img/buyer.png" height="80px" width="80px" style="border-radius: 50%">
+             </div>
              <div class="col col-60 col-center">
                <p>Welcome..!</p>
                <p>{{profile.name}}</p>
