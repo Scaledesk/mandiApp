@@ -11,7 +11,7 @@
     <!--</div>-->
 
 
-    <div class="card" ng-repeat="prod in c.products"  ng-if="prod.status!='closed' || prod.price>c.min&&prod.price<c.max">
+    <div class="card" ng-repeat="prod in c.products"  ng-if="prod.status!='closed' && prod.price>c.min&&prod.price<c.max">
       <div style="padding: 0 5px;">
         <div ui-sref="app.pdp({'id':{{prod.pk}}})">
           <div class="row">

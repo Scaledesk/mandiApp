@@ -12,8 +12,8 @@
 
 
       <ion-nav-buttons side="right">
-        <a ng-if="isAuthenticate()" class="button button-assertive button-icon-left button-clear white" ng-href="#/app/notification">
-          <i class="icon ion-android-notifications"></i>{{unreadNotif.length}}
+        <a ng-if="isAuthenticate()" class="button button-assertive button-icon-left button-clear white" ng-class="{'notif-exist':unreadNotif.length>0}" ng-href="#/app/notification">
+          <i class="icon ion-android-notifications" ng-class="{'notif-exist':unreadNotif.length>0}"></i>{{unreadNotif.length}}
         </a>
       </ion-nav-buttons>
 

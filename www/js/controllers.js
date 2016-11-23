@@ -25,9 +25,7 @@
                 $rootScope.unreadNotif.push(obj);
               }
         });
-        console.log('unread: '+$rootScope.unreadNotif.length);
       },function(err){
-        console.log('error:'+JSON.stringify(err));
       })
     }
     $rootScope.$on('logged_in', function (event, args) {
@@ -129,26 +127,19 @@
       if(query.length>1){
         var d =[];
          $http.get(vm.baseUrl+'/web/get/search/?search='+query).then(function(res){
-          console.log(JSON.stringify(res.data));
           angular.forEach(res.data.data,function(obj){
-            console.log(JSON.stringify(obj));
             var dd = {
               product:obj[1]
             };
             d.push(dd);
           });
-          console.log(JSON.stringify(d));
           return d;
         });
       }
     };
 
     $scope.clickedMethod = function (callback) {
-      console.log(callback);
     }
-
-
-
   });
 
   app.controller('SearchCtrl', function ($scope,$http,$state,$rootScope,Authentication, $stateParams,Product,$ionicModal,serverConfig,$ionicHistory) {
@@ -191,6 +182,7 @@
     }
     var id  = $stateParams.categoryId;
     vm.products = [];
+    vm.products1 = [];
     vm.no_stocks = false;
     vm.dt = {
       "c_type":"category",
@@ -211,7 +203,7 @@
       Product.getProduct(vm.dt).then(function(res){
         if(res.data.status&&res.data.data.total_records>0){
           vm.products = vm.products.concat(res.data.data.all_stocks);
-          console.log(JSON.stringify(vm.products));
+          vm.products1 = vm.products1.concat(res.data.data.all_stocks);
           $scope.$broadcast('scroll.infiniteScrollComplete');
           if(vm.products.length==res.data.data.total_records){
             vm.no_stocks = true;
@@ -257,16 +249,15 @@
       } else if(vm.sorting=='hightolow'){
         vm.products = $filter('orderBy')(vm.products, 'price',true);
       }
-
-
-
-
-
       vm.closeModal();
     };
     vm.clearFilter = function(){
       vm.min = 0;
-      vm.max = 20;
+      vm.max = 5000;
+      vm.sorting = '';
+      vm.priceChoice = '';
+      vm.sortBy= 'sort';
+      vm.products = vm.products1;
       vm.closeModal();
     };
 
@@ -284,7 +275,6 @@
     vm.product = {};
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
-     console.log(JSON.stringify(res));
       vm.product = res.data;
       //getLocationDetails(vm.product.pincode);
       $rootScope.$broadcast('loading:hide');
@@ -314,7 +304,6 @@
     vm.deleteStockDetails  = function(dd){
       $rootScope.$broadcast('loading:show');
       Product.deleteProductStock(dd).then(function(res){
-        console.log(res);
         $rootScope.$broadcast('loading:hide');
         $ionicPopup.alert({
           title: 'Stock Deleted',
@@ -363,9 +352,7 @@
     vm.loading = true;
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
-      console.log(res);
       vm.product = res.data;
-      console.log(JSON.stringify(vm.product));
       $rootScope.$broadcast('loading:hide');
     }, function(){
       $rootScope.$broadcast('loading:hide');
@@ -374,12 +361,10 @@
     vm.getAddress = function(){
       vm.submitted = true;
       if(vm.addressForm.$valid){
-        console.log(JSON.stringify(vm.address));
         window.localStorage['address'] = angular.toJson(vm.address);
         //$scope.pincodeModal.hide();
         $state.go('app.orp',{id:id});
       } else {
-        console.log('error');
         return false;
       }
     };
@@ -388,14 +373,11 @@
         return $http.get(vm.baseUrl+'/web/get/pincodes?search='+query);
     };
     $scope.clickedMethod = function(callback){
-      //console.log(JSON.stringify(callback.item.pincode));
       var pincode = callback.item.pincode;
-      console.log(pincode);
       Booking.getPincodeLocation(pincode).then(function(res){
         vm.address.location = res.data.location;
       }, function(err){
         //alert('invalid pincode');
-        console.log(JSON.stringify(err));
       })
     };
   });
@@ -413,9 +395,7 @@
     vm.loading = true;
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
-      console.log(res);
       vm.product = res.data;
-      console.log(JSON.stringify(vm.product));
       $rootScope.$broadcast('loading:hide');
     }, function(){
       $rootScope.$broadcast('loading:hide');
@@ -443,10 +423,6 @@
     vm.quantityError = false;
     vm.address = angular.fromJson(window.localStorage['address']);
     vm.profile = $rootScope.profile;
-
-      console.log('quantity:' + vm.quantity);
-      console.log('address:' + JSON.stringify(vm.address));
-
     $rootScope.$broadcast('loading:show');
     /*$ionicModal.fromTemplateUrl('templates/getQuantity.html', {
       scope: $scope,
@@ -457,8 +433,6 @@
     });*/
     vm.loading = true;
     Booking.verifyOrder(id).then(function(res){
-          console.log('verify');
-          console.log(JSON.stringify(res));
       if(res.data.bank_verified && res.data.success){
         vm.order_id = res.data.order_id;
         vm.verified = true;
@@ -471,18 +445,14 @@
       }
     },function(){
       vm.loading = false;
-      console.log('verify error');
       $rootScope.$broadcast('loading:hide');
-      console.log(res);
     });
 
 
 
 
     Product.getProductDetails(id).then(function(res){
-      console.log(res);
       vm.product = res.data;
-      console.log(JSON.stringify(vm.product));
       //vm.loading = false;
       $rootScope.$broadcast('loading:hide');
     },function(){
@@ -618,8 +588,6 @@
     function getOrderHistory(){
       $rootScope.$broadcast('loading:show');
       Booking.getOrderHistory().then(function(res){
-        console.log('order history success');
-        console.log(JSON.stringify(res));
         vm.ordersDetail = res.data.all_orders_listing;
         angular.forEach(vm.ordersDetail,function(obj){
           angular.forEach(obj,function(obj){
@@ -656,8 +624,6 @@
     vm.ordersDetail = {};
     function getOrderDetails(){
       Booking.getOrderDetail(id).then(function(res){
-        console.log('order details success');
-        console.log(JSON.stringify(res));
         vm.ordersDetail = res.data;
       },function(err){
           //alert('error ');
@@ -666,8 +632,6 @@
     getOrderDetails();
     vm.confirmOrder = function(id){
       Booking.confirmOrder(id).then(function(res){
-        console.log('order confirmed');
-        console.log(JSON.stringify(res));
         getOrderDetails();
       },function(err){
         //alert('error :'+err);
@@ -701,7 +665,7 @@
       $ionicHistory.nextViewOptions({historyRoot:true});
       $rootScope.$broadcast('loading:show');
       Authentication.registration(vm.userData).then(function (response) {
-        console.log(response);
+
         $rootScope.$broadcast('loading:hide');
         if (response.data.status) {
           //window.localStorage['token'] = response.data.token;
@@ -709,7 +673,6 @@
           $cordovaToast.showShortTop('Enter OTP to verfiy Mobile Number!').then(function(success) {
             $scope.otpModal.show();
           }, function (error) {
-            console.log(error);
           });
         }
       },function(error){
@@ -773,12 +736,10 @@
       $rootScope.$broadcast('loading:show');
       Authentication.sendOtp(dd).then(function(res){
         $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(res));
         $scope.sendingOtp = false;
       },function(err){
         $rootScope.$broadcast('loading:hide');
         $scope.sendingOtp = false;
-        console.log(JSON.stringify(err));
       });
     };
 
@@ -870,10 +831,8 @@
     function resendOtp(dd){
       $scope.sendingOtp = true;
       Authentication.sendOtp(dd).then(function(res){
-        console.log(JSON.stringify(res));
         $scope.sendingOtp = false;
       },function(err){
-        console.log(JSON.stringify(err));
         $scope.sendingOtp = false;
       });
     }
@@ -889,7 +848,6 @@
       $ionicHistory.nextViewOptions({historyRoot:true});
       $rootScope.$broadcast('loading:show');
       Authentication.login(data).then(function (response) {
-        console.log(JSON.stringify(response));
         if (response.data.status) {
           window.localStorage['token'] = response.data.token;
           /*$cordovaToast.showShortTop('login successfully!').then(function(success) {
@@ -900,7 +858,6 @@
           $rootScope.$broadcast('loading:hide');
         }
       },function(error){
-        console.log(JSON.stringify(error.data));
         if(error.data.msg=='User phone not verified'){
           $rootScope.$broadcast('loading:hide');
           $scope.otpModal.show();
@@ -913,7 +870,6 @@
           //alert('else');
           $cordovaToast.showShortTop('invalid username or password!').then(function(success) {
           });
-          console.log('error: '+ JSON.stringify(error));
           $rootScope.$broadcast('loading:hide');
         }
       });
@@ -927,7 +883,6 @@
         "mobile_number":vm.mobile_number
       };
       Authentication.verifyOtp(dd).then(function(res){
-        console.log(JSON.stringify(res.data));
         if(res.data.status){
           $ionicPopup.alert({
             title: 'Otp Verified',
@@ -1037,7 +992,6 @@
         vm.profileData = res.data.profile_data;
         var email = vm.profileData.email;
         var dd =  email.split("@");
-        console.log(dd);
         if(dd[1]=='mandigate.com'){
           vm.profileData.email = '';
         }
@@ -1047,7 +1001,6 @@
     },function(err){
       vm.loading = false;
       $rootScope.$broadcast('loading:hide');
-      console.log('error'+JSON.stringify(err));
     });
 
 
@@ -1059,7 +1012,6 @@
       }
       $rootScope.$broadcast('loading:show');
       Profile.updateProfile(vm.profileData).then(function(res){
-        console.log(res.data.status);
         if(res.data.status){
           //alert('updated successfully');
           $cordovaToast.showShortTop('profile update successfully').then(function(success) {
@@ -1115,7 +1067,6 @@
 
     $rootScope.$broadcast('loading:show');
     Product.getProductDetails(id).then(function(res){
-      console.log('result'+JSON.stringify(res.data));
       vm.product = res.data;
       vm.stockData = {
         "stock_id":vm.product.pk,
@@ -1141,7 +1092,6 @@
       $rootScope.$broadcast('loading:show');
       vm.stockData.available_till =$filter('date')(vm.stockData.available_till, 'MM/dd/yyyy');
         Product.editStockProduct(vm.stockData).then(function(res){
-          console.log('success:'+JSON.stringify(res));
           $rootScope.$broadcast('loading:hide');
           $ionicPopup.alert({
             title: 'Successfully Posted',
@@ -1152,7 +1102,6 @@
           });
         },function(err){
           $rootScope.$broadcast('loading:hide');
-          console.log(JSON.stringify(err));
         })
     };
 
@@ -1163,12 +1112,9 @@
     var vm = this;
     vm.stockData = angular.fromJson(window.localStorage['stockData']);
     vm.ddd = angular.fromJson(window.localStorage['stockDetails']);
-    console.log(JSON.stringify(vm.ddd));
-
     vm.postStock = function(){
       $rootScope.$broadcast('loading:show');
       Product.addStockProduct(vm.ddd).then(function(res){
-       console.log('success:'+JSON.stringify(res));
        $rootScope.$broadcast('loading:hide');
        $ionicPopup.alert({
        title: 'Successfully Posted',
@@ -1181,7 +1127,6 @@
        });
        },function(err){
        $rootScope.$broadcast('loading:hide');
-       console.log(JSON.stringify(err));
        })
     };
 
@@ -1195,26 +1140,20 @@
       $rootScope.$broadcast('loading:show');
       Product.getAvailableProduct(ctype).then(function(res){
         vm.products = res.data;
-        console.log(JSON.stringify(res.data));
         $rootScope.$broadcast('loading:hide');
       },function(error){
         $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(error));
       });
     };
 
     vm.getGradeProduct = function(id){
       var d = angular.fromJson(id);
-      //console.log(id);
       Product.getAvailableGradeProduct(d.pk).then(function(res){
         vm.gradeProduct = res.data[0];
         vm.gradeProductQuality = res.data[1];
-        console.log('grade: '+JSON.stringify(res.data[0]));
-        console.log('grade quality: '+JSON.stringify(res.data[1]));
         $rootScope.$broadcast('loading:hide');
       },function(error){
         $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(error));
       });
     };
 
@@ -1234,20 +1173,15 @@
     vm.ddd = {};
     var today=new Date();
     $scope.today = $filter('date')(today, 'yyyy-MM-dd');
-    console.log($scope.today);
-
     vm.getGradeProduct = function(id){
       var d = angular.fromJson(id);
       //console.log(id);
       Product.getAvailableGradeProduct(d.pk).then(function(res){
         vm.gradeProduct = res.data[0];
         vm.gradeProductQuality = res.data[1];
-        console.log('grade: '+JSON.stringify(res.data[0]));
-        console.log('grade quality: '+JSON.stringify(res.data[1]));
         $rootScope.$broadcast('loading:hide');
       },function(error){
         $rootScope.$broadcast('loading:hide');
-        console.log(JSON.stringify(error));
       });
     };
 
@@ -1321,18 +1255,15 @@
               }
             });
             $rootScope.unreadNotif = vm.unread;
-            console.log('not:'+JSON.stringify(vm.notification));
             $rootScope.$broadcast('loading:hide');
             vm.loading = false;
           },function(err){
             $rootScope.$broadcast('loading:hide');
-            console.log('error:'+JSON.stringify(err));
             vm.loading = false;
           })
       };
     vm.readNotification = function(){
       Product.readNotification().then(function(res){
-        console.log(JSON.stringify(res.data));
         $rootScope.unreadNotif = [];
       },function(err){
       })
@@ -1473,7 +1404,4 @@
         }
       }
   });
-
-
-
 }());

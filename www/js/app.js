@@ -483,7 +483,7 @@ app.filter('capitalizeFirst', function() {
     $ionicPlatform.registerBackButtonAction(function () {
       if($ionicHistory.backView()==null){
         $ionicPopup.confirm({
-          title: 'Mandi Gate - Alert',
+          title: 'MandiGate - Alert',
           template: 'Are you sure you want to exit?'
         }).then(function(res){
           if(res){

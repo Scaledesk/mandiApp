@@ -33,7 +33,7 @@
 
         <label ng-if="stock.gradeProduct.length>0" class="item item-input item-select">
           <div class="input-label">
-            Grade Product
+            Product Type
           </div>
           <select name="gradeP" ng-model="stock.stockData.gradeP" required>
             <option ng-repeat="g in stock.gradeProduct" value="{{g}}">{{g[1]}}</option>
@@ -45,27 +45,27 @@
 
         <label ng-if="stock.gradeProductQuality.length>0" class="item item-input item-select">
           <div class="input-label">
-            Grade Product Quality
+            Product Grade Quality
           </div>
           <select name="gradePQ" ng-model="stock.stockData.gradePQ" required>
             <option ng-repeat="q in stock.gradeProductQuality" value="{{q}}">{{q[1]}}</option>
           </select>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.gradePQ.$error" style="color: maroon;">
-            <div ng-message="required">select grade product quality</div>
+            <div ng-message="required">select product grade quality</div>
           </div>
         </label>
 
         <label class="item item-input item-floating-label">
-          <span class="input-label">Title</span>
-          <input type="text" name="title" ng-model="stock.stockData.title" placeholder="Title" required>
+          <span class="input-label">Title of the Post</span>
+          <input type="text" name="title" ng-model="stock.stockData.title" placeholder="Title of the Post" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.title.$error" style="color: maroon;">
             <div ng-message="required">Title is required.</div>
           </div>
         </label>
 
         <label class="item item-input item-floating-label">
-          <span class="input-label">Quantity</span>
-          <input type="number" name="quantity" ng-model="stock.stockData.quantity" number-converter="" placeholder="Quantity" min="100" max="1000000" required>
+          <span class="input-label">Quantity (in Kgs)</span>
+          <input type="number" name="quantity" ng-model="stock.stockData.quantity" number-converter="" placeholder="Quantity (in Kgs)" min="100" max="1000000" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.quantity.$error" style="color: maroon;">
             <div ng-message="required">Quantity is required.</div>
             <div ng-message="min">Quantity must be greater than 100</div>
@@ -74,8 +74,8 @@
         </label>
 
         <label class="item item-input item-floating-label">
-          <span class="input-label">Available till date</span>
-          <p ng-if="!stock.stockData.available_date">Available till date</p>
+          <span class="input-label">Last date of availability</span>
+          <p ng-if="!stock.stockData.available_date">Last date of availability</p>
           <input type="date" name="available_date" ng-model="stock.stockData.available_date" placeholder="Available Date" min="{{today}}" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.available_date.$error" style="color: maroon;">
             <div ng-message="required">Available date is required.</div>
@@ -85,8 +85,8 @@
 
 
         <label class="item item-input item-floating-label">
-          <span class="input-label">Source PINCODE</span>
-          <input type="number" name="pincode" ng-model="stock.stockData.pincode" number-converter="" placeholder="Source PINCODE" minlength="6" maxlength="6" required>
+          <span class="input-label">Pincode of Availability</span>
+          <input type="number" name="pincode" ng-model="stock.stockData.pincode" number-converter="" placeholder="Pincode of Availability" minlength="6" maxlength="6" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.pincode.$error" style="color: maroon;">
             <div ng-message="required">Pincode is required.</div>
             <div ng-message="minlength">Invalid pin code</div>
@@ -95,7 +95,7 @@
         </label>
 
         <label class="item item-input item-floating-label">
-          <span class="input-label">Price</span>
+          <span class="input-label">Price Per Kg</span>
           <input type="number" name="price" ng-model="stock.stockData.price" number-converter="" placeholder="Price per kg" min="1" max="10000" required>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.price.$error" style="color: maroon;">
             <div ng-message="required">Price is required.</div>
