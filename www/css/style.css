@@ -82,11 +82,11 @@ padding: 10px;
 }
 .m-back{
   background: #a9c056;
-  padding-left: 7%;
 }
 .m-text{
   color:white;
   font-weight: 600;
+  text-transform: capitalize;
 }
 .m-login{
   background: #f9f9f9;
