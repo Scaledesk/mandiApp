@@ -45,7 +45,7 @@
 
         <label ng-if="stock.gradeProductQuality.length>0" class="item item-input item-select">
           <div class="input-label">
-            Product Grade Quality
+            Product Grade
           </div>
           <select name="gradePQ" ng-model="stock.stockData.gradePQ" required>
             <option ng-repeat="q in stock.gradeProductQuality" value="{{q}}">{{q[1]}}</option>

@@ -5,7 +5,7 @@
 
 
       <form ng-submit="register.doBuyerRegistration()" name="register.buyer" novalidate>
-        <div class="card width-100 m-0 m-t-60">
+        <div class="card width-100 m-0 m-t-65">
           <div class="list">
 
             <label class="item item-input p-0">
@@ -58,15 +58,17 @@
               <div ng-message="email">Enter valid email.</div>
             </div>
           </label>
+            <i ng-show="register.pass==true" ng-click="register.changepasswordtype()" class="fa fa-eye"></i>
+            <i ng-show="register.pass==false" ng-click="register.changepasswordtype()" class="fa fa-eye-slash"></i>
           <label class="item item-input item-floating-label">
-            <input type="{{register.pass?'password':'text'}}" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
+            <input type="{{register.pass?'password':'text'}}" class="showpass" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
             <div ng-if="register.submitted" ng-messages="register.buyer.password.$error" style="color: maroon;">
               <div ng-message="required">Password is required.</div>
               <div ng-message="minlength">Minimum 6 char.</div>
             </div>
           </label>
-          <ion-checkbox ng-model="isChecked" ng-click="register.changepasswordtype(isChecked)">Show password</ion-checkbox>
-          <label class="item item-input item-floating-label">
+          <!--<ion-checkbox ng-model="isChecked" ng-click="register.changepasswordtype(isChecked)">Show password</ion-checkbox>-->
+            <label class="item item-input item-floating-label">
             <input type="number" name="pincode" ng-model="register.userData.pincode" placeholder="Pincode" minlength="6" maxlength="6" required>
             <div ng-if="register.submitted" ng-messages="register.buyer.pincode.$error" style="color: maroon;">
               <div ng-message="required">Pincode is required.</div>

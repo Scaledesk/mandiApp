@@ -508,6 +508,22 @@ padding: 10px;
   color:tomato !important;
 }
 
+.showpass {
+  width: 80% !important;
+  display: inline-block !important;
+}
+
+.m-t-65{
+  margin-top: 65px !important;
+}
+
+.item-radio .radio-icon{
+  padding: 10px !important;
+}
+
+.item-complex .item-content, .item-radio .item-content{
+  padding: 14px 48px 14px 14px !important;
+}
 /*///ends here///*/
 
 
