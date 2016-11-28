@@ -52,8 +52,14 @@
             <div ng-message="email">Enter valid email.</div>
           </div>
         </label>
-        <i ng-show="register.pass==true" ng-click="register.changepasswordtype()" class="fa fa-eye"></i>
-        <i ng-show="register.pass==false" ng-click="register.changepasswordtype()" class="fa fa-eye-slash"></i>
+        <i ng-show="register.pass==true" ng-click="register.changepasswordtype()" class="fa fa-eye" style="    float: right;
+    margin-top: 20px;
+    margin-right: 20px;
+"></i>
+        <i ng-show="register.pass==false" ng-click="register.changepasswordtype()" class="fa fa-eye-slash" style="    float: right;
+    margin-top: 20px;
+    margin-right: 20px;
+"></i>
         <label class="item item-input item-floating-label">
           <input type="{{register.pass?'password':'text'}}" class="showpass" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
           <div ng-if="register.submitted" ng-messages="register.seller.password.$error" style="color: maroon;">
