@@ -26,22 +26,24 @@
     </div>
 
     <div class="text-center">
-      <p class="text-center">OTP Not Received ?</p>
+      <p ng-if="!sendingOtp" class="text-center f-16">OTP Not Received ?</p>
+      <p ng-if="sendingOtp" class="text-center f-16">New OTP Sent </p>
     </div>
 
     <div class="row">
 
-      <div class="col-20">
+
+      <div class="col col-center m-l-20 m-r-20">
+        <button class=" button button-positive mandi-button col-center m-grey-btn f-18" ng-disabled="sendingOtp" ng-click="resendOtpButton()">Resend OTP</button>
       </div>
 
-      <div class="col-60">
-        <button class=" button button-positive mandi-button" ng-disabled="sendingOtp" ng-click="resendOtpButton()">Resend Otp</button>
-      </div>
 
-      <div class="col-20">
-        <p class="text-center" ng-hide="i<=0">{{i}}</p>
-      </div>
+    </div>
 
+    <div class="row">
+    <div class="col col-80 col-center">
+      <p ng-if="i" class="text-center">{{i }} &nbsp;  second(s)</p>
+    </div>
     </div>
 
 

@@ -837,8 +837,9 @@
     vm.submited = false;
     $scope.onTimer = function(){
       $scope.i--;
-      if ($scope.i < 0) {
+      if ($scope.i==0) {
         $scope.sendingOtp = false;
+        return;
       }
       else {
         $timeout($scope.onTimer, 1000);
