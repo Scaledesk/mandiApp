@@ -52,20 +52,27 @@
               <div ng-message="maxlength">Enter valid mobile number.</div>
             </div>
           </label>
+
           <label class="item item-input item-floating-label">
             <input type="email" name="email" ng-model="register.userData.email" placeholder="e-Mail (Optional)">
             <div ng-if="register.submitted" ng-messages="register.buyer.email.$error" style="color: maroon;">
               <div ng-message="email">Enter valid email.</div>
             </div>
           </label>
-            <i ng-show="register.pass==true" ng-click="register.changepasswordtype()" class="fa fa-eye"></i>
-            <i ng-show="register.pass==false" ng-click="register.changepasswordtype()" class="fa fa-eye-slash"></i>
+
+
           <label class="item item-input item-floating-label">
             <input type="{{register.pass?'password':'text'}}" class="showpass" name="password" ng-model="register.userData.password" placeholder="Set a Password" minlength="6" required>
             <div ng-if="register.submitted" ng-messages="register.buyer.password.$error" style="color: maroon;">
               <div ng-message="required">Password is required.</div>
               <div ng-message="minlength">Minimum 6 char.</div>
             </div>
+            <i ng-show="register.pass==true" ng-click="register.changepasswordtype()" class="fa fa-eye" style="float: right;
+    margin-right: 10px;
+    margin-top: 8px;"></i>
+            <i ng-show="register.pass==false" ng-click="register.changepasswordtype()" class="fa fa-eye-slash" style="float: right;
+    margin-right: 10px;
+    margin-top: 8px;"></i>
           </label>
           <!--<ion-checkbox ng-model="isChecked" ng-click="register.changepasswordtype(isChecked)">Show password</ion-checkbox>-->
             <label class="item item-input item-floating-label">
