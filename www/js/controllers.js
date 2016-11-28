@@ -645,7 +645,7 @@
 
   });
 
-  app.controller('RegisterCtrl', function ($scope,$ionicModal,$ionicPopup,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
+  app.controller('RegisterCtrl', function ($scope,$timeout,$ionicModal,$ionicPopup,$state,$ionicHistory,$cordovaToast,$rootScope, Authentication) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
@@ -728,18 +728,28 @@
       })
     };
 
+
+    $scope.onTimer = function(){
+      $scope.i--;
+      if ($scope.i < 0) {
+        $scope.sendingOtp = false;
+      }
+      else {
+        $timeout($scope.onTimer, 1000);
+      }
+    };
+
+
     $scope.resendOtpButton = function(){
       var dd = {
         "mobile_number":vm.userData.username
       };
       $scope.sendingOtp = true;
-      $rootScope.$broadcast('loading:show');
+      $scope.i = 90;
       Authentication.sendOtp(dd).then(function(res){
-        $rootScope.$broadcast('loading:hide');
-        $scope.sendingOtp = false;
+        $scope.onTimer()
       },function(err){
-        $rootScope.$broadcast('loading:hide');
-        $scope.sendingOtp = false;
+        //$scope.sendingOtp = false;
       });
     };
 
@@ -811,7 +821,7 @@
   });
 */
 
-  app.controller('LoginCtrl', function ($scope,$ionicPopup,$ionicModal,Profile,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
+  app.controller('LoginCtrl', function ($scope,$timeout,$ionicPopup,$ionicModal,Profile,$rootScope, $state, Authentication,$cordovaToast,$ionicHistory) {
     if (Authentication.isLoggedIn()) {
       $state.go('app.home');
     }
@@ -825,14 +835,22 @@
     });
     var vm = this;
     vm.submited = false;
-
-
+    $scope.onTimer = function(){
+      $scope.i--;
+      if ($scope.i < 0) {
+        $scope.sendingOtp = false;
+      }
+      else {
+        $timeout($scope.onTimer, 1000);
+      }
+    };
     function resendOtp(dd){
       $scope.sendingOtp = true;
+      $scope.i =90;
       Authentication.sendOtp(dd).then(function(res){
-        $scope.sendingOtp = false;
+        $scope.onTimer();
       },function(err){
-        $scope.sendingOtp = false;
+        $scope.onTimer();
       });
     }
 
@@ -863,7 +881,7 @@
           var dd = {
             "mobile_number":data.username
           };
-          resendOtp(dd);
+          Authentication.sendOtp(dd).then(function(res){});
           data = {};
         } else {
           //alert('else');
@@ -873,8 +891,6 @@
         }
       });
     };
-
-
 
     $scope.verifiedOtp = function(otp){
       var dd = {
