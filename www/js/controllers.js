@@ -762,7 +762,6 @@
     };
 
     vm.changepasswordtype = function(){
-      alert(' dsbsd');
       if(vm.pass==true){
         vm.pass = false;
       } else {
