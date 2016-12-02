@@ -1047,6 +1047,8 @@
   app.controller('DashboardCtrl', function ($scope,$stateParams,Product,serverConfig) {
     var vm = this;
     vm.baseUrl = serverConfig.baseUrl;
+    window.localStorage['stockData'] = undefined;
+    window.localStorage['stockDetails'] = undefined;
   });
 
   app.controller('ListSellerItemsCtrl', function ($scope,$ionicHistory,$stateParams,$rootScope,Product,serverConfig) {

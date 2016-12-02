@@ -47,6 +47,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('app.dashboard', {
     url: '/dashboard',
+    cache:false,
     views:{
       'menuContent': {
         templateUrl: 'templates/dashboard.html',
@@ -82,6 +83,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('app.reviewStock', {
     url: '/reviewStock',
+    cache:false,
     views:{
       'menuContent': {
         templateUrl: 'templates/reviewStock.html',
