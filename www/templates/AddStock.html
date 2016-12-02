@@ -30,8 +30,8 @@
           </div>
         </label>
 
-
-        <label ng-if="stock.gradeProduct.length>0" class="item item-input item-select">
+        <!--ng-if="stock.gradeProduct.length>0"-->
+        <label class="item item-input item-select">
           <div class="input-label">
             Product Type
           </div>
@@ -39,11 +39,11 @@
             <option ng-repeat="g in stock.gradeProduct" value="{{g}}">{{g[1]}}</option>
           </select>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.gradeP.$error" style="color: maroon;">
-            <div ng-message="required">select grade product</div>
+            <div ng-message="required">Select Product Type</div>
           </div>
         </label>
-
-        <label ng-if="stock.gradeProductQuality.length>0" class="item item-input item-select">
+        <!--ng-if="stock.gradeProductQuality.length>0"-->
+        <label class="item item-input item-select">
           <div class="input-label">
             Product Grade
           </div>
@@ -51,7 +51,7 @@
             <option ng-repeat="q in stock.gradeProductQuality" value="{{q}}">{{q[1]}}</option>
           </select>
           <div ng-if="stock.submitted" ng-messages="stock.myForm.gradePQ.$error" style="color: maroon;">
-            <div ng-message="required">select product grade quality</div>
+            <div ng-message="required">Select Product Grade</div>
           </div>
         </label>
 

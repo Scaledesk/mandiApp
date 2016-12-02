@@ -12,7 +12,24 @@
     </div>-->
 
 
-    <div class="card" ng-repeat="prod in item.products" ng-if="prod.status!='closed'">
+    <div ng-if="!item.loading" class="row p-t-10 p-b-30">
+      <div class="col">
+        <div class="f-24 w-500">Active Listing</div>
+      </div>
+    </div>
+
+    <div ng-if="item.ActiveProducts.length<=0" class="card">
+      <div style="padding: 0 5px;">
+          <div class="row">
+            <div class="col text-center">
+              <div class="f-24 w-500">No Active Listings</div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card" ng-repeat="prod in item.ActiveProducts" ng-if="prod.status!='closed'">
       <div style="padding: 0 5px;">
         <div ui-sref="app.pdp({'id':{{prod.pk}}})">
           <div class="row">
@@ -36,6 +53,57 @@
         <p class="m-0 f-12"><span class="text-muted">Available till:</span>&nbsp;&nbsp; {{prod.available_till | date:short}}</p>
       </div>
     </div>
+
+
+
+
+    <div ng-if="!item.loading" class="row p-t-10 p-b-30">
+      <div class="col">
+        <div class="f-24 w-500">Past Listing</div>
+      </div>
+    </div>
+
+
+    <div ng-if="item.closeProducts.length<=0" class="card">
+      <div style="padding: 0 5px;">
+        <div class="row">
+          <div class="col text-center">
+            <div class="f-24 w-500">No Past Listing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" ng-repeat="prod in item.closeProducts" ng-if="prod.status=='closed'">
+      <div style="padding: 0 5px;">
+        <div ui-sref="app.pdp({'id':{{prod.pk}}})">
+          <div class="row">
+            <div class="col-25">
+              <img ng-src="{{item.baseUrl}}{{prod.image_url}}" width="100%" height="100">
+            </div>
+            <div class="col-75 p-l-10">
+              <h4 class="story-title m-b-5">{{prod.post_title}}</h4>
+
+              <p class="f-13 p-0 m-b-5"><span class="text-muted">Product :</span>&nbsp;&nbsp;  <span>{{prod.product}}</span></p>
+
+              <p class="f-13 p-0"><span class="text-muted">Price:</span>&nbsp;&nbsp;  <span>{{prod.price | currency:"&#8377;"}}</span></p>
+              <p class="f-13 p-0"><span class="text-muted">Quantity:</span>&nbsp;&nbsp; <span>{{prod.quantity |number:2}}</span> Kg</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-top text-center" style="background-color: #f5f5f5;">
+        <p class="m-0 f-12"><span class="text-muted">Available till:</span>&nbsp;&nbsp; {{prod.available_till | date:short}}</p>
+      </div>
+    </div>
+
+
+
+
+
+
 
 
     <div ng-if="item.products.length==0&& !item.loading" class="list">

@@ -1051,7 +1051,7 @@
     window.localStorage['stockDetails'] = undefined;
   });
 
-  app.controller('ListSellerItemsCtrl', function ($scope,$ionicHistory,$stateParams,$rootScope,Product,serverConfig) {
+  app.controller('ListSellerItemsCtrl', function ($scope,$ionicHistory,$filter,$stateParams,$rootScope,Product,serverConfig) {
     var vm = this;
     vm.products = [];
     vm.baseUrl = serverConfig.baseUrl;
@@ -1064,9 +1064,9 @@
     $rootScope.$broadcast('loading:show');
     vm.loading = true;
     Product.getMyProduct().then(function(res){
-        vm.products = vm.products.concat(res.data.data);
-        //console.log('sss:'+JSON.stringify(res.data.data));
-        //vm.products = vm.products.concat(res.data.data.all_stocks);
+      vm.products = vm.products.concat(res.data.data);
+      vm.closeProducts = $filter('filter')(vm.products, {'status':'closed'},true);
+      vm.ActiveProducts = $filter('filter')(vm.products, {'status':'on_display'},true);
       vm.loading = false;
       $rootScope.$broadcast('loading:hide');
     },function(error){
