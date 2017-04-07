@@ -226,7 +226,7 @@ angular.module('md_gate').factory('Product', function($http,$q,serverConfig){
   function getAvailableGradeProduct(id){
     return $http({
       method:"GET",
-      url:baseUrl+"/web/get/products/"+id,
+      url:baseUrl+"/get/products/"+id,
       headers:{'Authorization':"Token "+window.localStorage['token']}
     });
   }
@@ -265,7 +265,7 @@ angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
   function getPincodeLocation(pincode){
     return $http({
       method:"GET",
-      url:baseUrl+"/web/get/pincode/location/"+pincode
+      url:baseUrl+"/get/pincode/location/"+pincode
     });
   }
 

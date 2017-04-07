@@ -126,7 +126,7 @@
     $scope.callbackMethod = function(query){
       if(query.length>1){
         var d =[];
-         $http.get(vm.baseUrl+'/web/get/search/?search='+query).then(function(res){
+         $http.get(vm.baseUrl+'/get/search/?search='+query).then(function(res){
           angular.forEach(res.data.data,function(obj){
             var dd = {
               product:obj[1]
@@ -370,7 +370,7 @@
     };
     $scope.callbackMethod = function(query){
       if(query.length>2)
-        return $http.get(vm.baseUrl+'/web/get/pincodes?search='+query);
+        return $http.get(vm.baseUrl+'/get/pincodes?search='+query);
     };
     $scope.clickedMethod = function(callback){
       var pincode = callback.item.pincode;
