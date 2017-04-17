@@ -211,6 +211,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
+  $stateProvider.state('app.pdpseller', {
+    url: '/pdpseller/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pdpseller.html',
+        controller: 'ProductCtrl',
+        controllerAs:'p'
+      }
+    }
+  });
+
   $stateProvider.state('app.aboutUs', {
     url: '/aboutUs',
     views: {

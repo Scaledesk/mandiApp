@@ -45,28 +45,36 @@
 
            </div>
          </ion-item>
-        <ion-item menu-close ng-if="!profile.is_seller" href="#/app/home">
+        <!-- <ion-item menu-close ng-if="!profile.is_seller" href="#/app/home">
+          Home
+        </ion-item> -->
+
+        <ion-item menu-close href="#/app/home">
           Home
         </ion-item>
-        <ion-item menu-close ng-if="profile.is_seller" href="#/app/dashboard">
+        <ion-item menu-toggle ng-if="profile.is_seller" href="#/app/dashboard">
           Dashboard
         </ion-item>
         <ion-item menu-close ng-hide="isAuthenticate()" href="#/app/login">
           Login/Register
         </ion-item>
 
-        <ion-item menu-close ng-if="isAuthenticate()" href="#/app/orderhistory">
+        <ion-item menu-toggle ng-if="isAuthenticate()" href="#/app/orderhistory">
           My Order
         </ion-item>
 
-        <ion-item menu-close ng-if="isAuthenticate()" href="#/app/account">
+        <ion-item menu-toggle ng-if="isAuthenticate()" href="#/app/account">
           My Account
         </ion-item>
-        <ion-item menu-close ng-if="isAuthenticate()" href="#/app/notification">
+        <ion-item menu-toggle ng-if="isAuthenticate()" href="#/app/notification">
           Notifications
         </ion-item>
 
-        <ion-item menu-close href="#/app/aboutUs">
+        <ion-item menu-toggle href="#/app/about1">
+          About Us
+        </ion-item>
+
+        <ion-item menu-toggle href="#/app/aboutUs">
           More
         </ion-item>
 

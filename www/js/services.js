@@ -265,7 +265,7 @@ angular.module('md_gate').factory('Booking', function($http,$q,serverConfig){
   function getPincodeLocation(pincode){
     return $http({
       method:"GET",
-      url:baseUrl+"/get/pincode/location/"+pincode
+      url:baseUrl+"/pincode/location/"+pincode
     });
   }
 

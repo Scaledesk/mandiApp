@@ -31,7 +31,7 @@
 
     <div class="card" ng-repeat="prod in item.ActiveProducts" ng-if="prod.status!='closed'">
       <div style="padding: 0 5px;">
-        <div ui-sref="app.pdp({'id':{{prod.pk}}})">
+        <div ui-sref="app.pdpseller({'id':{{prod.pk}}})">
           <div class="row">
             <div class="col-25">
               <img ng-src="{{item.baseUrl}}{{prod.image_url}}" width="100%" height="100">
